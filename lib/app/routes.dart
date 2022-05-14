@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:vetclinic/ui/screens/home/home_view.dart';
 
-// need homepage/login/register ui first
+import '../ui/screens/login/login_view.dart';
 
 class Routes {
   static const String homeRoute = '/home';
@@ -10,11 +11,11 @@ class Routes {
   static Route<dynamic>? createRoute(settings) {
     switch (settings.name) {
       case homeRoute:
-      // return HomeScreen.route();
+        return HomeScreen.route();
       case loginRoute:
-      // return loginRoute.route();
+        return LoginScreen.route();
       case registerRoute:
-      // return loginRoute.route();
+      // return RegisterRoute.route();
 
     }
     return null;

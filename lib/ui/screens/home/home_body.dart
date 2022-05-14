@@ -13,13 +13,11 @@ class HomeBody extends StatelessWidget {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const Text(
+        children: const <Widget>[
+          Text(
             'You have pushed the button this many times:',
           ),
-          View<HomeViewmodel>(
-   
-          ),
+         
         ],
       ),
     );

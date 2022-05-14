@@ -7,7 +7,7 @@ void main() async {
   final WidgetBinding = WidgetsFlutterBinding.ensureInitialized();
 
   // Keep splash screen until initialization has completed
-  FlutterNativeSplash.preserve(widgetsBinding: WidgetBinding);
+  // FlutterNativeSplash.preserve(widgetsBinding: WidgetBinding);
   await initializeServiceLocator();
   // whenever your initialization is completed, remove the splash screen
   FlutterNativeSplash.remove;
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.amber,
       ),
-      initialRoute: Routes.homeRoute,
+      initialRoute: Routes.loginRoute,
       onGenerateRoute: Routes.createRoute,
     );
   }
