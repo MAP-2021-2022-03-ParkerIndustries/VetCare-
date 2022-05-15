@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:vetclinic/ui/components/custom_text_field.dart';
 import 'package:vetclinic/ui/view/base_view.dart';
 
@@ -28,7 +30,7 @@ class ForgotPasswordView extends StatelessWidget {
         onTap: () => FocusScope.of(context).unfocus(),
         child: SafeArea(
           child: Scaffold(
-            backgroundColor: Color.fromARGB(255, 255, 230, 204),
+            backgroundColor: const Color.fromARGB(255, 255, 230, 204),
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Form(
@@ -46,7 +48,6 @@ class ForgotPasswordView extends StatelessWidget {
                         const SizedBox(height: 40),
                         _buildEmailTextField(),
                         const SizedBox(height: 20),
-                        
                         _buildForgotPasswordButton(),
                       ],
                     ),
@@ -59,7 +60,6 @@ class ForgotPasswordView extends StatelessWidget {
       ),
     );
   }
-
 
   Widget _buildEmailTextField() {
     return CustomTextField(
@@ -85,8 +85,13 @@ class ForgotPasswordView extends StatelessWidget {
             ),
             onPressed: () => _formkey.currentState!.validate()
                 ? _model.reset().then((value) {
-      
-                    Navigator.of(_context).pushReplacementNamed(LoginView.id);
+                    // SnackBar(content: Text("Password reset link has been sent to your email"));
+                    const snackbar =
+                        SnackBar(content: Text("Reset password link sent to your email !"));
+                    ScaffoldMessenger.of(_context).showSnackBar(snackbar);
+                    Timer(const Duration(seconds: 3), () {
+                      Navigator.of(_context).pushReplacementNamed(LoginView.id);
+                    });
                   })
                 : null,
             child: const Padding(

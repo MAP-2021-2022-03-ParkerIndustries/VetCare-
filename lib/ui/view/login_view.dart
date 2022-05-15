@@ -28,7 +28,7 @@ class LoginView extends StatelessWidget {
         onTap: () => FocusScope.of(context).unfocus(),
         child: SafeArea(
           child: Scaffold(
-            backgroundColor: Color.fromARGB(255, 255, 230, 204),
+            backgroundColor: const Color.fromARGB(255, 255, 230, 204),
             body: Center(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
@@ -45,9 +45,6 @@ class LoginView extends StatelessWidget {
                         const Text(
                           'Sign In',
                           style: AppTheme.headline1,
-                          
-                          
-                        
                         ),
                         const SizedBox(height: 40),
                         _buildEmailTextField(),

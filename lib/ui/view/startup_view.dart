@@ -13,9 +13,16 @@ class StartUpView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseView<StartUpViewModel>(
-      builder: (context, model, child) => const Scaffold(
+      builder: (context, model, child) =>Scaffold(
+         backgroundColor: const Color.fromARGB(255, 255, 230, 204),
         body: Center(
-          child: CircularProgressIndicator(),
+          child: Column(
+            children: [
+              const SizedBox(height:50),
+              Image.asset('assets/VetCare_logo.png'),
+              const CircularProgressIndicator(),
+            ],
+          ),
         ),
       ),
       onModelReady: (model) {
