@@ -1,35 +1,28 @@
+import 'package:vetclinic/locator.dart';
+import 'package:vetclinic/router.dart';
+import 'package:vetclinic/ui/view/startup_view.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
-
-import 'app/app.dart';
 
 void main() async {
-  final WidgetBinding = WidgetsFlutterBinding.ensureInitialized();
-
-  // Keep splash screen until initialization has completed
-  // FlutterNativeSplash.preserve(widgetsBinding: WidgetBinding);
-  await initializeServiceLocator();
-  // whenever your initialization is completed, remove the splash screen
-  FlutterNativeSplash.remove;
-
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  await setUpLocator();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-      return MaterialApp(
-      title: 'VetCare',
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.amber,
+        primarySwatch: Colors.blue,
       ),
-      initialRoute: Routes.loginRoute,
-      onGenerateRoute: Routes.createRoute,
+      onGenerateRoute: AppRouter.generateRoute,
+      home: const StartUpView(),
     );
   }
 }
-
