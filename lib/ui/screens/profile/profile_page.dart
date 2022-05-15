@@ -22,7 +22,7 @@ class _ProfilePageState extends State<ProfilePage>{
             onClicked: () async{},
           ),
           const SizedBox(height:24),
-          buildName(user),
+          //buildName(user),
         ],
       ),
     );

@@ -11,6 +11,7 @@ class FireStoreUser {
   Future<DocumentSnapshot> getUserFromFirestore() async {
     return await _userCollectionRef
         .doc(user).get();
+        
   }
   
 }

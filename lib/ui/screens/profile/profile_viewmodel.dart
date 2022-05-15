@@ -9,8 +9,8 @@ class ProfileVM extends Viewmodel{
   User? user = FirebaseAuth.instance.currentUser;
 
   Future<void> fetchUserData() async{
-    
 
+      
   }
 
 }
