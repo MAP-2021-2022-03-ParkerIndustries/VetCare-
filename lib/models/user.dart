@@ -1,11 +1,13 @@
-class User {
-  final String email;
-  final String pass;
+class UserModel {
+  final String? email;
+  final String? pass;
+  final String? name;
 
-  User({required this.email, required this.pass});
 
-  User.fromJson(Map<String,dynamic>json)
-    :this(email:json['email'], pass: json['pass']);
+  UserModel({required this.email, required this.pass, required this.name});
 
-  Map<String, dynamic> toJson() => {'email': email, 'pass': pass};
+  UserModel.fromJson(Map<String,dynamic>json)
+    :this(email:json['email'], pass: json['pass'],name: json['name']);
+
+  Map<String, dynamic> toJson() => {'email': email, 'pass': pass, 'name':name};
 }
