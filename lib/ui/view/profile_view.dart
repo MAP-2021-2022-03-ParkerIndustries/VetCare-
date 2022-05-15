@@ -38,12 +38,12 @@ class ProfileView extends StatelessWidget {
                   child: CircularProgressIndicator(),
                 )
               : Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Column(
                     children: [
                       const SizedBox(height: 10),
                       Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.all(40.0),
                         child: CircleAvatar(
                           child: Text(
                             (model.name).substring(0,1).toUpperCase(),
@@ -64,7 +64,7 @@ class ProfileView extends StatelessWidget {
                               style: AppTheme.headline4,
                             ),
                             SizedBox(
-                              width: size.width / 1.8,
+                              width: size.width /1.3,
                               child: CustomTextField(
                                 initialValue: model.email,
                                 enabled: false,
@@ -81,7 +81,7 @@ class ProfileView extends StatelessWidget {
                             style: AppTheme.headline4,
                           ),
                           SizedBox(
-                            width: size.width / 1.8,
+                            width: size.width / 1.3,
                             child: CustomTextField(
                               controller: model.controller,
                               enabled: model.isEditing,
