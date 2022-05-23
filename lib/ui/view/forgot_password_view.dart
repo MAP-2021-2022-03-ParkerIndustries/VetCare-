@@ -11,8 +11,6 @@ import 'package:vetclinic/viewmodel/forgot_password_viewmodel.dart';
 
 import 'package:flutter/material.dart';
 
-
-
 class ForgotPasswordView extends StatefulWidget {
   const ForgotPasswordView({Key? key}) : super(key: key);
   static Route route() =>

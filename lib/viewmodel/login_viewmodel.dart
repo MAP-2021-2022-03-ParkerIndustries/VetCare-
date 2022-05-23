@@ -8,6 +8,7 @@ import '../model/users.dart';
 class LoginViewModel extends Viewmodel {
   FirebaseService get _service => locator<FirebaseService>();
   Users _users = Users();
+  
 
   @override
   void init() async {
@@ -15,7 +16,7 @@ class LoginViewModel extends Viewmodel {
     notifyListenersOnFailure = false;
   }
 
-  Users get users => _users;
+  Users get users => _users; 
 
   Future<void> login(email, password) async {
     try {

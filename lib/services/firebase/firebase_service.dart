@@ -16,8 +16,8 @@ class FirebaseService {
   // Sign In with email and password
   Future<Users> signIn(String email, String password) async {
     try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+      
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         throw const Failure(2,
@@ -33,7 +33,6 @@ class FirebaseService {
   }
 
   //read user
-  @override
   Future<Users> readUsers() async {
     try {
       final doc = await FirebaseFirestore.instance
@@ -53,8 +52,7 @@ class FirebaseService {
   }
 
   //write user
-    @override
-  Future<Users> writeUsers(Users users) async {
+    Future<Users> writeUsers(Users users) async {
     try {
       await FirebaseFirestore.instance
           .doc('Users/$currentUser')
@@ -175,8 +173,14 @@ class FirebaseService {
   }
 
   // Sign Out
-  Future<String> signOut() async {
-    await _firebaseAuth.signOut();
-    return 'Signed Out Successfully';
+  Future<bool> signOut() async {
+    try {
+      await _firebaseAuth.signOut();
+      return true;
+    } on Failure catch (e) {
+       throw Failure(300,
+          message: e.toString(),
+          location: 'FirebaseService.signOut() on other exceptions');
+    }
   }
 }

@@ -15,7 +15,6 @@ class Routes {
   static Route<dynamic>? createRoute(settings) {
     switch (settings.name) {
       case homeRoute:
-        // return HomeScreen.route();
         return HomeView.route();
 
       case registerRoute:

@@ -1,3 +1,4 @@
+import 'package:map_mvvm/map_mvvm.dart';
 import 'package:map_mvvm/view.dart';
 import 'package:vetclinic/app/routes.dart';
 import 'package:vetclinic/ui/components/custom_text_field.dart';
@@ -5,6 +6,7 @@ import 'package:vetclinic/ui/view/forgot_password_view.dart';
 import 'package:vetclinic/ui/view/home_view.dart';
 import 'package:vetclinic/ui/view/register_view.dart';
 import 'package:vetclinic/utils/app_theme.dart';
+import 'package:vetclinic/viewmodel/home_viewmodel.dart';
 import 'package:vetclinic/viewmodel/login_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:vetclinic/utils/validators.dart';
@@ -12,7 +14,7 @@ import 'package:vetclinic/ui/view/login_view.dart';
 
 class LoginView extends StatefulWidget {
   static Route route() => MaterialPageRoute(builder: (_) => LoginView());
-  LoginView({Key? key}) : super(key: key);
+  const LoginView({Key? key}) : super(key: key);
 
   @override
   State<LoginView> createState() => _LoginViewState();
@@ -21,11 +23,8 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   final _formkey = GlobalKey<FormState>();
 
-  late final LoginViewModel _model;
-
   String? email;
-
-  late final BuildContext _context;
+  String? password;
 
   @override
   Widget build(BuildContext context) {
@@ -68,35 +67,25 @@ class _LoginViewState extends State<LoginView> {
   }
 
   Widget _buildEmailTextField() {
-    return View<LoginViewModel>(
-      builder: (_,viewModel) => CustomTextField(
+    return CustomTextField(
       label: 'Email',
-      onChanged : (input){
+      onChanged: (input) {
         email = input;
       },
       hint: 'Enter your email',
       prefix: Icons.email,
-      validator: (text) => Validator.validateEmail(email:email),
-    ),
+      validator: (text) => Validator.validateEmail(email: email),
     );
   }
 
   Widget _buildPasswordTextField() {
     return CustomTextField(
-      controller: _model.passwordController,
+      onChanged: (text) => password = text,
       label: 'Password',
       hint: 'Enter your password',
       prefix: Icons.lock,
-      isHidden: _model.isHidden,
-      validator: _model.passwordValidator,
-      suffix: IconButton(
-        icon: _model.isHidden
-            ? const Icon(Icons.visibility)
-            : const Icon(Icons.visibility_off),
-        onPressed: () {
-          _model.isHidden = !_model.isHidden;
-        },
-      ),
+      validator: (text) => Validator.validatePassword(password: text),
+      isHidden: true,
     );
   }
 
@@ -105,7 +94,7 @@ class _LoginViewState extends State<LoginView> {
       alignment: Alignment.center,
       child: TextButton(
         onPressed: () {
-          Navigator.of(_context).pushNamed(Routes.registerRoute);
+          Navigator.of(context).pushNamed(Routes.registerRoute);
         },
         style: ButtonStyle(
           overlayColor: MaterialStateProperty.all(Colors.transparent),
@@ -121,31 +110,45 @@ class _LoginViewState extends State<LoginView> {
   }
 
   Widget _buildLoginButton() {
-    return Row(
-      children: [
-        Expanded(
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: AppTheme.primary,
-              textStyle: AppTheme.button,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
+    return View<LoginViewModel>(builder: (_, viewModel) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: AppTheme.primary,
+                textStyle: AppTheme.button,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+              ),
+              onPressed: () async {
+                if (_formkey.currentState!.validate()) {
+                  try {
+                    await viewModel.login(email, password);
+                    //insert personalization here
+                      Navigator.of(context).pushNamed(Routes.homeRoute);
+                  } on Failure catch (e) {
+                    final snackbar = SnackBar(
+                      content: Text(e.message ?? 'Error'),
+                      backgroundColor: Colors.red,
+                    );
+
+                    ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                  }
+                  
+                }
+              },
+              child: const Padding(
+                padding: EdgeInsets.all(10.0),
+                child: Text('Log In'),
               ),
             ),
-            onPressed: () => _formkey.currentState!.validate()
-                ? _model.login().then((value) {
-                    if (!value) return;
-                    Navigator.of(_context).pushReplacementNamed(Routes.homeRoute);
-                  })
-                : null,
-            child: const Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Text('Log In'),
-            ),
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 
   Widget _buildForgetPassword() {
@@ -153,7 +156,7 @@ class _LoginViewState extends State<LoginView> {
       alignment: Alignment.center,
       child: TextButton(
         onPressed: () {
-          Navigator.of(_context).pushReplacementNamed(Routes.forgotPassRoute);
+          Navigator.of(context).pushReplacementNamed(Routes.forgotPassRoute);
         },
         style: ButtonStyle(
           overlayColor: MaterialStateProperty.all(Colors.transparent),
