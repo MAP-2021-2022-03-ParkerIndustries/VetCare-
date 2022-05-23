@@ -2,14 +2,12 @@
 import 'package:flutter/material.dart';
 
 // app imports
-import 'package:vetclinic/enums/view_state.dart';
-import 'package:vetclinic/ui/view/base_view.dart';
 import 'package:vetclinic/ui/view/profile_view.dart';
 import 'package:vetclinic/utils/app_theme.dart';
 import 'package:vetclinic/viewmodel/home_viewmodel.dart';
 
 class HomeView extends StatelessWidget {
-  static const String id = 'home_view';
+   static Route route() => MaterialPageRoute(builder: (_) => const HomeView());
   const HomeView({Key? key}) : super(key: key);
 
   @override

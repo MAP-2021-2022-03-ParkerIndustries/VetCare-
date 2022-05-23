@@ -1,57 +1,55 @@
 import 'dart:async';
 
+import 'package:map_mvvm/map_mvvm.dart';
+import 'package:map_mvvm/view.dart';
 import 'package:vetclinic/ui/components/custom_text_field.dart';
-import 'package:vetclinic/ui/view/base_view.dart';
 
 import 'package:vetclinic/ui/view/login_view.dart';
 import 'package:vetclinic/utils/app_theme.dart';
+import 'package:vetclinic/utils/validators.dart';
 import 'package:vetclinic/viewmodel/forgot_password_viewmodel.dart';
 
 import 'package:flutter/material.dart';
 
-class ForgotPasswordView extends StatelessWidget {
-  static const String id = 'forgot_password_view';
-  ForgotPasswordView({Key? key}) : super(key: key);
 
-  final _formkey = GlobalKey<FormState>();
-  late final ForgotPasswordViewModel _model;
-  late final BuildContext _context;
+
+class ForgotPasswordView extends StatefulWidget {
+  const ForgotPasswordView({Key? key}) : super(key: key);
+  static Route route() =>
+      MaterialPageRoute(builder: (_) => const ForgotPasswordView());
+
+  @override
+  State<ForgotPasswordView> createState() => _ForgotPasswordViewState();
+}
+
+class _ForgotPasswordViewState extends State<ForgotPasswordView> {
+  String? email;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<ForgotPasswordViewModel>(
-      onModelReady: (model) {
-        _model = model;
-        _context = context;
-        model.onModelReady();
-      },
-      onModelDestroy: (model) => model.onModelDestroy(),
-      builder: (context, model, child) => GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: SafeArea(
-          child: Scaffold(
-            backgroundColor: const Color.fromARGB(255, 255, 230, 204),
-            body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Form(
-                key: _formkey,
-                child: Center(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Reset Password',
-                          style: AppTheme.headline1,
-                        ),
-                        const SizedBox(height: 40),
-                        _buildEmailTextField(),
-                        const SizedBox(height: 20),
-                        _buildForgotPasswordButton(),
-                      ],
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: const Color.fromARGB(255, 255, 230, 204),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Form(
+            key: _formKey,
+            child: Center(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Reset Password',
+                      style: AppTheme.headline1,
                     ),
-                  ),
+                    const SizedBox(height: 40),
+                    _buildEmailTextField(),
+                    const SizedBox(height: 20),
+                    _buildForgotPasswordButton(),
+                  ],
                 ),
               ),
             ),
@@ -62,45 +60,56 @@ class ForgotPasswordView extends StatelessWidget {
   }
 
   Widget _buildEmailTextField() {
-    return CustomTextField(
-      controller: _model.emailController,
-      label: 'Email',
-      hint: 'Enter your email',
-      prefix: Icons.email,
-      validator: _model.emailValidator,
+    return View<ForgotPasswordViewModel>(
+      builder: (_, viewModel) => CustomTextField(
+        label: 'email',
+        onChanged: (input) {
+          email = input;
+        },
+        validator: (text) => Validator.validateEmail(email: email),
+        hint: 'Enter your email',
+        prefix: Icons.email,
+      ),
     );
   }
 
   Widget _buildForgotPasswordButton() {
-    return Row(
-      children: [
-        Expanded(
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: AppTheme.primary,
-              textStyle: AppTheme.button,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10)),
-              ),
-            ),
-            onPressed: () => _formkey.currentState!.validate()
-                ? _model.reset().then((value) {
-                    // SnackBar(content: Text("Password reset link has been sent to your email"));
-                    const snackbar =
-                        SnackBar(content: Text("Reset password link sent to your email !"));
-                    ScaffoldMessenger.of(_context).showSnackBar(snackbar);
-                    Timer(const Duration(seconds: 3), () {
-                      Navigator.of(_context).pushReplacementNamed(LoginView.id);
-                    });
-                  })
-                : null,
-            child: const Padding(
-              padding: EdgeInsets.all(10.0),
-              child: Text('Reset Password'),
-            ),
-          ),
-        ),
-      ],
-    );
+    return View<ForgotPasswordViewModel>(
+        builder: (_, viewModel) => Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: AppTheme.primary,
+                      textStyle: AppTheme.button,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        try {
+                          await viewModel.reset(email);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content:
+                                      Text("Password reset sent to email")));
+                        } on Failure catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(e.message ?? 'Error'),
+                            ),
+                          );
+                        }
+                      }
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text('Reset Password'),
+                    ),
+                  ),
+                ),
+              ],
+            ));
   }
 }

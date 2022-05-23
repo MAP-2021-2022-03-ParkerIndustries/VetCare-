@@ -1,63 +1,63 @@
+import 'package:map_mvvm/view.dart';
+import 'package:vetclinic/app/routes.dart';
 import 'package:vetclinic/ui/components/custom_text_field.dart';
-import 'package:vetclinic/ui/view/base_view.dart';
 import 'package:vetclinic/ui/view/forgot_password_view.dart';
 import 'package:vetclinic/ui/view/home_view.dart';
 import 'package:vetclinic/ui/view/register_view.dart';
 import 'package:vetclinic/utils/app_theme.dart';
 import 'package:vetclinic/viewmodel/login_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:vetclinic/utils/validators.dart';
+import 'package:vetclinic/ui/view/login_view.dart';
 
-class LoginView extends StatelessWidget {
-  static const String id = 'login_view';
+class LoginView extends StatefulWidget {
+  static Route route() => MaterialPageRoute(builder: (_) => LoginView());
   LoginView({Key? key}) : super(key: key);
 
+  @override
+  State<LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
   final _formkey = GlobalKey<FormState>();
+
   late final LoginViewModel _model;
+
+  String? email;
+
   late final BuildContext _context;
 
   @override
   Widget build(BuildContext context) {
-    return BaseView<LoginViewModel>(
-      onModelReady: (model) {
-        _model = model;
-        _context = context;
-        model.onModelReady();
-      },
-      onModelDestroy: (model) => model.onModelDestroy(),
-      builder: (context, model, child) => GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: SafeArea(
-          child: Scaffold(
-            backgroundColor: const Color.fromARGB(255, 255, 230, 204),
-            body: Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Form(
-                  key: _formkey,
-                  child: SingleChildScrollView(
-                    physics: const ScrollPhysics(),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      
-                      children: [
-                        Image.asset('assets/VetCare_logo.png'),
-                        const Text(
-                          'Sign In',
-                          style: AppTheme.headline1,
-                        ),
-                        const SizedBox(height: 40),
-                        _buildEmailTextField(),
-                        const SizedBox(height: 20),
-                        _buildPasswordTextField(),
-                        const SizedBox(height: 20),
-                        _buildLoginButton(),
-                        const SizedBox(height: 10),
-                        _buildCreateAccountButton(),
-                        _buildForgetPassword(),
-                      ],
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: const Color.fromARGB(255, 255, 230, 204),
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Form(
+              key: _formkey,
+              child: SingleChildScrollView(
+                physics: const ScrollPhysics(),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image.asset('assets/VetCare_logo.png'),
+                    const Text(
+                      'Sign In',
+                      style: AppTheme.headline1,
                     ),
-                  ),
+                    const SizedBox(height: 40),
+                    _buildEmailTextField(),
+                    const SizedBox(height: 20),
+                    _buildPasswordTextField(),
+                    const SizedBox(height: 20),
+                    _buildLoginButton(),
+                    const SizedBox(height: 10),
+                    _buildCreateAccountButton(),
+                    _buildForgetPassword(),
+                  ],
                 ),
               ),
             ),
@@ -68,12 +68,16 @@ class LoginView extends StatelessWidget {
   }
 
   Widget _buildEmailTextField() {
-    return CustomTextField(
-      controller: _model.emailController,
+    return View<LoginViewModel>(
+      builder: (_,viewModel) => CustomTextField(
       label: 'Email',
+      onChanged : (input){
+        email = input;
+      },
       hint: 'Enter your email',
       prefix: Icons.email,
-      validator: _model.emailValidator,
+      validator: (text) => Validator.validateEmail(email:email),
+    ),
     );
   }
 
@@ -101,7 +105,7 @@ class LoginView extends StatelessWidget {
       alignment: Alignment.center,
       child: TextButton(
         onPressed: () {
-          Navigator.of(_context).pushReplacementNamed(RegisterView.id);
+          Navigator.of(_context).pushNamed(Routes.registerRoute);
         },
         style: ButtonStyle(
           overlayColor: MaterialStateProperty.all(Colors.transparent),
@@ -131,7 +135,7 @@ class LoginView extends StatelessWidget {
             onPressed: () => _formkey.currentState!.validate()
                 ? _model.login().then((value) {
                     if (!value) return;
-                    Navigator.of(_context).pushReplacementNamed(HomeView.id);
+                    Navigator.of(_context).pushReplacementNamed(Routes.homeRoute);
                   })
                 : null,
             child: const Padding(
@@ -149,7 +153,7 @@ class LoginView extends StatelessWidget {
       alignment: Alignment.center,
       child: TextButton(
         onPressed: () {
-          Navigator.of(_context).pushReplacementNamed(ForgotPasswordView.id);
+          Navigator.of(_context).pushReplacementNamed(Routes.forgotPassRoute);
         },
         style: ButtonStyle(
           overlayColor: MaterialStateProperty.all(Colors.transparent),

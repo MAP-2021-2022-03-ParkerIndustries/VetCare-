@@ -2,7 +2,7 @@ import 'package:vetclinic/enums/view_state.dart';
 import 'package:vetclinic/locator.dart';
 import 'package:vetclinic/model/data_model.dart';
 import 'package:vetclinic/services/api_service.dart';
-import 'package:vetclinic/services/firebase_service.dart';
+import 'package:vetclinic/services/firebase/firebase_service.dart';
 import 'package:vetclinic/viewmodel/base_viewmodel.dart';
 
 class HomeViewModel extends BaseViewModel {

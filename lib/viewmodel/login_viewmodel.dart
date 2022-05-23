@@ -1,55 +1,31 @@
-import 'package:vetclinic/locator.dart';
-import 'package:vetclinic/services/firebase_service.dart';
-import 'package:vetclinic/services/local_storage_service.dart';
-import 'package:vetclinic/utils/validators.dart';
-import 'package:vetclinic/viewmodel/base_viewmodel.dart';
-import 'package:flutter/material.dart';
+import 'package:map_mvvm/failure.dart';
+import 'package:map_mvvm/viewmodel.dart';
 
-class LoginViewModel extends BaseViewModel {
-  late final TextEditingController _emailController;
-  late final TextEditingController _passwordController;
-  bool _isHidden = true;
+import '../../../app/service_locator.dart';
+import '../../../services/firebase/firebase_service.dart';
+import '../model/users.dart';
 
-  // Services
-  final FirebaseService _firebaseService = locator<FirebaseService>();
-  final LocalStorageService _localStorageService =
-      locator<LocalStorageService>();
+class LoginViewModel extends Viewmodel {
+  FirebaseService get _service => locator<FirebaseService>();
+  Users _users = Users();
 
-  // Getters
-  bool get isHidden => _isHidden;
-
-  TextEditingController get emailController => _emailController;
-
-  TextEditingController get passwordController => _passwordController;
-
-  String? Function(String? password) get passwordValidator =>
-      Validator.passwordValidator;
-
-  String? Function(String? email) get emailValidator =>
-      Validator.emailValidator;
-
-  // Setters
-  set isHidden(bool val) {
-    _isHidden = val;
-    notifyListeners();
+  @override
+  void init() async {
+    super.init();
+    notifyListenersOnFailure = false;
   }
 
-  void onModelReady() {
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
-  }
+  Users get users => _users;
 
-  void onModelDestroy() {
-    _emailController.dispose();
-    _passwordController.dispose();
-  }
-
-  Future<bool> login() async {
-    var res = await _firebaseService.signIn(
-      _emailController.text.trim(),
-      _passwordController.text,
-    );
-    _localStorageService.isLoggedIn = res != null;
-    return res != null;
+  Future<void> login(email, password) async {
+    try {
+      await update(
+        () async {
+          _users = await _service.signIn(email, password);
+        },
+      );
+    } on Failure {
+      rethrow;
+    }
   }
 }

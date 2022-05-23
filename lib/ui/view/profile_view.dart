@@ -1,21 +1,20 @@
-import 'package:vetclinic/enums/view_state.dart';
+import 'package:map_mvvm/view.dart';
 import 'package:vetclinic/ui/components/custom_text_field.dart';
-import 'package:vetclinic/ui/view/base_view.dart';
 import 'package:vetclinic/ui/view/login_view.dart';
 import 'package:vetclinic/utils/app_theme.dart';
 import 'package:vetclinic/viewmodel/profile_viewmodel.dart';
 import 'package:flutter/material.dart';
 
 class ProfileView extends StatelessWidget {
-  static const String id = 'profile_view';
+  static Route route() => MaterialPageRoute(builder: (_) => ProfileView());
   const ProfileView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    return BaseView<ProfileViewModel>(
-      onModelReady: (model) => model.onModelReady(),
-      builder: (context, model, child) {
+    return View<ProfileViewModel>(
+      
+      builder: ((_, model) {
         return Scaffold(
           appBar: AppBar(
             backgroundColor: AppTheme.primary,
@@ -129,7 +128,9 @@ class ProfileView extends StatelessWidget {
             ],
           ),
         );
-      },
-    );
+      }
+    ));
   }
 }
+
+

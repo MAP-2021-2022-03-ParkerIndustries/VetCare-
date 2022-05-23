@@ -1,12 +1,13 @@
-import 'package:vetclinic/locator.dart';
-import 'package:vetclinic/services/firebase_service.dart';
+import 'package:map_mvvm/viewmodel.dart';
+import 'package:vetclinic/services/firebase/firebase_service.dart';
 import 'package:vetclinic/services/local_storage_service.dart';
 import 'package:vetclinic/utils/validators.dart';
-import 'package:vetclinic/viewmodel/base_viewmodel.dart';
 
 import 'package:flutter/material.dart';
 
-class RegisterViewModel extends BaseViewModel {
+import '../app/service_locator.dart';
+
+class RegisterViewModel extends Viewmodel {
   late final TextEditingController _nameController;
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;

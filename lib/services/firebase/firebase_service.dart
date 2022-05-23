@@ -1,7 +1,11 @@
+
+import 'package:map_mvvm/failure.dart';
 import 'package:vetclinic/utils/error_codes.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+
+import '../../model/users.dart';
 
 class FirebaseService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -10,19 +14,64 @@ class FirebaseService {
   User get currentUser => _firebaseAuth.currentUser!;
 
   // Sign In with email and password
-  Future<UserCredential?> signIn(String email, String password) async {
+  Future<Users> signIn(String email, String password) async {
     try {
-      return await _firebaseAuth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
-      throw signInErrorCodes[e.code] ?? 'Database Error Occured!';
+      if (e.code == 'user-not-found') {
+        throw const Failure(2,
+            message: 'No user found for that email.',
+            location: 'firebaseServiceFireStore.logIn() on FirebaseException');
+      } else if (e.code == 'wrong-password') {
+        throw const Failure(2,
+            message: 'Wrong password provided for that user.',
+            location: 'firebaseServiceFireStore.logIn() on FirebaseException');
+      }
+    }
+    return readUsers();
+  }
+
+  //read user
+  @override
+  Future<Users> readUsers() async {
+    try {
+      final doc = await FirebaseFirestore.instance
+          .doc('users/${currentUser.uid}')
+          .get();
+      final users = Users.fromJson(doc.data()!);
+      return users;
+    } on FirebaseException catch (e) {
+      throw Failure(100,
+          message: e.toString(),
+          location: 'UsersServiceFireStore.readUsers() on FirebaseException');
     } catch (e) {
-      throw '${e.toString()} Error Occured!';
+      throw Failure(101,
+          message: e.toString(),
+          location: 'UsersServiceFireStore.readUsers() on other exception');
     }
   }
 
+  //write user
+    @override
+  Future<Users> writeUsers(Users users) async {
+    try {
+      await FirebaseFirestore.instance
+          .doc('Users/$currentUser')
+          .set(users.toJson());
+      return users.copyWith();
+    } on FirebaseException catch (e) {
+      // throw Failures.cannotWrite;
+      throw Failure(200,
+          message: e.toString(),
+          location: 'UsersServiceFireStore.writeUsers() on FirebaseException');
+    } catch (e) {
+      throw Failure(201,
+          message: e.toString(),
+          location: 'UsersServiceFireStore.writeUsers() on other exceptions');
+    }
+  }
+  
   // Sign Up using email address
   Future<UserCredential?> signUp(
       String name, String email, String password) async {

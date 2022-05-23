@@ -7,7 +7,7 @@ import 'package:vetclinic/viewmodel/register_viewmodel.dart';
 import 'package:flutter/material.dart';
 
 class RegisterView extends StatelessWidget {
-  static const String id = 'register_view';
+  static Route route() => MaterialPageRoute(builder: (_) => RegisterView());
   RegisterView({Key? key}) : super(key: key);
 
   final _formkey = GlobalKey<FormState>();

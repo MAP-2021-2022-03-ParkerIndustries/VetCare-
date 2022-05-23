@@ -1,11 +1,14 @@
+import 'package:map_mvvm/viewmodel.dart';
 import 'package:vetclinic/enums/view_state.dart';
 import 'package:vetclinic/locator.dart';
-import 'package:vetclinic/services/firebase_service.dart';
+import 'package:vetclinic/services/firebase/firebase_service.dart';
 import 'package:vetclinic/services/local_storage_service.dart';
 import 'package:vetclinic/viewmodel/base_viewmodel.dart';
 import 'package:flutter/material.dart';
 
-class ProfileViewModel extends BaseViewModel {
+import '../app/service_locator.dart';
+
+class ProfileViewModel extends Viewmodel {
   late TextEditingController controller;
   late String email, name;
 
