@@ -1,12 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 import 'package:map_mvvm/view.dart';
 import 'package:vetclinic/app/routes.dart';
 import 'package:vetclinic/ui/components/custom_text_field.dart';
 import 'package:vetclinic/ui/view/forgot_password_view.dart';
-import 'package:vetclinic/ui/view/home_view.dart';
+import 'package:vetclinic/ui/view/vet_home_view.dart';
 import 'package:vetclinic/ui/view/register_view.dart';
 import 'package:vetclinic/utils/app_theme.dart';
-import 'package:vetclinic/viewmodel/home_viewmodel.dart';
+import 'package:vetclinic/viewmodel/vet_home_viewmodel.dart';
 import 'package:vetclinic/viewmodel/login_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:vetclinic/utils/validators.dart';
@@ -128,7 +129,15 @@ class _LoginViewState extends State<LoginView> {
                   try {
                     await viewModel.login(email, password);
                     //insert personalization here
-                      Navigator.of(context).pushNamed(Routes.homeRoute);
+
+                    print(viewModel.users.role);
+
+                    if (viewModel.users.role == 'vet') {
+                      Navigator.of(context).pushNamed(Routes.vetHomeRoute);
+                    }
+                    else{
+                      Navigator.of(context).pushNamed(Routes.customerHomeRoute);
+                    }
                   } on Failure catch (e) {
                     final snackbar = SnackBar(
                       content: Text(e.message ?? 'Error'),
@@ -137,7 +146,6 @@ class _LoginViewState extends State<LoginView> {
 
                     ScaffoldMessenger.of(context).showSnackBar(snackbar);
                   }
-                  
                 }
               },
               child: const Padding(

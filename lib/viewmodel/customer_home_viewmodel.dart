@@ -1,7 +1,7 @@
 import 'package:map_mvvm/viewmodel.dart';
 
 
-class HomeViewModel extends Viewmodel {
+class CustomerHomeViewModel extends Viewmodel {
   @override
   void init() async {
     super.init();

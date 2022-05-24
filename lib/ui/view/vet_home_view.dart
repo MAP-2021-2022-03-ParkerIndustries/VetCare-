@@ -3,20 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:vetclinic/app/app.dart';
 
 // app imports
-import 'package:vetclinic/ui/view/profile_view.dart';
-import 'package:vetclinic/utils/app_theme.dart';
-import 'package:vetclinic/viewmodel/home_viewmodel.dart';
 
-class HomeView extends StatelessWidget {
-  static Route route() => MaterialPageRoute(builder: (_) => const HomeView());
-  const HomeView({Key? key}) : super(key: key);
+import 'package:vetclinic/utils/app_theme.dart';
+
+class VetHomeView extends StatelessWidget {
+  static Route route() =>
+      MaterialPageRoute(builder: (_) => const VetHomeView());
+  const VetHomeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppTheme.primary,
-        title: const Text('Home Page'),
+        title: const Text(' Vet Home Page'),
         automaticallyImplyLeading: false,
         actions: [
           IconButton(

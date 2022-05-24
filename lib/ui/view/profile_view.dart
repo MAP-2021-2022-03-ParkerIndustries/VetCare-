@@ -7,7 +7,7 @@ import 'package:vetclinic/viewmodel/profile_viewmodel.dart';
 import 'package:flutter/material.dart';
 
 class ProfileView extends StatelessWidget {
-  static Route route() => MaterialPageRoute(builder: (_) => ProfileView());
+  static Route route() => MaterialPageRoute(builder: (_) => const ProfileView());
   const ProfileView({Key? key}) : super(key: key);
 
   @override
@@ -82,9 +82,9 @@ class ProfileView extends StatelessWidget {
                     ),
                     SizedBox(
                       width: size.width / 1.3,
-                      child: CustomTextField(
-                        // controller: model.controller,
-                        // enabled: model.isEditing,
+                      child:  CustomTextField(
+                        initialValue: model.name,
+                        onChanged: ((input) => model.name = input),
                       ),
                     ),
                   ],

@@ -68,13 +68,13 @@ import 'package:map_mvvm/failure.dart';
 import 'package:map_mvvm/viewmodel.dart';
 
 import '../../../app/service_locator.dart';
-import '../../../services/firebase/firebase_service.dart';
-import '../model/users.dart';
+import '../services/firebase/firebase_service.dart';
+import '../model/Users.dart';
 
 class ProfileViewModel extends Viewmodel {
   FirebaseService get _service => locator<FirebaseService>();
   Users _users = Users();
-  String? name,email;
+  String? name,email,roles;
 
   @override
   void init() async {
@@ -85,6 +85,9 @@ class ProfileViewModel extends Viewmodel {
       () async {
         try {
           _users = await _service.readUsers();
+          name = _users.name;
+          email = _users.email;
+          roles = _users.role;
         } on Failure {
           rethrow;
         }
