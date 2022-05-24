@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:map_mvvm/map_mvvm.dart';
 import 'package:map_mvvm/view.dart';
+import 'package:vetclinic/app/app.dart';
 import 'package:vetclinic/ui/components/custom_text_field.dart';
 
 import 'package:vetclinic/ui/view/login_view.dart';
@@ -46,7 +47,13 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                     const SizedBox(height: 40),
                     _buildEmailTextField(),
                     const SizedBox(height: 20),
-                    _buildForgotPasswordButton(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        _buildBackButton(),
+                        _buildForgotPasswordButton(),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -73,41 +80,57 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
 
   Widget _buildForgotPasswordButton() {
     return View<ForgotPasswordViewModel>(
-        builder: (_, viewModel) => Row(
-              children: [
-                Expanded(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: AppTheme.primary,
-                      textStyle: AppTheme.button,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    ),
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        try {
-                          await viewModel.reset(email);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content:
-                                      Text("Password reset sent to email")));
-                        } on Failure catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(e.message ?? 'Error'),
-                            ),
-                          );
-                        }
-                      }
-                    },
-                    child: const Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Text('Reset Password'),
-                    ),
-                  ),
+      builder: (_, viewModel) => ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          primary: AppTheme.primary,
+          textStyle: AppTheme.button,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+        ),
+        onPressed: () async {
+          if (_formKey.currentState!.validate()) {
+            try {
+              await viewModel.reset(email);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Password reset sent to email"),
                 ),
-              ],
-            ));
+              );
+              Navigator.of(context).pushNamed(Routes.loginRoute);
+            } on Failure catch (e) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(e.message ?? 'Error'),
+                ),
+              );
+            }
+          }
+        },
+        child: const Padding(
+          padding: EdgeInsets.all(10.0),
+          child: Text('Reset Password'),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBackButton() {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: AppTheme.primary,
+        textStyle: AppTheme.button,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+      ),
+      onPressed: () {
+        Navigator.of(context).pushNamed(Routes.loginRoute);
+      },
+      child: const Padding(
+        padding: EdgeInsets.all(10.0),
+        child: Text('Back'),
+      ),
+    );
   }
 }

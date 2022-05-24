@@ -18,8 +18,6 @@ class RegisterView extends StatefulWidget {
 class _RegisterViewState extends State<RegisterView> {
   final _formkey = GlobalKey<FormState>();
 
-  late final BuildContext _context;
-
   String? name;
 
   String? email;
@@ -115,7 +113,7 @@ class _RegisterViewState extends State<RegisterView> {
       alignment: Alignment.center,
       child: TextButton(
         onPressed: () {
-          Navigator.of(_context).pushNamed(Routes.loginRoute);
+          Navigator.of(context).pushNamed(Routes.loginRoute);
         },
         style: ButtonStyle(
           overlayColor: MaterialStateProperty.all(Colors.transparent),
@@ -153,16 +151,15 @@ class _RegisterViewState extends State<RegisterView> {
                 if (_formkey.currentState!.validate()) {
                   try {
                     await viewModel.register(name, email, password);
-                    ScaffoldMessenger.of(_context).showSnackBar(
-                        const SnackBar(content: Text('New account...')));
-                    Navigator.of(_context).pushNamed(Routes.loginRoute);
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('New account...')));
+                    Navigator.of(context).pushNamed(Routes.loginRoute);
                   } on Failure catch (e) {
                     final snackbar = SnackBar(
                       content: Text(e.message ?? 'Error'),
                       backgroundColor: Colors.red,
                     );
 
-                    ScaffoldMessenger.of(_context).showSnackBar(snackbar);
+                    ScaffoldMessenger.of(context).showSnackBar(snackbar);
                   }
                 }
               },

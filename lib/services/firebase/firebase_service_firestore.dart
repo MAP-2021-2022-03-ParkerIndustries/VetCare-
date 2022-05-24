@@ -80,7 +80,7 @@ class FirebaseServiceFirestore extends FirebaseService {
         password: password,
       );
 
-      await _firebaseFirestore.collection('users').doc(_user.user!.uid).set({
+      await _firebaseFirestore.collection('Users').doc(_user.user!.uid).set({
         'name': name,
         'email': _user.user!.email,
         'role': 'customer',

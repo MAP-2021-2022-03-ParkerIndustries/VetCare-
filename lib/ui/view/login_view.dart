@@ -130,7 +130,7 @@ class _LoginViewState extends State<LoginView> {
                     await viewModel.login(email, password);
                     //insert personalization here
 
-                    print(viewModel.users.role);
+                    // print(viewModel.users.role);
 
                     if (viewModel.users.role == 'vet') {
                       Navigator.of(context).pushNamed(Routes.vetHomeRoute);
