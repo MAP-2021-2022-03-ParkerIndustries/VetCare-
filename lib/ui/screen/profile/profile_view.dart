@@ -1,9 +1,8 @@
 import 'package:map_mvvm/view.dart';
 import 'package:vetclinic/app/app.dart';
 import 'package:vetclinic/ui/components/custom_text_field.dart';
-import 'package:vetclinic/ui/view/login_view.dart';
 import 'package:vetclinic/utils/app_theme.dart';
-import 'package:vetclinic/viewmodel/profile_viewmodel.dart';
+import 'package:vetclinic/ui/screen/profile/profile_viewmodel.dart';
 import 'package:flutter/material.dart';
 
 class ProfileView extends StatelessWidget {

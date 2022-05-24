@@ -1,15 +1,15 @@
 import 'package:map_mvvm/service_locator.dart';
 import 'package:vetclinic/services/firebase/firebase_service.dart';
 import 'package:vetclinic/services/firebase/firebase_service_firestore.dart';
-import 'package:vetclinic/viewmodel/forgot_password_viewmodel.dart';
-import 'package:vetclinic/viewmodel/vet_home_viewmodel.dart';
-import 'package:vetclinic/viewmodel/login_viewmodel.dart';
-import 'package:vetclinic/viewmodel/profile_viewmodel.dart';
-import 'package:vetclinic/viewmodel/register_viewmodel.dart';
+import 'package:vetclinic/ui/screen/forgot_password/forgot_password_viewmodel.dart';
+import 'package:vetclinic/ui/screen/vet_home/vet_home_viewmodel.dart';
+import 'package:vetclinic/ui/screen/login/login_viewmodel.dart';
+import 'package:vetclinic/ui/screen/profile/profile_viewmodel.dart';
+import 'package:vetclinic/ui/screen/register/register_viewmodel.dart';
 
 import '../services/initializer/service_initializer.dart';
 import '../services/initializer/service_initializer_firebase.dart';
-import '../viewmodel/customer_home_viewmodel.dart';
+import '../ui/screen/customer_home/customer_home_viewmodel.dart';
 
 final locator = ServiceLocator.locator;
 

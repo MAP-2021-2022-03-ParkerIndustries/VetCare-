@@ -1,14 +1,10 @@
-import 'dart:async';
-
 import 'package:map_mvvm/map_mvvm.dart';
-import 'package:map_mvvm/view.dart';
 import 'package:vetclinic/app/app.dart';
 import 'package:vetclinic/ui/components/custom_text_field.dart';
 
-import 'package:vetclinic/ui/view/login_view.dart';
 import 'package:vetclinic/utils/app_theme.dart';
 import 'package:vetclinic/utils/validators.dart';
-import 'package:vetclinic/viewmodel/forgot_password_viewmodel.dart';
+import 'package:vetclinic/ui/screen/forgot_password/forgot_password_viewmodel.dart';
 
 import 'package:flutter/material.dart';
 
