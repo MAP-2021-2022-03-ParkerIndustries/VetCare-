@@ -1,4 +1,5 @@
 {
     "cmake.configureOnOpen": true,
-    "dart.openDevTools":"never"
+    "dart.openDevTools": "never",
+    "FSharp.suggestGitignore": false
 }

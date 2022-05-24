@@ -1,4 +1,4 @@
-import 'package:vetcare/vetcare.dart';
+import 'package:map_mvvm/map_mvvm.dart';
 
 class Failures {
   static const cannotRead = Failure(100, message: 'Cannot read data');
