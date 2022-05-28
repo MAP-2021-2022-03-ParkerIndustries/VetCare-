@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:map_mvvm/map_mvvm.dart';
+import 'package:vetclinic/model/history.dart';
 
 import '../../model/Users.dart';
 import 'firebase_service.dart';
@@ -13,7 +14,7 @@ class FirebaseServiceFirestore extends FirebaseService {
 
   // Sign In with email and password
   @override
-  Future<Users> signIn( email,password) async {
+  Future<Users> signIn(email, password) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -113,72 +114,6 @@ class FirebaseServiceFirestore extends FirebaseService {
     }
   }
 
-  // Save Favorites
-  // @override
-  // Future saveFavorites(List<String> countries) async {
-  //   try {
-  //     await _firebaseFirestore.collection('Users').doc(currentUser.uid).set(
-  //       {
-  //         'favorites': countries,
-  //       },
-  //       SetOptions(merge: true),
-  //     );
-  //   } on FirebaseAuthException catch (e) {
-  //     throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
-  //   } catch (e) {
-  //     throw '${e.toString()} Error Occured!';
-  //   }
-  // }
-
-  // Fetch Favorites
-  // Future<List<String>> fetchFavorites() async {
-  //   try {
-  //     var snapshot = await _firebaseFirestore
-  //         .collection('Users')
-  //         .doc(currentUser.uid)
-  //         .get();
-  //     return List.castFrom<dynamic, String>(
-  //         snapshot.data()?['favorites'] ?? []);
-  //   } on FirebaseAuthException catch (e) {
-  //     throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
-  //   } catch (e) {
-  //     throw '${e.toString()} Error Occured!';
-  //   }
-  // }
-
-  // Fetch User Information
-  // @override
-  // Future<String> fetchUserInformation() async {
-  //   try {
-  //     var snapshot = await _firebaseFirestore
-  //         .collection('Users')
-  //         .doc(currentUser.uid)
-  //         .get();
-  //     return snapshot.data()?['name'] as String;
-  //   } on FirebaseAuthException catch (e) {
-  //     throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
-  //   } catch (e) {
-  //     throw '${e.toString()} Error Occured!';
-  //   }
-  // }
-
-  // Update user information
-  // @override
-  // Future updateUserInformation(String name) async {
-  //   try {
-  //     await _firebaseFirestore.collection('Users').doc(currentUser.uid).set(
-  //       {
-  //         'name': name,
-  //       },
-  //       SetOptions(merge: true),
-  //     );
-  //   } on FirebaseAuthException catch (e) {
-  //     throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
-  //   } catch (e) {
-  //     throw '${e.toString()} Error Occured!';
-  //   }
-  // }
-
   // Sign Out
   @override
   Future<bool> signOut() async {
@@ -190,5 +125,42 @@ class FirebaseServiceFirestore extends FirebaseService {
           message: e.toString(),
           location: 'FirebaseService.signOut() on other exceptions');
     }
+  }
+
+  @override
+  Stream? get stream => FirebaseFirestore.instance
+      .collection("History")
+      .where("customerID", isEqualTo: _firebaseAuth.currentUser?.uid).snapshots();
+
+  //history
+  @override
+  Future<List<History>> getPetHistory() async {
+    try {
+      List<History> listHistory = [];
+
+      QuerySnapshot qsnap = await _firebaseFirestore
+          .collection("History")
+          .where("customerID", isEqualTo: _firebaseAuth.currentUser?.uid)
+          .get();
+      //cara 1
+      for (var element in qsnap.docs) {
+        listHistory
+            .add(History.fromJson(element.data() as Map<String, dynamic>));
+      }
+
+      //cara 2
+      // listHistory = qsnap.docs.map((doc) => History.fromJson(doc.data() as Map<String,dynamic>)).toList();
+      return listHistory;
+    } on Failure catch (e) {
+      throw Failure(
+        400,
+        message: e.toString(),
+        location: 'FirebaseService.getPetHistory',
+      );
+    }
+  }
+
+  Future<void> checkUserLoggedIn() async {
+    if (_firebaseAuth.currentUser?.uid == null) {}
   }
 }

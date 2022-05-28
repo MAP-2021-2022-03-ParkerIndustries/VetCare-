@@ -94,6 +94,7 @@ class RegisterViewModel extends Viewmodel {
   void init() async {
     super.init();
     notifyListenersOnFailure = false;
+    
   }
 
   Future<void> register(name, email, password) async {

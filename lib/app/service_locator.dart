@@ -2,6 +2,7 @@ import 'package:map_mvvm/service_locator.dart';
 import 'package:vetclinic/services/firebase/firebase_service.dart';
 import 'package:vetclinic/services/firebase/firebase_service_firestore.dart';
 import 'package:vetclinic/ui/screen/forgot_password/forgot_password_viewmodel.dart';
+import 'package:vetclinic/ui/screen/history/history_viewmodel.dart';
 import 'package:vetclinic/ui/screen/vet_home/vet_home_viewmodel.dart';
 import 'package:vetclinic/ui/screen/login/login_viewmodel.dart';
 import 'package:vetclinic/ui/screen/profile/profile_viewmodel.dart';
@@ -23,7 +24,6 @@ Future<void> initializeServiceLocator() async {
   // Register Services
 
   locator.registerLazySingleton<FirebaseService>(() => FirebaseServiceFirestore());
-  // Register Viewmodels
   locator.registerLazySingleton<CustomerHomeViewModel>(() => CustomerHomeViewModel());
   locator.registerLazySingleton<VetHomeViewModel>(() => VetHomeViewModel());
   locator.registerLazySingleton<RegisterViewModel>(() => RegisterViewModel());
@@ -32,4 +32,5 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<ForgotPasswordViewModel>(() => ForgotPasswordViewModel());
   locator.registerLazySingleton<ProfileViewModel>(() => ProfileViewModel());
   // locator.registerLazySingleton<EditProfileViewmodel>(() => EditProfileViewmodel());
+  locator.registerLazySingleton<HistoryViewModel>(() => HistoryViewModel());
 }

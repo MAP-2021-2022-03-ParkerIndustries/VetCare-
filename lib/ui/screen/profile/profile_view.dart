@@ -25,13 +25,9 @@ class ProfileView extends StatelessWidget {
                 onPressed: () async {
                   signedOut = await model.signout();
                   if (signedOut) {
-                    Navigator.of(context).pushNamed(Routes.loginRoute);
+                    Navigator.pushReplacementNamed(context, Routes.loginRoute);
                   }
-                  
-                  // Navigator.of(context).pushNamedAndRemoveUntil(
-                  //   Routes.loginRoute,
-                  //   (route) => false,
-                  // );
+
                 },
                 icon: const Icon(Icons.exit_to_app),
               ),
@@ -44,9 +40,10 @@ class ProfileView extends StatelessWidget {
                 const SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.all(40.0),
+                  
                   child: CircleAvatar(
                     child: Text(
-                      (model.name)!.substring(0, 1).toUpperCase(),
+                      (model.users.name)!.substring(0, 1).toUpperCase(),
                       style: const TextStyle(fontSize: 30, color: Colors.black),
                     ),
                     maxRadius: 50,
@@ -65,7 +62,7 @@ class ProfileView extends StatelessWidget {
                       SizedBox(
                         width: size.width / 1.3,
                         child: CustomTextField(
-                          initialValue: model.email,
+                          initialValue: model.users.name,
                           enabled: false,
                         ),
                       ),
@@ -82,8 +79,8 @@ class ProfileView extends StatelessWidget {
                     SizedBox(
                       width: size.width / 1.3,
                       child:  CustomTextField(
-                        initialValue: model.name,
-                        onChanged: ((input) => model.name = input),
+                        initialValue: model.users.name,
+                        onChanged: ((input) => model.users.name(input)),
                       ),
                     ),
                   ],

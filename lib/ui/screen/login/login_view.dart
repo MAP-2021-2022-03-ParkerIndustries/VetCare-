@@ -124,12 +124,12 @@ class _LoginViewState extends State<LoginView> {
                     //insert personalization here
 
                     // print(viewModel.users.role);
-
+        
                     if (viewModel.users.role == 'vet') {
                       Navigator.of(context).pushNamed(Routes.vetHomeRoute);
                     }
                     else{
-                      Navigator.of(context).pushNamed(Routes.customerHomeRoute);
+                      Navigator.of(context).pushNamed(Routes.customerNavRoute);
                     }
                   } on Failure catch (e) {
                     final snackbar = SnackBar(

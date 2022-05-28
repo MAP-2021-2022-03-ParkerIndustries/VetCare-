@@ -20,7 +20,7 @@ class ForgotPasswordView extends StatefulWidget {
 class _ForgotPasswordViewState extends State<ForgotPasswordView> {
   String? email;
   final _formKey = GlobalKey<FormState>();
-
+  TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
