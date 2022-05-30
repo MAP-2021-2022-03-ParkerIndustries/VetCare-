@@ -4,6 +4,8 @@ import 'package:map_mvvm/service_stream.dart';
 
 import '../../model/Users.dart';
 import '../../model/booking.dart';
+import '../../model/history.dart';
+import '../../model/pet.dart';
 
 abstract class FirebaseService with ServiceStream {
   //authentication
@@ -24,4 +26,8 @@ abstract class FirebaseService with ServiceStream {
   Future<void> MakeBooking(Booking booking);
 
 
+  //history
+  Future<List<History>> getPetHistory();
+  Future<void> registerPet(Pet pet);
+  Future<String?>getUserId();
 }

@@ -4,6 +4,8 @@ import 'package:map_mvvm/map_mvvm.dart';
 import 'package:vetclinic/model/booking.dart';
 
 import '../../model/Users.dart';
+import '../../model/history.dart';
+import '../../model/pet.dart';
 import 'firebase_service.dart';
 
 class FirebaseServiceFirestore extends FirebaseService {
@@ -203,4 +205,64 @@ class FirebaseServiceFirestore extends FirebaseService {
           location: 'FirebaseService.signOut() on other exceptions');
     }
   }
+
+  @override
+  Stream? get stream => FirebaseFirestore.instance
+      .collection("History")
+      .where("customerID", isEqualTo: _firebaseAuth.currentUser?.uid).snapshots();
+
+  //history
+  @override
+  Future<List<History>> getPetHistory() async {
+    try {
+      List<History> listHistory = [];
+
+      QuerySnapshot qsnap = await _firebaseFirestore
+          .collection("History")
+          .where("customerID", isEqualTo: _firebaseAuth.currentUser?.uid)
+          .get();
+      //cara 1
+      for (var element in qsnap.docs) {
+        listHistory
+            .add(History.fromJson(element.data() as Map<String, dynamic>));
+      }
+
+      //cara 2
+      // listHistory = qsnap.docs.map((doc) => History.fromJson(doc.data() as Map<String,dynamic>)).toList();
+      return listHistory;
+    } on Failure catch (e) {
+      throw Failure(
+        400,
+        message: e.toString(),
+        location: 'FirebaseService.getPetHistory',
+      );
+    }
+  }
+
+  //register a pet
+  @override
+  Future<void> registerPet(Pet pet)async{
+    try {
+        var petCollection=  await _firebaseFirestore.collection('Pet').doc();
+        
+        petCollection.set(pet.toJson());
+   
+    } on Failure catch (e) {
+      throw Failure(
+        400,
+        message: e.toString(),
+      );
+    }
+  }
+
+  Future<void> checkUserLoggedIn() async {
+    if (_firebaseAuth.currentUser?.uid == null) {}
+  }
+
+  //get user id
+  @override
+  Future<String?>getUserId()async{
+    return _firebaseAuth.currentUser?.uid;
+  }
+
 }

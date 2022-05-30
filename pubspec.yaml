@@ -68,6 +68,7 @@ flutter:
     - assets/VetCare_logo.png
     - assets/veterinarian.png
     - assets/cat.png
+    - assets/pets.jpg
 
   # To add assets to your application, add an assets section, like this:
   # assets:

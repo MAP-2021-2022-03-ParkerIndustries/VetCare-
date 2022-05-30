@@ -6,6 +6,7 @@ import 'package:vetclinic/ui/screen/history/history_view.dart';
 import 'package:vetclinic/ui/screen/login/login_view.dart';
 import 'package:vetclinic/ui/screen/profile/profile_view.dart';
 import 'package:vetclinic/ui/screen/register/register_view.dart';
+import 'package:vetclinic/ui/screen/register_pet/register_pet_view.dart';
 import 'package:vetclinic/ui/screen/vet_home/vet_home_view.dart';
 
 
@@ -18,7 +19,7 @@ class Routes {
   static const String forgotPassRoute = '/forgotPass';
   static const String profileRoute = '/profile';
   static const String historyRoute = '/history';
-  
+  static const String registerPetRoute='/registerPet';
 
   static Route<dynamic>? createRoute(settings) {
     switch (settings.name) {
@@ -45,6 +46,9 @@ class Routes {
 
       case historyRoute :
         return HistoryView.route();
+      
+      case registerPetRoute:
+      return RegisterPetView.route();
       
     }
     return null;
