@@ -5,6 +5,7 @@ import 'package:map_mvvm/service_stream.dart';
 import 'package:vetclinic/model/history.dart';
 
 import '../../model/Users.dart';
+import '../../model/pet.dart';
 
 abstract class FirebaseService with ServiceStream {
   //authentication
@@ -19,4 +20,6 @@ abstract class FirebaseService with ServiceStream {
 
   //history
   Future<List<History>> getPetHistory();
+  Future<void> registerPet(Pet pet);
+  Future<String?>getUserId();
 }
