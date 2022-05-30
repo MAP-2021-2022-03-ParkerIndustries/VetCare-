@@ -60,7 +60,7 @@ class HistoryViewModel extends Viewmodel {
     try {
       await update(
         () async {
-          listHistory = await _service.getPetHistory();
+          // listHistory = await _service.getPetHistory();
         },
       );
       return listHistory;
