@@ -4,6 +4,7 @@ import 'package:map_mvvm/map_mvvm.dart';
 import 'package:vetclinic/model/history.dart';
 
 import '../../model/Users.dart';
+import '../../model/pet.dart';
 import 'firebase_service.dart';
 
 class FirebaseServiceFirestore extends FirebaseService {
@@ -160,7 +161,30 @@ class FirebaseServiceFirestore extends FirebaseService {
     }
   }
 
+  //register a pet
+  @override
+  Future<void> registerPet(Pet pet)async{
+    try {
+        var petCollection=  await _firebaseFirestore.collection('Pet').doc();
+        
+        petCollection.set(pet.toJson());
+   
+    } on Failure catch (e) {
+      throw Failure(
+        400,
+        message: e.toString(),
+      );
+    }
+  }
+
   Future<void> checkUserLoggedIn() async {
     if (_firebaseAuth.currentUser?.uid == null) {}
   }
+
+  //get user id
+  @override
+  Future<String?>getUserId()async{
+    return _firebaseAuth.currentUser?.uid;
+  }
+
 }
