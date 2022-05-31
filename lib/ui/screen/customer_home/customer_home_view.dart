@@ -76,8 +76,8 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
                         ? Column(children: [
                             IconButton(
                               onPressed: () {
-                                // Navigator.of(context)
-                                //     .pushNamed(Routes.registerPetRoute);
+                                Navigator.of(context)
+                                    .pushNamed(Routes.bookingPetRoute);
                               },
                               icon: Image.asset('assets/cat.png'),
                               iconSize: 150,

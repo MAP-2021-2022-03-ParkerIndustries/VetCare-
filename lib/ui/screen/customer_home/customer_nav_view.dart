@@ -69,6 +69,7 @@ class _CustomerNavViewState extends State<CustomerNavView> {
               label: "History",
               backgroundColor: AppTheme.primary,
             ),
+            
           ],
           currentIndex: _selectedIndex,
           onTap: _onItemTap,
