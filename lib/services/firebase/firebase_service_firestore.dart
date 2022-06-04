@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -261,7 +263,7 @@ class FirebaseServiceFirestore extends FirebaseService {
 
   //get user id
   @override
-  Future<String?> getUserId() async {
+  Future<dynamic> getUserId() async {
     return _firebaseAuth.currentUser?.uid;
   }
 
@@ -269,7 +271,7 @@ class FirebaseServiceFirestore extends FirebaseService {
   Future<void> uploadProfileImage() async {
     final storageRef = FirebaseStorage.instance.ref();
 
-    final userId=getUserId();
+    final userId = getUserId();
     final mountainsRef = storageRef.child("mountains.jpg");
 
     final mountainImagesRef = storageRef.child("images/mountains.jpg");
@@ -280,16 +282,24 @@ class FirebaseServiceFirestore extends FirebaseService {
   }
 
   @override
-  Future<void> uploadPetImage() async {
-    final storageRef = FirebaseStorage.instance.ref();
+  Future<String> uploadPetImage(String filePath, String fileName) async {
+    final FirebaseStorage storage = FirebaseStorage.instance;
+    File file=File(filePath);
+    final userId = _firebaseAuth.currentUser?.uid;
 
-    final userId=getUserId();
-    final mountainsRef = storageRef.child("mountains.jpg");
-
-    final mountainImagesRef = storageRef.child("images/mountains.jpg");
-
-// While the file names are the same, the references point to different files
-    assert(mountainsRef.name == mountainImagesRef.name);
-    assert(mountainsRef.fullPath != mountainImagesRef.fullPath);
+    try {
+      await storage.ref('users/$userId/pet/$fileName').putFile(file);
+      final imageUrl =
+    await storage.ref().child('users/$userId/pet/$fileName').getDownloadURL();
+    return imageUrl;
+    } on FirebaseException catch(e) {
+      print(e);
+      throw Failure(
+        400,
+        message: e.toString(),
+      );
+    }
   }
+
+
 }

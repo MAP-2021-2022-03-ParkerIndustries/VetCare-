@@ -30,9 +30,9 @@ abstract class FirebaseService with ServiceStream {
   //history
   Future<List<History>> getPetHistory();
   Future<void> registerPet(Pet pet);
-  Future<String?>getUserId();
+  Future<dynamic>getUserId();
 
   //Firebase storage
   Future<void> uploadProfileImage();
-  Future<void> uploadPetImage();
+  Future<String> uploadPetImage(String filePath, String fileName);
 }
