@@ -1,6 +1,7 @@
 // package imports
 import 'package:flutter/material.dart';
 import 'package:vetclinic/app/app.dart';
+import 'package:vetclinic/ui/screen/profile/profile_viewmodel.dart';
 
 // app imports
 
@@ -46,6 +47,7 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
           ),
           IconButton(
             onPressed: () {
+              
               Navigator.of(context).pushNamed(Routes.profileRoute);
             },
             icon: const Icon(Icons.person),

@@ -1,5 +1,4 @@
-
-
+import 'package:flutter/cupertino.dart';
 import 'package:map_mvvm/failure.dart';
 import 'package:map_mvvm/viewmodel.dart';
 
@@ -10,7 +9,9 @@ import '../../../model/Users.dart';
 class ProfileViewModel extends Viewmodel {
   FirebaseService get _service => locator<FirebaseService>();
   Users _users = Users();
-  String? _name,_email,_roles;
+  String? _name, _email, _roles;
+  late TextEditingController nameController;
+  bool _isEditing = false, _isChanged = false;
 
   @override
   void init() async {
@@ -21,27 +22,27 @@ class ProfileViewModel extends Viewmodel {
       () async {
         try {
           _users = await _service.readUsers();
-          print(_users.name);
+          nameController = TextEditingController(text: _users.name);
         } catch (e) {}
       },
     );
   }
 
-  // Future<void> updateUser() async{
-  //   await update(
-  //     () async {
-  //       try {
-  //         _users = await _service.readUsers();
-  //         _name = _users.name;
-  //         _email = _users.email;
-  //         _roles = _users.role;
-  //         print(_name);
-  //       } on Failure {
-  //         rethrow;
-  //       }
-  //     },
-  //   );
-  // }
+  Future<void> updateUser() async {
+    await update(
+      () async {
+        try {
+          _name = nameController.text;
+          _email = _users.email;
+          _roles = _users.role;
+          _service.updateUserInformation(name);
+        } on Failure {
+          rethrow;
+        }
+      },
+    );
+  }
+
   Users get users => _users;
   get name => _name;
   get email => _email;
@@ -59,6 +60,30 @@ class ProfileViewModel extends Viewmodel {
     } on Failure {
       rethrow;
     }
+
     return signedOut;
+  }
+
+  void onChanged() {
+    _isChanged = nameController.text.trim().compareTo(name) != 0;
+    notifyListeners();
+  }
+
+  Future<void> updateOnLoad() async {
+    await update(
+      () async {
+        try {
+          _users = await _service.readUsers();
+          nameController.text = _users.name;
+          notifyListeners();
+        } catch (e) {}
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    super.dispose();
   }
 }

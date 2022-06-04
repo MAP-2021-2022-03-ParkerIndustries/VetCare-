@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 import 'package:vetclinic/model/booking.dart';
 
 import '../../model/Users.dart';
 import '../../model/history.dart';
 import '../../model/pet.dart';
+import '../../utils/error_codes.dart';
 import 'firebase_service.dart';
 
 class FirebaseServiceFirestore extends FirebaseService {
@@ -16,7 +18,7 @@ class FirebaseServiceFirestore extends FirebaseService {
 
   // Sign In with email and password
   @override
-  Future<Users> signIn( email,password) async {
+  Future<Users> signIn(email, password) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -166,31 +168,29 @@ class FirebaseServiceFirestore extends FirebaseService {
   // }
 
   // Update user information
-  // @override
-  // Future updateUserInformation(String name) async {
-  //   try {
-  //     await _firebaseFirestore.collection('Users').doc(currentUser.uid).set(
-  //       {
-  //         'name': name,
-  //       },
-  //       SetOptions(merge: true),
-  //     );
-  //   } on FirebaseAuthException catch (e) {
-  //     throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
-  //   } catch (e) {
-  //     throw '${e.toString()} Error Occured!';
-  //   }
-  // }
-
+  @override
+  Future updateUserInformation(String name) async {
+    try {
+      await _firebaseFirestore.collection('Users').doc(currentUser.uid).set(
+        {
+          'name': name,
+        },
+        SetOptions(merge: true),
+      );
+    } on FirebaseAuthException catch (e) {
+      throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
+    } catch (e) {
+      throw '${e.toString()} Error Occured!';
+    }
+  }
 
   //Booking CRUD
   @override
-  Future<void> MakeBooking(Booking booking) async{
-    
-    var snapshot= await _firebaseFirestore.collection("Booking").doc().set(booking.customerID);
-
-
-
+  Future<void> MakeBooking(Booking booking) async {
+    var snapshot = await _firebaseFirestore
+        .collection("Booking")
+        .doc()
+        .set(booking.customerID);
   }
 
   // Sign Out
@@ -209,7 +209,8 @@ class FirebaseServiceFirestore extends FirebaseService {
   @override
   Stream? get stream => FirebaseFirestore.instance
       .collection("History")
-      .where("customerID", isEqualTo: _firebaseAuth.currentUser?.uid).snapshots();
+      .where("customerID", isEqualTo: _firebaseAuth.currentUser?.uid)
+      .snapshots();
 
   //history
   @override
@@ -241,12 +242,11 @@ class FirebaseServiceFirestore extends FirebaseService {
 
   //register a pet
   @override
-  Future<void> registerPet(Pet pet)async{
+  Future<void> registerPet(Pet pet) async {
     try {
-        var petCollection=  await _firebaseFirestore.collection('Pet').doc();
-        
-        petCollection.set(pet.toJson());
-   
+      var petCollection = await _firebaseFirestore.collection('Pet').doc();
+
+      petCollection.set(pet.toJson());
     } on Failure catch (e) {
       throw Failure(
         400,
@@ -261,8 +261,35 @@ class FirebaseServiceFirestore extends FirebaseService {
 
   //get user id
   @override
-  Future<String?>getUserId()async{
+  Future<String?> getUserId() async {
     return _firebaseAuth.currentUser?.uid;
   }
 
+  @override
+  Future<void> uploadProfileImage() async {
+    final storageRef = FirebaseStorage.instance.ref();
+
+    final userId=getUserId();
+    final mountainsRef = storageRef.child("mountains.jpg");
+
+    final mountainImagesRef = storageRef.child("images/mountains.jpg");
+
+// While the file names are the same, the references point to different files
+    assert(mountainsRef.name == mountainImagesRef.name);
+    assert(mountainsRef.fullPath != mountainImagesRef.fullPath);
+  }
+
+  @override
+  Future<void> uploadPetImage() async {
+    final storageRef = FirebaseStorage.instance.ref();
+
+    final userId=getUserId();
+    final mountainsRef = storageRef.child("mountains.jpg");
+
+    final mountainImagesRef = storageRef.child("images/mountains.jpg");
+
+// While the file names are the same, the references point to different files
+    assert(mountainsRef.name == mountainImagesRef.name);
+    assert(mountainsRef.fullPath != mountainImagesRef.fullPath);
+  }
 }
