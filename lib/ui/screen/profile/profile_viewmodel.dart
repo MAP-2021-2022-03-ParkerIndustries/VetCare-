@@ -9,7 +9,7 @@ import '../../../model/Users.dart';
 class ProfileViewModel extends Viewmodel {
   FirebaseService get _service => locator<FirebaseService>();
   Users _users = Users();
-  String? _name, _email, _roles;
+  String? _name, _email, _roles,profileImg;
   late TextEditingController nameController;
   bool _isEditing = false, _isChanged = false;
 
@@ -35,7 +35,7 @@ class ProfileViewModel extends Viewmodel {
           _name = nameController.text;
           _email = _users.email;
           _roles = _users.role;
-          _service.updateUserInformation(name);
+          _service.updateUserInformation(name,profileImg);
         } on Failure {
           rethrow;
         }
@@ -79,6 +79,10 @@ class ProfileViewModel extends Viewmodel {
         } catch (e) {}
       },
     );
+  }
+
+  Future<void>uploadProfileImage(String filePath, String fileName) async {
+    profileImg=await _service.uploadProfileImage(filePath, fileName);
   }
 
   @override

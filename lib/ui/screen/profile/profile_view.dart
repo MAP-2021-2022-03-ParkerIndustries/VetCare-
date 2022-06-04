@@ -1,4 +1,5 @@
 import 'package:duration_button/duration_button.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:map_mvvm/failure.dart';
 import 'package:map_mvvm/view.dart';
 import 'package:vetclinic/app/app.dart';
@@ -40,7 +41,7 @@ class _ProfileView extends State<ProfileView> {
                 onPressed: () async {
                   signedOut = await model.signout();
                   if (signedOut) {
-                    Navigator.pushNamedAndRemoveUntil(context, Routes.loginRoute, (route) => false);
+                    Navigator.pushReplacementNamed(context, Routes.loginRoute);
                   }
                 },
                 icon: const Icon(Icons.exit_to_app),
@@ -52,9 +53,10 @@ class _ProfileView extends State<ProfileView> {
               child: Form(
                 child: Column(
                   children: [
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 30),
                     _userAvatar(model),
                     _userEmail(model, size),
+                    const SizedBox(height: 10),
                     _userName(model, size),
                   ],
                 ),
@@ -99,16 +101,43 @@ class _ProfileView extends State<ProfileView> {
   }
 
   Widget _userAvatar(model) {
-    return Padding(
-      padding: const EdgeInsets.all(40.0),
-      child: CircleAvatar(
-        child: Text(
-          (model.users.name)!.substring(0, 1).toUpperCase(),
-          style: const TextStyle(fontSize: 30, color: Colors.black),
-        ),
-        maxRadius: 50,
-        backgroundColor: AppTheme.third,
-      ),
+    return Center(
+      child: SizedBox(
+          height: 300,
+          child: Stack(children: [
+            CircleAvatar(
+              maxRadius: 100,
+              backgroundImage: NetworkImage(model.users.profileImg),
+            ),
+            Positioned(
+                right: 10,
+                bottom: 100,
+                child: IconButton(
+                  onPressed: () async {
+                    final results = await FilePicker.platform.pickFiles(
+                        allowMultiple: false,
+                        type: FileType.custom,
+                        allowedExtensions: ['jpg', 'png']);
+
+                    if (results == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('No file selected')),
+                      );
+                      return null;
+                    }
+                    final path = results.files.single.path!;
+                    final fileName = results.files.single.name;
+                    model.uploadProfileImage(path, fileName);
+                    setState(() {
+                      model.updateUser();
+                    });
+                  },
+                  icon: const Icon(
+                    Icons.camera_alt,
+                    size: 50,
+                  ),
+                ))
+          ])),
     );
   }
 
