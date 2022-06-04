@@ -134,7 +134,7 @@ class _RegisterPetState extends State<RegisterPetView> {
               if (_formkey.currentState!.validate()) {
                 try {
                   await viewModel.registerPet(petType, petName);
-                  Navigator.of(context).pushNamed(Routes.customerHomeRoute);
+                  Navigator.of(context).pushNamed(Routes.customerNavRoute);
                 } on Failure catch (e) {
                   final snackbar = SnackBar(
                     content: Text(e.message ?? 'Error'),

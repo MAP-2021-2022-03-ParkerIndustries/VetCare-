@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -205,6 +207,15 @@ class FirebaseServiceFirestore extends FirebaseService {
           location: 'FirebaseService.signOut() on other exceptions');
     }
   }
+
+  // history stream
+@override
+Stream? snapHistory(){
+  return FirebaseFirestore.instance
+      .collection("History")
+      .where("customerID", isEqualTo: _firebaseAuth.currentUser?.uid)
+      .snapshots();
+}
 
   @override
   Stream? get stream => FirebaseFirestore.instance

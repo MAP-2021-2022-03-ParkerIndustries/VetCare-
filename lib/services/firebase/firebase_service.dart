@@ -9,10 +9,6 @@ import '../../model/pet.dart';
 
 abstract class FirebaseService with ServiceStream {
   //authentication
-  // Future<void> register(name, emasil, password);
-  // Future<Users> login(email, password);
-  // Future<void> forgot_password(email);
-  // Future<void> signout();
   Future<void> signUp(name,email,password);
   Future<Users> signIn(email,password);
   Future<void> resetPass(email);
@@ -31,6 +27,7 @@ abstract class FirebaseService with ServiceStream {
   Future<List<History>> getPetHistory();
   Future<void> registerPet(Pet pet);
   Future<String?>getUserId();
+  Stream? snapHistory();
 
   //Firebase storage
   Future<void> uploadProfileImage();

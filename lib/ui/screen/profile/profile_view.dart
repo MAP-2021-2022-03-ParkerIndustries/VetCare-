@@ -40,7 +40,7 @@ class _ProfileView extends State<ProfileView> {
                 onPressed: () async {
                   signedOut = await model.signout();
                   if (signedOut) {
-                    Navigator.pushReplacementNamed(context, Routes.loginRoute);
+                    Navigator.pushNamedAndRemoveUntil(context, Routes.loginRoute, (route) => false);
                   }
                 },
                 icon: const Icon(Icons.exit_to_app),

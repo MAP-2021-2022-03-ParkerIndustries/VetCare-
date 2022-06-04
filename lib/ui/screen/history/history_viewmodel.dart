@@ -10,8 +10,7 @@ class HistoryViewModel extends Viewmodel {
   FirebaseService get _service => locator<FirebaseService>();
   Users _users = Users();
   StreamSubscription? _historyServiceStreamListener;
-  bool get isListeningToHistoryServiceStream =>
-      _historyServiceStreamListener != null;
+  bool get isListeningToHistoryServiceStream =>  _historyServiceStreamListener != null;
 
   Users get users => _users;
   List<History> listHistory = [];
@@ -30,7 +29,6 @@ class HistoryViewModel extends Viewmodel {
         }
       },
     );
-
     _historyServiceStreamListener = _service.listen(
       onDone: dispose,
       onData: ( _data) async {
@@ -38,7 +36,6 @@ class HistoryViewModel extends Viewmodel {
         () async {
          //reset listhistory
           listHistory = [];
-
            //transform querysnapshot => List<History>
           for (var element in _data.docs) {
             listHistory
@@ -68,6 +65,9 @@ class HistoryViewModel extends Viewmodel {
       rethrow;
     }
   }
+
+
+
 
   @override
   void dispose() {
