@@ -91,6 +91,7 @@ class FirebaseServiceFirestore extends FirebaseService {
         'name': name,
         'email': _user.user!.email,
         'role': 'customer',
+        'profilePic':'https://firebasestorage.googleapis.com/v0/b/vetcare-4e23b.appspot.com/o/profilePic.png?alt=media&token=f245930b-0adf-4797-8640-e3d05254c03d'
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -268,17 +269,23 @@ class FirebaseServiceFirestore extends FirebaseService {
   }
 
   @override
-  Future<void> uploadProfileImage() async {
-    final storageRef = FirebaseStorage.instance.ref();
+  Future<String> uploadProfileImage(String filePath,String fileName) async {
+  final FirebaseStorage storage = FirebaseStorage.instance;
+    File file=File(filePath);
+    final userId = _firebaseAuth.currentUser?.uid;
 
-    final userId = getUserId();
-    final mountainsRef = storageRef.child("mountains.jpg");
-
-    final mountainImagesRef = storageRef.child("images/mountains.jpg");
-
-// While the file names are the same, the references point to different files
-    assert(mountainsRef.name == mountainImagesRef.name);
-    assert(mountainsRef.fullPath != mountainImagesRef.fullPath);
+    try {
+      await storage.ref('users/$userId/profilePic/').putFile(file);
+      final imageUrl =
+    await storage.ref().child('users/$userId/profilePic/').getDownloadURL();
+    return imageUrl;
+    } on FirebaseException catch(e) {
+      print(e);
+      throw Failure(
+        400,
+        message: e.toString(),
+      );
+    }
   }
 
   @override

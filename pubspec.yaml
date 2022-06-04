@@ -73,6 +73,7 @@ flutter:
     - assets/veterinarian.png
     - assets/cat.png
     - assets/pets.jpg
+    - assets/profilePic.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

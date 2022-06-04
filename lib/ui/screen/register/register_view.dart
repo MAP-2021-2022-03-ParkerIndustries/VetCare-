@@ -26,6 +26,7 @@ class _RegisterViewState extends State<RegisterView> {
 
   String? confirm_password;
 
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

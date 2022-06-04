@@ -33,6 +33,6 @@ abstract class FirebaseService with ServiceStream {
   Future<dynamic>getUserId();
 
   //Firebase storage
-  Future<void> uploadProfileImage();
+  Future<String> uploadProfileImage(String filePath, String fileName);
   Future<String> uploadPetImage(String filePath, String fileName);
 }

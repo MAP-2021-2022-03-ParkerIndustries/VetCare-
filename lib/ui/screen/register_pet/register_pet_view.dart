@@ -46,7 +46,7 @@ class _RegisterPetState extends State<RegisterPetView> {
               ],
             ),
           ),
-          automaticallyImplyLeading: false,
+          automaticallyImplyLeading: true,
           actions: [
             IconButton(
               onPressed: () {
@@ -108,9 +108,8 @@ class _RegisterPetState extends State<RegisterPetView> {
                         final path=results.files.single.path!;
                         final fileName=results.files.single.name;
                         viewModel.uploadPetImage(path,fileName);
-                        print(fileName);
                         },
-                        child: Text('Upload a File'))
+                        child: Text('Upload Pet Image'))
                   ],
                 )))),
       );

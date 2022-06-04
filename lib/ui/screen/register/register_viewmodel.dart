@@ -89,7 +89,7 @@ class RegisterViewModel extends Viewmodel {
   String email = '';
   String password = '';
   String name = '';
-
+  
   @override
   void init() async {
     super.init();
