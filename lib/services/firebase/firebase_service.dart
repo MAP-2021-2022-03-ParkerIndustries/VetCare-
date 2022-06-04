@@ -1,5 +1,7 @@
 // ignore_for_file: camel_case_types, non_constant_identifier_names
 
+import 'dart:async';
+
 import 'package:map_mvvm/service_stream.dart';
 
 import '../../model/Users.dart';
@@ -26,10 +28,12 @@ abstract class FirebaseService with ServiceStream {
   //history
   Future<List<History>> getPetHistory();
   Future<void> registerPet(Pet pet);
-  Future<String?>getUserId();
+
+  Future<dynamic>getUserId();
   Stream? snapHistory();
 
+
   //Firebase storage
-  Future<void> uploadProfileImage();
-  Future<void> uploadPetImage();
+  Future<String> uploadProfileImage(String filePath, String fileName);
+  Future<String> uploadPetImage(String filePath, String fileName);
 }
