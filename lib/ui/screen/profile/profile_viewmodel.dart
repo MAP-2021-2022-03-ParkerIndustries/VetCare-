@@ -42,6 +42,19 @@ class ProfileViewModel extends Viewmodel {
       },
     );
   }
+  Future<void> resetValue() async {
+    await update(
+      () async {
+        try {
+          nameController.text=name;
+          _profileImg=profileImg;
+
+        } on Failure {
+          rethrow;
+        }
+      },
+    );
+  }
 
   Users get users => _users;
   get name => _name;
