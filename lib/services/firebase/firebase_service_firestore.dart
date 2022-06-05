@@ -179,7 +179,6 @@ class FirebaseServiceFirestore extends FirebaseService {
         {
           'name': name,
           'profileImg':profileImg
-
           
         },
         SetOptions(merge: true),
@@ -300,6 +299,25 @@ Stream? snapHistory(){
       );
     }
   }
+  // @override
+  // Future<String> deleteProfileImage() async {
+  // final FirebaseStorage storage = FirebaseStorage.instance;
+   
+  //   final userId = _firebaseAuth.currentUser?.uid;
+
+  //   try {
+  //     final desertRef = storage.ref().child('users/$userId/profilePic');
+  //     await desertRef.delete();
+  //     var profileImg=   'https://firebasestorage.googleapis.com/v0/b/vetcare-4e23b.appspot.com/o/profilePic.png?alt=media&token=f245930b-0adf-4797-8640-e3d05254c03d';
+  //     return profileImg;
+  //   } on FirebaseException catch(e) {
+  //     print(e);
+  //     throw Failure(
+  //       400,
+  //       message: e.toString(),
+  //     );
+  //   }
+  // }
 
   @override
   Future<String> uploadPetImage(String filePath, String fileName) async {

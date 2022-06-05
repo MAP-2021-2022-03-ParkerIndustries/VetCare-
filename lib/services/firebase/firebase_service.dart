@@ -37,5 +37,6 @@ abstract class FirebaseService with ServiceStream {
 
   //Firebase storage
   Future<String> uploadProfileImage(String filePath, String fileName);
+  // Future<String> deleteProfileImage();
   Future<String> uploadPetImage(String filePath, String fileName);
 }

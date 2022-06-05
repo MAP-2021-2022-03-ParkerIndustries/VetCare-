@@ -25,6 +25,8 @@ class _ProfileView extends State<ProfileView> {
     return View<ProfileViewModel>(
       builder: ((_, model) {
         return Scaffold(
+           resizeToAvoidBottomInset: false,
+
           appBar: AppBar(
             backgroundColor: AppTheme.primary,
             title: const Text('Profile View'),
@@ -107,7 +109,8 @@ class _ProfileView extends State<ProfileView> {
           child: Stack(children: [
             CircleAvatar(
               maxRadius: 100,
-              backgroundImage: NetworkImage(model.users.profileImg),
+              backgroundImage: NetworkImage(
+                model.users.profileImg),
             ),
             Positioned(
                 right: 10,
@@ -136,7 +139,23 @@ class _ProfileView extends State<ProfileView> {
                     Icons.camera_alt,
                     size: 50,
                   ),
-                ))
+                )),
+                //  Positioned(
+                // left: 10,
+                // bottom: 100,
+                // child: IconButton(
+                //   onPressed: () async {
+                    
+                //     model.deleteProfileImage;
+                //     setState(() {
+                //       model.updateUser();
+                //     });
+                //   },
+                //   icon: const Icon(
+                //     Icons.delete,
+                //     size: 50,
+                //   ),
+                // ))
           ])),
     );
   }
