@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:map_mvvm/failure.dart';
 import 'package:map_mvvm/viewmodel.dart';
+import 'package:vetclinic/services/firebase/firebase_service_profile.dart';
 
 import '../../../../../app/service_locator.dart';
 import '../../../services/firebase/firebase_service.dart';
@@ -8,6 +9,7 @@ import '../../../model/Users.dart';
 
 class ProfileViewModel extends Viewmodel {
   FirebaseService get _service => locator<FirebaseService>();
+  FirebaseServiceProfile get _profileservice => locator<FirebaseServiceProfile>();
   Users _users = Users();
   String? _name, _email, _roles, _profileImg;
   late TextEditingController nameController;
@@ -99,7 +101,7 @@ class ProfileViewModel extends Viewmodel {
 
   Future<void> uploadProfileImage(String filePath, String fileName) async {
     try {
-      _profileImg = await _service.uploadProfileImage(filePath, fileName);
+      _profileImg = await _profileservice.uploadProfileImage(filePath, fileName);
     } on Failure{
       rethrow;
     } 

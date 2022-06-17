@@ -9,9 +9,11 @@ import 'package:vetclinic/app/service_locator.dart';
 import 'package:vetclinic/model/pet.dart';
 import 'package:vetclinic/services/firebase/firebase_service.dart';
 import 'package:path/path.dart' as path;
+import 'package:vetclinic/services/firebase/firebase_service_register_pet.dart';
 
 class RegisterPetVM extends Viewmodel {
   FirebaseService get _service => locator<FirebaseService>();
+  FirebaseServiceRegisterPet get _petservice => locator<FirebaseServiceRegisterPet>();
   String petType = '';
   String? petOwner;
   String petName = '';
@@ -36,7 +38,7 @@ final picker = ImagePicker();
 
       _pet.setPet(petType, petOwner, petName,petImageURL);
       await update(() async {
-        await _service.registerPet(_pet);
+        await _petservice.registerPet(_pet);
       });
     } on Failure {
       rethrow;
@@ -44,7 +46,7 @@ final picker = ImagePicker();
   }
 
   Future<void>uploadPetImage(String filePath, String fileName) async {
-    petImageURL=await _service.uploadPetImage(filePath, fileName);
+    petImageURL=await _petservice.uploadPetImage(filePath, fileName);
   }
   // Future<void> selectFile() async {
   //   final ImagePicker picker = ImagePicker();

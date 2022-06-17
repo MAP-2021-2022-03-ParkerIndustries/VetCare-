@@ -6,7 +6,7 @@ import 'package:map_mvvm/service_stream.dart';
 
 import '../../model/Users.dart';
 import '../../model/booking.dart';
-import '../../model/history.dart';
+
 import '../../model/pet.dart';
 
 abstract class FirebaseService with ServiceStream {
@@ -22,21 +22,17 @@ abstract class FirebaseService with ServiceStream {
   Future updateUserInformation(String name, dynamic profileImg);
 
   //Booking
-  Future<void> MakeBooking(Booking booking);
+  // Future<void> MakeBooking(Booking booking);
 
 
   //history
-  Future<List<History>> getPetHistory();
+  // Future<List<History>> getPetHistory();
     //pet
-  Future<void> registerPet(Pet pet);
-    Future<Pet> getPet();
+ 
   Future<dynamic>getUserId();
   
-  Stream? snapHistory();
+  // Stream? snapHistory();
 
 
-  //Firebase storage
-  Future<String> uploadProfileImage(String filePath, String fileName);
-  // Future<String> deleteProfileImage();
-  Future<String> uploadPetImage(String filePath, String fileName);
+ 
 }

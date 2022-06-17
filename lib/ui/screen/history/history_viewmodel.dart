@@ -6,9 +6,14 @@ import 'package:vetclinic/model/Users.dart';
 import 'package:vetclinic/model/history.dart';
 import 'package:vetclinic/services/firebase/firebase_service.dart';
 
+import '../../../services/firebase/firebase_service_history.dart';
+
 class HistoryViewModel extends Viewmodel {
   FirebaseService get _service => locator<FirebaseService>();
+  FirebaseServiceHistory get _serviceHistory => locator<FirebaseServiceHistory>();
+  
   Users _users = Users();
+
   StreamSubscription? _historyServiceStreamListener;
   bool get isListeningToHistoryServiceStream =>  _historyServiceStreamListener != null;
 
@@ -18,18 +23,16 @@ class HistoryViewModel extends Viewmodel {
   @override
   void init() async {
     super.init();
-    // notifyListenersOnFailure = false;
     await update(
       () async {
         try {
           _users = await _service.readUsers();
-          getHistory();
         } on Failure {
           rethrow;
         }
       },
     );
-    _historyServiceStreamListener = _service.listen(
+    _historyServiceStreamListener = _serviceHistory.listen(
       onDone: dispose,
       onData: ( _data) async {
         await update(
@@ -52,22 +55,6 @@ class HistoryViewModel extends Viewmodel {
       },
     );
   }
-
-  Future<List<History>> getHistory() async {
-    try {
-      await update(
-        () async {
-          // listHistory = await _service.getPetHistory();
-        },
-      );
-      return listHistory;
-    } on Failure {
-      rethrow;
-    }
-  }
-
-
-
 
   @override
   void dispose() {

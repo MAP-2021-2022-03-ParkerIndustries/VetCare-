@@ -9,6 +9,9 @@ import 'package:vetclinic/ui/screen/login/login_viewmodel.dart';
 import 'package:vetclinic/ui/screen/profile/profile_viewmodel.dart';
 import 'package:vetclinic/ui/screen/register/register_viewmodel.dart';
 
+import '../services/firebase/firebase_service_history.dart';
+import '../services/firebase/firebase_service_profile.dart';
+import '../services/firebase/firebase_service_register_pet.dart';
 import '../services/initializer/service_initializer.dart';
 import '../services/initializer/service_initializer_firebase.dart';
 import '../ui/screen/customer_home/customer_home_viewmodel.dart';
@@ -16,23 +19,26 @@ import '../ui/screen/customer_home/customer_home_viewmodel.dart';
 final locator = ServiceLocator.locator;
 
 Future<void> initializeServiceLocator() async {
-  locator.registerLazySingleton<ServiceInitializer>(
-      () => ServiceInitializerFirebase());
+  locator.registerLazySingleton<ServiceInitializer>(() => ServiceInitializerFirebase());
 
   final serviceInitializer = locator<ServiceInitializer>();
   await serviceInitializer.init();
 
   // Register Services
+  locator.registerLazySingleton<FirebaseService>(() => FirebaseServiceFirestore()); //original
+  locator.registerLazySingleton<FirebaseServiceHistory>(() =>FirebaseServiceHistory());
+  locator.registerLazySingleton<FirebaseServiceRegisterPet>(() =>FirebaseServiceRegisterPet());
+  locator.registerLazySingleton<FirebaseServiceProfile>(() =>FirebaseServiceProfile());
 
-  locator.registerLazySingleton<FirebaseService>(() => FirebaseServiceFirestore());
+
+  //Register Models
+ 
   locator.registerLazySingleton<CustomerHomeViewModel>(() => CustomerHomeViewModel());
   locator.registerLazySingleton<VetHomeViewModel>(() => VetHomeViewModel());
   locator.registerLazySingleton<RegisterViewModel>(() => RegisterViewModel());
   locator.registerLazySingleton<LoginViewModel>(() => LoginViewModel());
-  // locator.registerLazySingleton<SignoutViewmodel>(() => SignoutViewmodel());
   locator.registerLazySingleton<ForgotPasswordViewModel>(() => ForgotPasswordViewModel());
   locator.registerLazySingleton<ProfileViewModel>(() => ProfileViewModel());
-  // locator.registerLazySingleton<EditProfileViewmodel>(() => EditProfileViewmodel());
   locator.registerLazySingleton<HistoryViewModel>(() => HistoryViewModel());
   locator.registerLazySingleton<RegisterPetVM>(() => RegisterPetVM());
 }

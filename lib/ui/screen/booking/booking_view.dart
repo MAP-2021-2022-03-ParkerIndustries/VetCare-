@@ -48,7 +48,7 @@ class _BookingViewState extends State<BookingView> {
     return TextFormField(
       decoration: const InputDecoration(
     icon: Icon(Icons.person),
-    hintText: 'Enter you pet Name',
+    hintText: 'Enter your pet Name',
     labelText: 'Pet Name',
   ),
 
