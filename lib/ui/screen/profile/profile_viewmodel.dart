@@ -9,7 +9,7 @@ import '../../../model/Users.dart';
 class ProfileViewModel extends Viewmodel {
   FirebaseService get _service => locator<FirebaseService>();
   Users _users = Users();
-  String? _name, _email, _roles;
+  String? _name, _email, _roles, _profileImg;
   late TextEditingController nameController;
   bool _isEditing = false, _isChanged = false;
 
@@ -23,7 +23,7 @@ class ProfileViewModel extends Viewmodel {
         try {
           _users = await _service.readUsers();
           nameController = TextEditingController(text: _users.name);
-        } catch (e) {}
+        } on Failure{rethrow;}
       },
     );
   }
@@ -35,7 +35,20 @@ class ProfileViewModel extends Viewmodel {
           _name = nameController.text;
           _email = _users.email;
           _roles = _users.role;
-          _service.updateUserInformation(name);
+          _service.updateUserInformation(name, _profileImg);
+        } on Failure {
+          rethrow;
+        }
+      },
+    );
+  }
+  Future<void> resetValue() async {
+    await update(
+      () async {
+        try {
+          nameController.text=name;
+          _profileImg=profileImg;
+
         } on Failure {
           rethrow;
         }
@@ -47,6 +60,7 @@ class ProfileViewModel extends Viewmodel {
   get name => _name;
   get email => _email;
   get roles => _roles;
+  get profileImg => _profileImg;
   set name(input) => _name;
 
   Future<bool> signout() async {
@@ -76,10 +90,29 @@ class ProfileViewModel extends Viewmodel {
           _users = await _service.readUsers();
           nameController.text = _users.name;
           notifyListeners();
-        } catch (e) {}
+        } on Failure {
+          rethrow;
+        }
       },
     );
   }
+
+  Future<void> uploadProfileImage(String filePath, String fileName) async {
+    try {
+      _profileImg = await _service.uploadProfileImage(filePath, fileName);
+    } on Failure{
+      rethrow;
+    } 
+    
+  }
+  // Future<void> deleteProfileImage() async {
+  //   try {
+  //     _profileImg=await _service.deleteProfileImage();
+  //   } on Failure{
+  //     rethrow;
+  //   } 
+    
+  // }
 
   @override
   void dispose() {

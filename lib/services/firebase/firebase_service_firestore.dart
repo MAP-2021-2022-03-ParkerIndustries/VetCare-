@@ -93,8 +93,7 @@ class FirebaseServiceFirestore extends FirebaseService {
         'name': name,
         'email': _user.user!.email,
         'role': 'customer',
-        'profilePic':
-            'https://firebasestorage.googleapis.com/v0/b/vetcare-4e23b.appspot.com/o/profilePic.png?alt=media&token=f245930b-0adf-4797-8640-e3d05254c03d'
+        'profileImg':'https://firebasestorage.googleapis.com/v0/b/vetcare-4e23b.appspot.com/o/profilePic.png?alt=media&token=f245930b-0adf-4797-8640-e3d05254c03d'
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -175,11 +174,13 @@ class FirebaseServiceFirestore extends FirebaseService {
 
   // Update user information
   @override
-  Future updateUserInformation(String name) async {
+  Future updateUserInformation(String name,dynamic profileImg) async {
     try {
       await _firebaseFirestore.collection('Users').doc(currentUser.uid).set(
         {
           'name': name,
+          'profileImg':profileImg
+          
         },
         SetOptions(merge: true),
       );
@@ -334,6 +335,25 @@ class FirebaseServiceFirestore extends FirebaseService {
       );
     }
   }
+  // @override
+  // Future<String> deleteProfileImage() async {
+  // final FirebaseStorage storage = FirebaseStorage.instance;
+   
+  //   final userId = _firebaseAuth.currentUser?.uid;
+
+  //   try {
+  //     final desertRef = storage.ref().child('users/$userId/profilePic');
+  //     await desertRef.delete();
+  //     var profileImg=   'https://firebasestorage.googleapis.com/v0/b/vetcare-4e23b.appspot.com/o/profilePic.png?alt=media&token=f245930b-0adf-4797-8640-e3d05254c03d';
+  //     return profileImg;
+  //   } on FirebaseException catch(e) {
+  //     print(e);
+  //     throw Failure(
+  //       400,
+  //       message: e.toString(),
+  //     );
+  //   }
+  // }
 
   @override
   Future<String> uploadPetImage(String filePath, String fileName) async {
@@ -356,4 +376,25 @@ class FirebaseServiceFirestore extends FirebaseService {
       );
     }
   }
+
+ @override
+  Future<Pet> getPet() async{
+    try {
+      final doc = await FirebaseFirestore.instance
+          .doc('Users/${currentUser.uid}')
+          .get();
+      final pet = Pet.fromJson(doc.data()!);
+      return pet;
+    } on FirebaseException catch (e) {
+      throw Failure(100,
+          message: e.toString(),
+          location: 'UsersServiceFireStore.readPet() on FirebaseException');
+    } catch (e) {
+      throw Failure(101,
+          message: e.toString(),
+          location: 'UsersServiceFireStore.readPet() on other exception');
+    }
+
+  }
+
 }

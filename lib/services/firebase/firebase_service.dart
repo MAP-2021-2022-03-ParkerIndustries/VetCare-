@@ -19,7 +19,7 @@ abstract class FirebaseService with ServiceStream {
   //users
   Future<Users> readUsers();
   Future<Users> writeUsers(Users users);
-  Future updateUserInformation(String name);
+  Future updateUserInformation(String name, dynamic profileImg);
 
   //Booking
   Future<void> MakeBooking(Booking booking);
@@ -27,13 +27,16 @@ abstract class FirebaseService with ServiceStream {
 
   //history
   Future<List<History>> getPetHistory();
+    //pet
   Future<void> registerPet(Pet pet);
-
+    Future<Pet> getPet();
   Future<dynamic>getUserId();
+  
   Stream? snapHistory();
 
 
   //Firebase storage
   Future<String> uploadProfileImage(String filePath, String fileName);
+  // Future<String> deleteProfileImage();
   Future<String> uploadPetImage(String filePath, String fileName);
 }
