@@ -1,15 +1,11 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:map_mvvm/map_mvvm.dart';
-import 'package:vetclinic/model/booking.dart';
 import 'package:vetclinic/model/vet.dart';
 
 import '../../model/Users.dart';
-import '../../model/history.dart';
 import '../../model/pet.dart';
 import '../../utils/error_codes.dart';
 import 'firebase_service.dart';
@@ -38,6 +34,19 @@ class FirebaseServiceFirestore extends FirebaseService {
       }
     }
     return readUsers();
+  }
+
+  // Sign Out
+  @override
+  Future<bool> signOut() async {
+    try {
+      await _firebaseAuth.signOut();
+      return true;
+    } on Failure catch (e) {
+      throw Failure(300,
+          message: e.toString(),
+          location: 'FirebaseService.signOut() on other exceptions');
+    }
   }
 
   //read user
@@ -123,55 +132,6 @@ class FirebaseServiceFirestore extends FirebaseService {
     }
   }
 
-  // Save Favorites
-  // @override
-  // Future saveFavorites(List<String> countries) async {
-  //   try {
-  //     await _firebaseFirestore.collection('Users').doc(currentUser.uid).set(
-  //       {
-  //         'favorites': countries,
-  //       },
-  //       SetOptions(merge: true),
-  //     );
-  //   } on FirebaseAuthException catch (e) {
-  //     throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
-  //   } catch (e) {
-  //     throw '${e.toString()} Error Occured!';
-  //   }
-  // }
-
-  // Fetch Favorites
-  // Future<List<String>> fetchFavorites() async {
-  //   try {
-  //     var snapshot = await _firebaseFirestore
-  //         .collection('Users')
-  //         .doc(currentUser.uid)
-  //         .get();
-  //     return List.castFrom<dynamic, String>(
-  //         snapshot.data()?['favorites'] ?? []);
-  //   } on FirebaseAuthException catch (e) {
-  //     throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
-  //   } catch (e) {
-  //     throw '${e.toString()} Error Occured!';
-  //   }
-  // }
-
-  // Fetch User Information
-  // @override
-  // Future<String> fetchUserInformation() async {
-  //   try {
-  //     var snapshot = await _firebaseFirestore
-  //         .collection('Users')
-  //         .doc(currentUser.uid)
-  //         .get();
-  //     return snapshot.data()?['name'] as String;
-  //   } on FirebaseAuthException catch (e) {
-  //     throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
-  //   } catch (e) {
-  //     throw '${e.toString()} Error Occured!';
-  //   }
-  // }
-
   // Update user information
   @override
   Future updateUserInformation(String name,dynamic profileImg) async {
@@ -190,37 +150,7 @@ class FirebaseServiceFirestore extends FirebaseService {
       throw '${e.toString()} Error Occured!';
     }
   }
-//firebase cloud function for booking and users relation
-  //Booking CRUD
-  @override
-  Future<void> makeBooking(Booking booking) async {
-    try {
-      var book = await _firebaseFirestore
-          .collection("Booking")
-          .doc()
-          .set(booking.toJson());
-    } on Failure catch (e) {
-      throw Failure(
-        400,
-        message: e.toString(),
-      );
-    }
-  }
 
-  @override
-  Future<void> cancelBooking(Booking booking) async {
-    try {
-      var cbook = await _firebaseFirestore
-          .collection("Booking")
-          .doc().delete();
-
-    } on Failure catch (e) {
-      throw Failure(
-        400,
-        message: e.toString(),
-      );
-    }
-  }
 
   //Vet Crud
   @override
@@ -233,80 +163,12 @@ class FirebaseServiceFirestore extends FirebaseService {
     }
   }
 
-  // Sign Out
-  @override
-  Future<bool> signOut() async {
-    try {
-      await _firebaseAuth.signOut();
-      return true;
-    } on Failure catch (e) {
-      throw Failure(300,
-          message: e.toString(),
-          location: 'FirebaseService.signOut() on other exceptions');
-    }
-  }
 
-  // history stream
-  @override
-  Stream? snapHistory() {
-    return FirebaseFirestore.instance
-        .collection("History")
-        .where("customerID", isEqualTo: _firebaseAuth.currentUser?.uid)
-        .snapshots();
-  }
 
-  @override
-  Stream? get stream => FirebaseFirestore.instance
-      .collection("History")
-      .where("customerID", isEqualTo: _firebaseAuth.currentUser?.uid)
-      .snapshots();
-
-  //history
-  @override
-  Future<List<History>> getPetHistory() async {
-    try {
-      List<History> listHistory = [];
-
-      QuerySnapshot qsnap = await _firebaseFirestore
-          .collection("History")
-          .where("customerID", isEqualTo: _firebaseAuth.currentUser?.uid)
-          .get();
-      //cara 1
-      for (var element in qsnap.docs) {
-        listHistory
-            .add(History.fromJson(element.data() as Map<String, dynamic>));
-      }
-
-      //cara 2
-      // listHistory = qsnap.docs.map((doc) => History.fromJson(doc.data() as Map<String,dynamic>)).toList();
-      return listHistory;
-    } on Failure catch (e) {
-      throw Failure(
-        400,
-        message: e.toString(),
-        location: 'FirebaseService.getPetHistory',
-      );
-    }
-  }
 
   //register a pet
   @override
-  Future<void> registerPet(Pet pet) async {
-    try {
-      var petCollection = await _firebaseFirestore.collection('Pet').doc();
 
-      petCollection.set(pet.toJson());
-    } on Failure catch (e) {
-      throw Failure(
-        400,
-        message: e.toString(),
-      );
-    }
-  }
-
-  Future<void> checkUserLoggedIn() async {
-    if (_firebaseAuth.currentUser?.uid == null) {}
-  }
 
   //get user id
   @override
@@ -314,68 +176,11 @@ class FirebaseServiceFirestore extends FirebaseService {
     return _firebaseAuth.currentUser?.uid;
   }
 
-  @override
-  Future<String> uploadProfileImage(String filePath, String fileName) async {
-    final FirebaseStorage storage = FirebaseStorage.instance;
-    File file = File(filePath);
-    final userId = _firebaseAuth.currentUser?.uid;
-
-    try {
-      await storage.ref('users/$userId/profilePic/').putFile(file);
-      final imageUrl = await storage
-          .ref()
-          .child('users/$userId/profilePic/')
-          .getDownloadURL();
-      return imageUrl;
-    } on FirebaseException catch (e) {
-      print(e);
-      throw Failure(
-        400,
-        message: e.toString(),
-      );
-    }
-  }
+  
   // @override
-  // Future<String> deleteProfileImage() async {
-  // final FirebaseStorage storage = FirebaseStorage.instance;
-   
-  //   final userId = _firebaseAuth.currentUser?.uid;
+  
 
-  //   try {
-  //     final desertRef = storage.ref().child('users/$userId/profilePic');
-  //     await desertRef.delete();
-  //     var profileImg=   'https://firebasestorage.googleapis.com/v0/b/vetcare-4e23b.appspot.com/o/profilePic.png?alt=media&token=f245930b-0adf-4797-8640-e3d05254c03d';
-  //     return profileImg;
-  //   } on FirebaseException catch(e) {
-  //     print(e);
-  //     throw Failure(
-  //       400,
-  //       message: e.toString(),
-  //     );
-  //   }
-  // }
 
-  @override
-  Future<String> uploadPetImage(String filePath, String fileName) async {
-    final FirebaseStorage storage = FirebaseStorage.instance;
-    File file = File(filePath);
-    final userId = _firebaseAuth.currentUser?.uid;
-
-    try {
-      await storage.ref('users/$userId/pet/$fileName').putFile(file);
-      final imageUrl = await storage
-          .ref()
-          .child('users/$userId/pet/$fileName')
-          .getDownloadURL();
-      return imageUrl;
-    } on FirebaseException catch (e) {
-      print(e);
-      throw Failure(
-        400,
-        message: e.toString(),
-      );
-    }
-  }
 
  @override
   Future<Pet> getPet() async{
