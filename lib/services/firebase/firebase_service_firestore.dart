@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 import 'package:vetclinic/model/booking.dart';
+import 'package:vetclinic/model/vet.dart';
 
 import '../../model/Users.dart';
 import '../../model/history.dart';
@@ -92,7 +93,8 @@ class FirebaseServiceFirestore extends FirebaseService {
         'name': name,
         'email': _user.user!.email,
         'role': 'customer',
-        'profilePic':'https://firebasestorage.googleapis.com/v0/b/vetcare-4e23b.appspot.com/o/profilePic.png?alt=media&token=f245930b-0adf-4797-8640-e3d05254c03d'
+        'profilePic':
+            'https://firebasestorage.googleapis.com/v0/b/vetcare-4e23b.appspot.com/o/profilePic.png?alt=media&token=f245930b-0adf-4797-8640-e3d05254c03d'
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -187,14 +189,47 @@ class FirebaseServiceFirestore extends FirebaseService {
       throw '${e.toString()} Error Occured!';
     }
   }
-
+//firebase cloud function for booking and users relation
   //Booking CRUD
   @override
-  Future<void> MakeBooking(Booking booking) async {
-    var snapshot = await _firebaseFirestore
-        .collection("Booking")
-        .doc()
-        .set(booking.customerID);
+  Future<void> makeBooking(Booking booking) async {
+    try {
+      var book = await _firebaseFirestore
+          .collection("Booking")
+          .doc()
+          .set(booking.toJson());
+    } on Failure catch (e) {
+      throw Failure(
+        400,
+        message: e.toString(),
+      );
+    }
+  }
+
+  @override
+  Future<void> cancelBooking(Booking booking) async {
+    try {
+      var cbook = await _firebaseFirestore
+          .collection("Booking")
+          .doc().delete();
+
+    } on Failure catch (e) {
+      throw Failure(
+        400,
+        message: e.toString(),
+      );
+    }
+  }
+
+  //Vet Crud
+  @override
+  Future<void> registerVet(Vet doctor) async {
+    try {
+      var vet =
+          await _firebaseFirestore.collection("Vet").doc().set(doctor.toJson());
+    } on Failure catch (e) {
+      throw Failure(400, message: e.toString());
+    }
   }
 
   // Sign Out
@@ -211,13 +246,13 @@ class FirebaseServiceFirestore extends FirebaseService {
   }
 
   // history stream
-@override
-Stream? snapHistory(){
-  return FirebaseFirestore.instance
-      .collection("History")
-      .where("customerID", isEqualTo: _firebaseAuth.currentUser?.uid)
-      .snapshots();
-}
+  @override
+  Stream? snapHistory() {
+    return FirebaseFirestore.instance
+        .collection("History")
+        .where("customerID", isEqualTo: _firebaseAuth.currentUser?.uid)
+        .snapshots();
+  }
 
   @override
   Stream? get stream => FirebaseFirestore.instance
@@ -279,17 +314,19 @@ Stream? snapHistory(){
   }
 
   @override
-  Future<String> uploadProfileImage(String filePath,String fileName) async {
-  final FirebaseStorage storage = FirebaseStorage.instance;
-    File file=File(filePath);
+  Future<String> uploadProfileImage(String filePath, String fileName) async {
+    final FirebaseStorage storage = FirebaseStorage.instance;
+    File file = File(filePath);
     final userId = _firebaseAuth.currentUser?.uid;
 
     try {
       await storage.ref('users/$userId/profilePic/').putFile(file);
-      final imageUrl =
-    await storage.ref().child('users/$userId/profilePic/').getDownloadURL();
-    return imageUrl;
-    } on FirebaseException catch(e) {
+      final imageUrl = await storage
+          .ref()
+          .child('users/$userId/profilePic/')
+          .getDownloadURL();
+      return imageUrl;
+    } on FirebaseException catch (e) {
       print(e);
       throw Failure(
         400,
@@ -301,15 +338,17 @@ Stream? snapHistory(){
   @override
   Future<String> uploadPetImage(String filePath, String fileName) async {
     final FirebaseStorage storage = FirebaseStorage.instance;
-    File file=File(filePath);
+    File file = File(filePath);
     final userId = _firebaseAuth.currentUser?.uid;
 
     try {
       await storage.ref('users/$userId/pet/$fileName').putFile(file);
-      final imageUrl =
-    await storage.ref().child('users/$userId/pet/$fileName').getDownloadURL();
-    return imageUrl;
-    } on FirebaseException catch(e) {
+      final imageUrl = await storage
+          .ref()
+          .child('users/$userId/pet/$fileName')
+          .getDownloadURL();
+      return imageUrl;
+    } on FirebaseException catch (e) {
       print(e);
       throw Failure(
         400,
@@ -317,6 +356,4 @@ Stream? snapHistory(){
       );
     }
   }
-
-
 }
