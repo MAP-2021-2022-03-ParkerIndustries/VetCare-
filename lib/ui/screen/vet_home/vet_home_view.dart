@@ -21,7 +21,7 @@ class VetHomeView extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(Routes.profileRoute);
+              Navigator.of(context).pushNamed(Routes.vetBookingListRoute);
             },
             icon: const Icon(Icons.person),
           ),

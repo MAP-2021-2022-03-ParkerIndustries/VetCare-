@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:vetclinic/app/routes.dart';
 import 'package:vetclinic/utils/app_theme.dart';
 
-class VetBookingListAppBar extends StatefulWidget {
+class VetBookingListAppBar extends StatefulWidget implements PreferredSizeWidget{
   const VetBookingListAppBar({ Key? key }) : super(key: key);
 
   @override
   State<VetBookingListAppBar> createState() => _VetBookingListAppBarState();
+  
+  @override
+  Size get preferredSize => const Size.fromHeight(50);
 }
 
 class _VetBookingListAppBarState extends State<VetBookingListAppBar> {

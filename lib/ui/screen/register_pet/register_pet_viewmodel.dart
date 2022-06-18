@@ -38,6 +38,9 @@ final picker = ImagePicker();
 
       _pet.setPet(petType, petOwner, petName,petImageURL);
       await update(() async {
+         if(petImageURL=="") {
+          petImageURL='https://firebasestorage.googleapis.com/v0/b/vetcare-4e23b.appspot.com/o/profilePic.png?alt=media&token=f245930b-0adf-4797-8640-e3d05254c03d';
+        }
         await _petservice.registerPet(_pet);
       });
     } on Failure {
