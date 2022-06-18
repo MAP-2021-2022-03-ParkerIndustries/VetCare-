@@ -41,7 +41,7 @@ class _VetBookingListBodyState extends State<VetBookingListBody> {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: SizedBox(
-                        height: 200,
+                        height: 170,
                         child: Row(children: [
                           Image.network(
                             viewModel.pet.petImageURL,
@@ -84,11 +84,7 @@ class _VetBookingListBodyState extends State<VetBookingListBody> {
                                         child: Text("Payment Type"),
                                       ),
                                       SizedBox(height: 15),
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 10),
-                                        child: Text("Appointment Status"),
-                                      ),
-                                      SizedBox(height: 15),
+                                     
                                     ],
                                   ),
                                   Column(
