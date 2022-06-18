@@ -1,9 +1,9 @@
 import 'package:map_mvvm/failure.dart';
 import 'package:map_mvvm/viewmodel.dart';
 
-import '../../../app/service_locator.dart';
-import '../services/firebase/firebase_service.dart';
-import '../model/Users.dart';
+import '../../../../../app/service_locator.dart';
+import '../../../services/firebase/firebase_service.dart';
+import '../../../model/Users.dart';
 
 class LoginViewModel extends Viewmodel {
   FirebaseService get _service => locator<FirebaseService>();

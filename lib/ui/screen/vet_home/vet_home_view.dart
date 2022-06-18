@@ -44,6 +44,7 @@ class VetHomeView extends StatelessWidget {
           BottomNavigationBarItem(
             icon: Icon(Icons.star),
             label: 'Favorites',
+
           ),
         ],
       ),

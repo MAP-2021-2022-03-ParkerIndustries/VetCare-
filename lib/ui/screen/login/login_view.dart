@@ -1,60 +1,55 @@
 import 'package:map_mvvm/map_mvvm.dart';
 import 'package:vetclinic/app/routes.dart';
 import 'package:vetclinic/ui/components/custom_text_field.dart';
-
 import 'package:vetclinic/utils/app_theme.dart';
-import 'package:vetclinic/utils/validators.dart';
-import 'package:vetclinic/viewmodel/register_viewmodel.dart';
+import 'package:vetclinic/ui/screen/login/login_viewmodel.dart';
 import 'package:flutter/material.dart';
+import 'package:vetclinic/utils/validators.dart';
 
-class RegisterView extends StatefulWidget {
-  static Route route() => MaterialPageRoute(builder: (_) => RegisterView());
-  const RegisterView({Key? key}) : super(key: key);
+class LoginView extends StatefulWidget {
+  static Route route() => MaterialPageRoute(builder: (_) => LoginView());
+  const LoginView({Key? key}) : super(key: key);
 
   @override
-  State<RegisterView> createState() => _RegisterViewState();
+  State<LoginView> createState() => _LoginViewState();
 }
 
-class _RegisterViewState extends State<RegisterView> {
+class _LoginViewState extends State<LoginView> {
   final _formkey = GlobalKey<FormState>();
 
-  String? name;
-
   String? email;
-
   String? password;
-
-  String? confirm_password;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: const Color.fromARGB(255, 255, 230, 204),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Form(
-            key: _formkey,
-            child: Center(
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Form(
+              key: _formkey,
               child: SingleChildScrollView(
+                physics: const ScrollPhysics(),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Image.asset('assets/VetCare_logo.png'),
                     const Text(
-                      'Sign Up',
+                      'Sign In',
                       style: AppTheme.headline1,
                     ),
                     const SizedBox(height: 40),
-                    _buildNameTextField(),
-                    const SizedBox(height: 20),
                     _buildEmailTextField(),
                     const SizedBox(height: 20),
                     _buildPasswordTextField(),
                     const SizedBox(height: 20),
-                    _buildConfirmPasswordTextField(),
-                    _buildLogInButton(),
-                    _buildRegisterButton(),
+                    _buildLoginButton(),
+                    const SizedBox(height: 10),
+                    _buildCreateAccountButton(),
+                    _buildForgetPassword(),
                   ],
                 ),
               ),
@@ -65,61 +60,41 @@ class _RegisterViewState extends State<RegisterView> {
     );
   }
 
-  Widget _buildNameTextField() {
-    return CustomTextField(
-      onChanged: (input) => name = input,
-      label: 'Name',
-      hint: 'Enter your name',
-      prefix: Icons.person,
-      validator: (input) => Validator.validateName(name: input),
-    );
-  }
-
   Widget _buildEmailTextField() {
     return CustomTextField(
-      onChanged: (input) => email = input,
       label: 'Email',
+      onChanged: (input) {
+        email = input;
+      },
       hint: 'Enter your email',
       prefix: Icons.email,
-      validator: (input) => Validator.validateEmail(email: input),
+      validator: (text) => Validator.validateEmail(email: email),
     );
   }
 
   Widget _buildPasswordTextField() {
     return CustomTextField(
-      onChanged: (input) => password = input,
+      onChanged: (text) => password = text,
       label: 'Password',
       hint: 'Enter your password',
       prefix: Icons.lock,
+      validator: (text) => Validator.validatePassword(password: text),
       isHidden: true,
-      validator: (input) => Validator.validatePassword(password: input),
     );
   }
 
-  Widget _buildConfirmPasswordTextField() {
-    return CustomTextField(
-      onChanged: (input) => confirm_password = input,
-      label: 'Confirm Password',
-      hint: 'Again Enter your password',
-      prefix: Icons.lock,
-      isHidden: true,
-      validator: (input) => Validator.validateConfirmPassword(
-          password: password, confirmPassword: input),
-    );
-  }
-
-  Widget _buildLogInButton() {
+  Widget _buildCreateAccountButton() {
     return Align(
       alignment: Alignment.center,
       child: TextButton(
         onPressed: () {
-          Navigator.of(context).pushNamed(Routes.loginRoute);
+          Navigator.of(context).pushNamed(Routes.registerRoute);
         },
         style: ButtonStyle(
           overlayColor: MaterialStateProperty.all(Colors.transparent),
         ),
         child: Text(
-          'Already have an account?',
+          "Don't have an account? Create one",
           style: AppTheme.bodyText1.copyWith(
             color: AppTheme.primary,
           ),
@@ -128,9 +103,10 @@ class _RegisterViewState extends State<RegisterView> {
     );
   }
 
-  Widget _buildRegisterButton() {
-    return View<RegisterViewModel>(builder: (_, viewModel) {
+  Widget _buildLoginButton() {
+    return View<LoginViewModel>(builder: (_, viewModel) {
       return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
             child: ElevatedButton(
@@ -141,18 +117,20 @@ class _RegisterViewState extends State<RegisterView> {
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
               ),
-              // onPressed: () => _formkey.currentState!.validate()
-              //     ? _model.register().then((value) {
-              //         if (!value) return;
-              //         Navigator.of(_context).pushReplacementNamed(HomeView.id);
-              //       })
-              //     : null,
               onPressed: () async {
                 if (_formkey.currentState!.validate()) {
                   try {
-                    await viewModel.register(name, email, password);
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('New account...')));
-                    Navigator.of(context).pushNamed(Routes.loginRoute);
+                    await viewModel.login(email, password);
+                    //insert personalization here
+
+                    // print(viewModel.users.role);
+        
+                    if (viewModel.users.role == 'vet') {
+                      Navigator.of(context).pushNamed(Routes.vetHomeRoute);
+                    }
+                    else{
+                      Navigator.of(context).pushNamed(Routes.customerNavRoute);
+                    }
                   } on Failure catch (e) {
                     final snackbar = SnackBar(
                       content: Text(e.message ?? 'Error'),
@@ -165,12 +143,32 @@ class _RegisterViewState extends State<RegisterView> {
               },
               child: const Padding(
                 padding: EdgeInsets.all(10.0),
-                child: Text('Sign Up'),
+                child: Text('Log In'),
               ),
             ),
           ),
         ],
       );
     });
+  }
+
+  Widget _buildForgetPassword() {
+    return Align(
+      alignment: Alignment.center,
+      child: TextButton(
+        onPressed: () {
+          Navigator.of(context).pushReplacementNamed(Routes.forgotPassRoute);
+        },
+        style: ButtonStyle(
+          overlayColor: MaterialStateProperty.all(Colors.transparent),
+        ),
+        child: Text(
+          "Forget Password",
+          style: AppTheme.bodyText1.copyWith(
+            color: AppTheme.primary,
+          ),
+        ),
+      ),
+    );
   }
 }

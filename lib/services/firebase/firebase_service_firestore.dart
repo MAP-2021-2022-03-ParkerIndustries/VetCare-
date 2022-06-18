@@ -1,8 +1,13 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:map_mvvm/map_mvvm.dart';
+import 'package:vetclinic/model/vet.dart';
 
 import '../../model/Users.dart';
+import '../../model/pet.dart';
+import '../../utils/error_codes.dart';
 import 'firebase_service.dart';
 
 class FirebaseServiceFirestore extends FirebaseService {
@@ -13,7 +18,7 @@ class FirebaseServiceFirestore extends FirebaseService {
 
   // Sign In with email and password
   @override
-  Future<Users> signIn( email,password) async {
+  Future<Users> signIn(email, password) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
@@ -29,6 +34,19 @@ class FirebaseServiceFirestore extends FirebaseService {
       }
     }
     return readUsers();
+  }
+
+  // Sign Out
+  @override
+  Future<bool> signOut() async {
+    try {
+      await _firebaseAuth.signOut();
+      return true;
+    } on Failure catch (e) {
+      throw Failure(300,
+          message: e.toString(),
+          location: 'FirebaseService.signOut() on other exceptions');
+    }
   }
 
   //read user
@@ -84,6 +102,7 @@ class FirebaseServiceFirestore extends FirebaseService {
         'name': name,
         'email': _user.user!.email,
         'role': 'customer',
+        'profileImg':'https://firebasestorage.googleapis.com/v0/b/vetcare-4e23b.appspot.com/o/profilePic.png?alt=media&token=f245930b-0adf-4797-8640-e3d05254c03d'
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -113,82 +132,74 @@ class FirebaseServiceFirestore extends FirebaseService {
     }
   }
 
-  // Save Favorites
-  // @override
-  // Future saveFavorites(List<String> countries) async {
-  //   try {
-  //     await _firebaseFirestore.collection('Users').doc(currentUser.uid).set(
-  //       {
-  //         'favorites': countries,
-  //       },
-  //       SetOptions(merge: true),
-  //     );
-  //   } on FirebaseAuthException catch (e) {
-  //     throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
-  //   } catch (e) {
-  //     throw '${e.toString()} Error Occured!';
-  //   }
-  // }
-
-  // Fetch Favorites
-  // Future<List<String>> fetchFavorites() async {
-  //   try {
-  //     var snapshot = await _firebaseFirestore
-  //         .collection('Users')
-  //         .doc(currentUser.uid)
-  //         .get();
-  //     return List.castFrom<dynamic, String>(
-  //         snapshot.data()?['favorites'] ?? []);
-  //   } on FirebaseAuthException catch (e) {
-  //     throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
-  //   } catch (e) {
-  //     throw '${e.toString()} Error Occured!';
-  //   }
-  // }
-
-  // Fetch User Information
-  // @override
-  // Future<String> fetchUserInformation() async {
-  //   try {
-  //     var snapshot = await _firebaseFirestore
-  //         .collection('Users')
-  //         .doc(currentUser.uid)
-  //         .get();
-  //     return snapshot.data()?['name'] as String;
-  //   } on FirebaseAuthException catch (e) {
-  //     throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
-  //   } catch (e) {
-  //     throw '${e.toString()} Error Occured!';
-  //   }
-  // }
-
   // Update user information
-  // @override
-  // Future updateUserInformation(String name) async {
-  //   try {
-  //     await _firebaseFirestore.collection('Users').doc(currentUser.uid).set(
-  //       {
-  //         'name': name,
-  //       },
-  //       SetOptions(merge: true),
-  //     );
-  //   } on FirebaseAuthException catch (e) {
-  //     throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
-  //   } catch (e) {
-  //     throw '${e.toString()} Error Occured!';
-  //   }
-  // }
-
-  // Sign Out
   @override
-  Future<bool> signOut() async {
+  Future updateUserInformation(String name,dynamic profileImg) async {
     try {
-      await _firebaseAuth.signOut();
-      return true;
-    } on Failure catch (e) {
-      throw Failure(300,
-          message: e.toString(),
-          location: 'FirebaseService.signOut() on other exceptions');
+      await _firebaseFirestore.collection('Users').doc(currentUser.uid).set(
+        {
+          'name': name,
+          'profileImg':profileImg
+          
+        },
+        SetOptions(merge: true),
+      );
+    } on FirebaseAuthException catch (e) {
+      throw signUpErrorCodes[e.code] ?? 'Firebase ${e.code} Error Occured!';
+    } catch (e) {
+      throw '${e.toString()} Error Occured!';
     }
   }
+
+
+  //Vet Crud
+  @override
+  Future<void> registerVet(Vet doctor) async {
+    try {
+      var vet =
+          await _firebaseFirestore.collection("Vet").doc().set(doctor.toJson());
+    } on Failure catch (e) {
+      throw Failure(400, message: e.toString());
+    }
+  }
+
+
+
+
+  //register a pet
+  @override
+
+
+  //get user id
+  @override
+  Future<dynamic> getUserId() async {
+    return _firebaseAuth.currentUser?.uid;
+  }
+
+  
+  // @override
+  
+
+
+
+ @override
+  Future<Pet> getPet() async{
+    try {
+      final doc = await FirebaseFirestore.instance
+          .doc('Users/${currentUser.uid}')
+          .get();
+      final pet = Pet.fromJson(doc.data()!);
+      return pet;
+    } on FirebaseException catch (e) {
+      throw Failure(100,
+          message: e.toString(),
+          location: 'UsersServiceFireStore.readPet() on FirebaseException');
+    } catch (e) {
+      throw Failure(101,
+          message: e.toString(),
+          location: 'UsersServiceFireStore.readPet() on other exception');
+    }
+
+  }
+
 }
