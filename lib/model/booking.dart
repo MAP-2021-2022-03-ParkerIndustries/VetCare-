@@ -7,6 +7,7 @@ class Booking {
   final dynamic PaymentValue_Admin;
   final dynamic DoctorName; 
   final dynamic petID; 
+  final dynamic appointmentStatus; 
 
   Booking({
     required this.DoctorID,
@@ -17,13 +18,14 @@ class Booking {
     required this.PaymentValue_Doctor,
     required this.paymentType,
     required this.petID,
+    required this.appointmentStatus,
   });
 
   Booking.fromJson(Map<String, dynamic> json)
-      : this(DoctorID: json['DoctorID'], customerID: json['customerID'], dateBooking: json['dateBooking'],PaymentValue_Doctor: json['PaymentValue_Doctor'],paymentType: json['paymentType'],PaymentValue_Admin: json['PaymentValue_Admin'], DoctorName: json["DoctorName"], petID: json["petID"]);
+      : this(DoctorID: json['DoctorID'], customerID: json['customerID'], dateBooking: json['dateBooking'],PaymentValue_Doctor: json['PaymentValue_Doctor'],paymentType: json['paymentType'],PaymentValue_Admin: json['PaymentValue_Admin'], DoctorName: json["DoctorName"], petID: json["petID"],appointmentStatus: json['appointmentStatus']);
   
   Map<String, dynamic> toJson() =>
-      {'DoctorID':DoctorID , 'customerID': customerID, 'dataBooking': dateBooking,'Payment_value_Admin':PaymentValue_Admin,'Payment_value_Doctor':PaymentValue_Doctor,'paymentType':paymentType};
+      {'DoctorID':DoctorID , 'customerID': customerID, 'dataBooking': dateBooking,'Payment_value_Admin':PaymentValue_Admin,'Payment_value_Doctor':PaymentValue_Doctor,'paymentType':paymentType, 'appointmentStatus':appointmentStatus};
 
 
 
@@ -33,7 +35,8 @@ class Booking {
     dynamic dateBooking,
     dynamic doctor,
     dynamic paymentType,
-    dynamic petID
+    dynamic petID,
+    dynamic appointmentStatus
   }) {
     return Booking(
       DoctorID: DoctorID ?? DoctorID,
@@ -44,6 +47,7 @@ class Booking {
       PaymentValue_Doctor: PaymentValue_Doctor ?? this.PaymentValue_Doctor,
       paymentType: paymentType ?? this.paymentType,
       petID: petID ?? this.petID,
+      appointmentStatus: appointmentStatus ?? this.appointmentStatus,
     );
   }
 }
