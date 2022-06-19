@@ -1,12 +1,13 @@
 class Booking {
-   dynamic DoctorID;
-   dynamic customerID;
-   dynamic dateBooking;
-   dynamic paymentType;
-   dynamic PaymentValue_Doctor;
-   dynamic PaymentValue_Admin;
-   dynamic DoctorName; 
-   dynamic petID; 
+  dynamic DoctorID;
+  dynamic customerID;
+  dynamic dateBooking;
+  dynamic paymentType;
+  dynamic PaymentValue_Doctor;
+  dynamic PaymentValue_Admin;
+  dynamic DoctorName; 
+  dynamic petID; 
+  dynamic appointmentStatus; 
 
   Booking({
     this.DoctorID,
@@ -17,13 +18,14 @@ class Booking {
     this.PaymentValue_Doctor,
     this.paymentType,
     this.petID,
+    this.appointmentStatus,
   });
 
   Booking.fromJson(Map<String, dynamic> json)
-      : this(DoctorID: json['DoctorID'], customerID: json['customerID'], dateBooking: json['dateBooking'],PaymentValue_Doctor: json['PaymentValue_Doctor'],paymentType: json['paymentType'],PaymentValue_Admin: json['PaymentValue_Admin'], DoctorName: json["DoctorName"], petID: json["petID"]);
+      : this(DoctorID: json['DoctorID'], customerID: json['customerID'], dateBooking: json['dateBooking'],PaymentValue_Doctor: json['PaymentValue_Doctor'],paymentType: json['paymentType'],PaymentValue_Admin: json['PaymentValue_Admin'], DoctorName: json["DoctorName"], petID: json["petID"],appointmentStatus: json['appointmentStatus']);
   
   Map<String, dynamic> toJson() =>
-      {'DoctorID':DoctorID , 'customerID': customerID, 'dataBooking': dateBooking,'Payment_value_Admin':PaymentValue_Admin,'Payment_value_Doctor':PaymentValue_Doctor,'paymentType':paymentType};
+      {'DoctorID':DoctorID , 'customerID': customerID, 'dataBooking': dateBooking,'Payment_value_Admin':PaymentValue_Admin,'Payment_value_Doctor':PaymentValue_Doctor,'paymentType':paymentType, 'appointmentStatus':appointmentStatus};
 
 
 
@@ -33,7 +35,8 @@ class Booking {
     dynamic dateBooking,
     dynamic doctor,
     dynamic paymentType,
-    dynamic petID
+    dynamic petID,
+    dynamic appointmentStatus
   }) {
     return Booking(
       DoctorID: DoctorID ?? DoctorID,
@@ -44,6 +47,7 @@ class Booking {
       PaymentValue_Doctor: PaymentValue_Doctor ?? this.PaymentValue_Doctor,
       paymentType: paymentType ?? this.paymentType,
       petID: petID ?? this.petID,
+      appointmentStatus: appointmentStatus ?? this.appointmentStatus,
     );
   }
 }
