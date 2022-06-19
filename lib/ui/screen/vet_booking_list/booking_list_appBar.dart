@@ -31,7 +31,7 @@ class _VetBookingListAppBarState extends State<VetBookingListAppBar> {
           ],
         ),
       ),
-      automaticallyImplyLeading: false,
+      automaticallyImplyLeading: true,
       actions: [
         IconButton(
           onPressed: () {

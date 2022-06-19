@@ -34,7 +34,7 @@ class _UpdateBookingDetailAppbarState extends State<UpdateBookingDetailAppbar> {
           ],
         ),
       ),
-      automaticallyImplyLeading: false,
+      automaticallyImplyLeading: true,
       actions: [
         IconButton(
           onPressed: () {

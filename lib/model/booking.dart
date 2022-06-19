@@ -8,6 +8,7 @@ class Booking {
   dynamic DoctorName; 
   dynamic petID; 
   dynamic appointmentStatus; 
+  dynamic bookingID; 
 
   Booking({
     this.DoctorID,
@@ -19,13 +20,15 @@ class Booking {
     this.paymentType,
     this.petID,
     this.appointmentStatus,
+    this.bookingID,
+
   });
 
   Booking.fromJson(Map<String, dynamic> json)
-      : this(DoctorID: json['DoctorID'], customerID: json['customerID'], dateBooking: json['dateBooking'],PaymentValue_Doctor: json['PaymentValue_Doctor'],paymentType: json['paymentType'],PaymentValue_Admin: json['PaymentValue_Admin'], DoctorName: json["DoctorName"], petID: json["petID"],appointmentStatus: json['appointmentStatus']);
+      : this(DoctorID: json['DoctorID'], customerID: json['customerID'], dateBooking: json['dateBooking'],PaymentValue_Doctor: json['PaymentValue_Doctor'],paymentType: json['paymentType'],PaymentValue_Admin: json['PaymentValue_Admin'], DoctorName: json["DoctorName"], petID: json["petID"],appointmentStatus: json['appointmentStatus'],bookingID:json['bookingID']);
   
   Map<String, dynamic> toJson() =>
-      {'DoctorID':DoctorID , 'customerID': customerID, 'dataBooking': dateBooking,'Payment_value_Admin':PaymentValue_Admin,'Payment_value_Doctor':PaymentValue_Doctor,'paymentType':paymentType, 'appointmentStatus':appointmentStatus};
+      {'DoctorID':DoctorID , 'customerID': customerID, 'dataBooking': dateBooking,'Payment_value_Admin':PaymentValue_Admin,'Payment_value_Doctor':PaymentValue_Doctor,'paymentType':paymentType, 'appointmentStatus':appointmentStatus,'bookingID':bookingID};
 
 
 
@@ -36,7 +39,8 @@ class Booking {
     dynamic doctor,
     dynamic paymentType,
     dynamic petID,
-    dynamic appointmentStatus
+    dynamic appointmentStatus,
+    dynamic bookingID
   }) {
     return Booking(
       DoctorID: DoctorID ?? DoctorID,
@@ -48,6 +52,7 @@ class Booking {
       paymentType: paymentType ?? this.paymentType,
       petID: petID ?? this.petID,
       appointmentStatus: appointmentStatus ?? this.appointmentStatus,
+      bookingID: bookingID ?? this.bookingID,
     );
   }
 }

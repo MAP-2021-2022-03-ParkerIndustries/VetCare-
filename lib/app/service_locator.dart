@@ -21,6 +21,7 @@ import '../services/initializer/service_initializer.dart';
 import '../services/initializer/service_initializer_firebase.dart';
 import '../ui/screen/booking/booking_viewmodel.dart';
 import '../ui/screen/customer_home/customer_home_viewmodel.dart';
+import '../ui/screen/vet_update_booking/update_booking_detail_viewmodel.dart';
 
 final locator = ServiceLocator.locator;
 
@@ -52,4 +53,6 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<BookingViewModel>(() => BookingViewModel());
   locator.registerLazySingleton<ReceptionistHomeViewModel>(() => ReceptionistHomeViewModel());
   locator.registerLazySingleton<ReceptionistEditBookingView>(() => ReceptionistEditBookingView());
+    locator.registerLazySingleton<UpdateBookingDetailVM>(() => UpdateBookingDetailVM());
+
 }
