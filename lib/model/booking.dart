@@ -1,22 +1,22 @@
 class Booking {
-  final dynamic DoctorID;
-  final dynamic customerID;
-  final dynamic dateBooking;
-  final dynamic paymentType;
-  final dynamic PaymentValue_Doctor;
-  final dynamic PaymentValue_Admin;
-  final dynamic DoctorName; 
-  final dynamic petID; 
+   dynamic DoctorID;
+   dynamic customerID;
+   dynamic dateBooking;
+   dynamic paymentType;
+   dynamic PaymentValue_Doctor;
+   dynamic PaymentValue_Admin;
+   dynamic DoctorName; 
+   dynamic petID; 
 
   Booking({
-    required this.DoctorID,
-    required this.customerID,
-    required this.dateBooking,
-    required this.PaymentValue_Admin,
-    required this.DoctorName,
-    required this.PaymentValue_Doctor,
-    required this.paymentType,
-    required this.petID,
+    this.DoctorID,
+    this.customerID,
+    this.dateBooking,
+    this.PaymentValue_Admin,
+    this.DoctorName,
+    this.PaymentValue_Doctor,
+    this.paymentType,
+    this.petID,
   });
 
   Booking.fromJson(Map<String, dynamic> json)

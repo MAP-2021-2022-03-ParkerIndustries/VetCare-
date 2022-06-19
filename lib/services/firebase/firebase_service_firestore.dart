@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:map_mvvm/map_mvvm.dart';
+import 'package:vetclinic/model/receptionist.dart';
 import 'package:vetclinic/model/vet.dart';
 
 import '../../model/Users.dart';
@@ -156,13 +157,21 @@ class FirebaseServiceFirestore extends FirebaseService {
   @override
   Future<void> registerVet(Vet doctor) async {
     try {
-      var vet =
           await _firebaseFirestore.collection("Vet").doc().set(doctor.toJson());
     } on Failure catch (e) {
       throw Failure(400, message: e.toString());
     }
   }
 
+@override
+Future<void> registerReception(Receptionist recep)async{
+  try {
+          await _firebaseFirestore.collection("Receptionist").doc().set(recep.toJson());
+    } on Failure catch (e) {
+      throw Failure(400, message: e.toString());
+    }
+
+}
 
 
 

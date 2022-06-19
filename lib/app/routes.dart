@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vetclinic/ui/screen/Receptionist_home/Receptionist_home_viewmodel.dart';
 import 'package:vetclinic/ui/screen/booking/booking_view.dart';
 import 'package:vetclinic/ui/screen/customer_home/customer_home_view.dart';
 import 'package:vetclinic/ui/screen/customer_home/customer_nav_view.dart';
@@ -10,6 +11,8 @@ import 'package:vetclinic/ui/screen/register/register_view.dart';
 import 'package:vetclinic/ui/screen/register_pet/register_pet_view.dart';
 import 'package:vetclinic/ui/screen/vet_booking_list/booking_list_view.dart';
 import 'package:vetclinic/ui/screen/vet_home/vet_home_view.dart';
+
+import '../ui/screen/Receptionist_home/Receptionist_home_view.dart';
 
 
 class Routes {
@@ -24,6 +27,7 @@ class Routes {
   static const String registerPetRoute='/registerPet';
   static const String bookingPetRoute= '/booking';
   static const String vetBookingListRoute= '/vetBookingList';
+  static const String receptionistHomeRoute = '/ReceptionistHome';
 
   static Route<dynamic>? createRoute(settings) {
     switch (settings.name) {
@@ -59,6 +63,9 @@ class Routes {
      
       case bookingPetRoute:
       return BookingView.route();
+      
+      case receptionistHomeRoute:
+      return ReceptionistHomeView.route();
       
     }
     return null;

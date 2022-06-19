@@ -11,11 +11,13 @@ import 'package:vetclinic/ui/screen/login/login_viewmodel.dart';
 import 'package:vetclinic/ui/screen/profile/profile_viewmodel.dart';
 import 'package:vetclinic/ui/screen/register/register_viewmodel.dart';
 
+import '../services/firebase/firebase_service_booking.dart';
 import '../services/firebase/firebase_service_history.dart';
 import '../services/firebase/firebase_service_profile.dart';
 import '../services/firebase/firebase_service_register_pet.dart';
 import '../services/initializer/service_initializer.dart';
 import '../services/initializer/service_initializer_firebase.dart';
+import '../ui/screen/booking/booking_viewmodel.dart';
 import '../ui/screen/customer_home/customer_home_viewmodel.dart';
 
 final locator = ServiceLocator.locator;
@@ -31,8 +33,8 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<FirebaseServiceHistory>(() =>FirebaseServiceHistory());
   locator.registerLazySingleton<FirebaseServiceRegisterPet>(() =>FirebaseServiceRegisterPet());
   locator.registerLazySingleton<FirebaseServiceProfile>(() =>FirebaseServiceProfile());
+  locator.registerLazySingleton<FirebaseServiceBooking>(() =>FirebaseServiceBooking());
   locator.registerLazySingleton<FirebaseServiceVetBooking>(() =>FirebaseServiceVetBooking());
-
 
   //Register Models
  
@@ -45,4 +47,5 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<HistoryViewModel>(() => HistoryViewModel());
   locator.registerLazySingleton<RegisterPetVM>(() => RegisterPetVM());
   locator.registerLazySingleton<VetBookingListVM>(() => VetBookingListVM());
+  locator.registerLazySingleton<BookingViewModel>(() => BookingViewModel());
 }
