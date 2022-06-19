@@ -35,6 +35,7 @@ class FirebaseServiceVetBooking with ServiceStream {
           location: 'PetsServiceFireStore.readPet() on other exception');
     }
   }
+
   Future<Users> readOwnerInfo(dynamic userID) async {
     try {
       final doc = await FirebaseFirestore.instance
@@ -50,6 +51,19 @@ class FirebaseServiceVetBooking with ServiceStream {
       throw Failure(101,
           message: e.toString(),
           location: 'VetsServiceFireStore.readOwnerInfo() on other exception');
+    }
+  }
+
+  Future<void> updateBookingStatus(dynamic bookingID, dynamic status)async{
+    try {
+      final doc=FirebaseFirestore.instance.doc('Booking/$bookingID');
+      doc.update({
+        'appointmentStatus': status
+      });
+    } catch (e) {
+      throw Failure(101,
+          message: e.toString(),
+          location: 'VetsServiceFireStore.updateBookingStatus() on other exception');
     }
   }
 

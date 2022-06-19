@@ -19,8 +19,8 @@ class UpdateBookingDetailVM extends Viewmodel{
     });
   }
 
-  void updateData(dynamic appointmentStatus){
-    
+  Future<void> updateData(dynamic bookingID,dynamic appointmentStatus) async {
+    _vetBookingService.updateBookingStatus(bookingID, appointmentStatus);
   }
   
 }
