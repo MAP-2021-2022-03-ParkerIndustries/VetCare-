@@ -60,7 +60,7 @@ class _ReceptionistHomeViewState extends State<ReceptionistHomeView> {
                         IconButton(
                           onPressed: () {
                             Navigator.of(context)
-                                .pushNamed(Routes.registerPetRoute);
+                                .pushNamed(Routes.receptionistEditRoute);
                           },
                           icon: Image.asset('assets/EditBooking.jpg'),
                           iconSize: 150,

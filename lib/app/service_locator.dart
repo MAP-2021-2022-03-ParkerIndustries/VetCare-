@@ -2,6 +2,8 @@ import 'package:map_mvvm/service_locator.dart';
 import 'package:vetclinic/services/firebase/firebase_service.dart';
 import 'package:vetclinic/services/firebase/firebase_service_firestore.dart';
 import 'package:vetclinic/services/firebase/firebase_service_vet_booking_list.dart';
+import 'package:vetclinic/ui/screen/Receptionist_home/Receptionist_home_viewmodel.dart';
+import 'package:vetclinic/ui/screen/Rep/Receptionist_edit_view.dart';
 import 'package:vetclinic/ui/screen/forgot_password/forgot_password_viewmodel.dart';
 import 'package:vetclinic/ui/screen/history/history_viewmodel.dart';
 import 'package:vetclinic/ui/screen/register_pet/register_pet_viewmodel.dart';
@@ -48,4 +50,6 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<RegisterPetVM>(() => RegisterPetVM());
   locator.registerLazySingleton<VetBookingListVM>(() => VetBookingListVM());
   locator.registerLazySingleton<BookingViewModel>(() => BookingViewModel());
+  locator.registerLazySingleton<ReceptionistHomeViewModel>(() => ReceptionistHomeViewModel());
+  locator.registerLazySingleton<ReceptionistEditBookingView>(() => ReceptionistEditBookingView());
 }
