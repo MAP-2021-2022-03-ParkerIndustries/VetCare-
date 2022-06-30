@@ -27,7 +27,7 @@ class Booking {
       : this(DoctorID: json['DoctorID'], customerID: json['customerID'], dateBooking: json['dateBooking'],PaymentValue_Doctor: json['PaymentValue_Doctor'],paymentType: json['paymentType'],PaymentValue_Admin: json['PaymentValue_Admin'], petID: json["petID"],appointmentStatus: json['appointmentStatus'],bookingID:json['bookingID']);
   
   Map<String, dynamic> toJson() =>
-      {'DoctorID':DoctorID , 'customerID': customerID, 'dateBooking': dateBooking,'Payment_value_Admin':PaymentValue_Admin,'Payment_value_Doctor':PaymentValue_Doctor,'paymentType':paymentType, 'appointmentStatus':appointmentStatus,};
+      {'DoctorID':DoctorID , 'customerID': customerID, 'dateBooking': dateBooking,'Payment_value_Admin':PaymentValue_Admin,'Payment_value_Doctor':PaymentValue_Doctor,'paymentType':paymentType, 'appointmentStatus':appointmentStatus,'petID': petID};
 
 
 
