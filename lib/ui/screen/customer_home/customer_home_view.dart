@@ -86,8 +86,24 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
                             ),
                             const Text('Make a booking'),
                           ])
-                        : Text('Item $index'));
-          })),
+                    : index == 2
+                        ? Column(children: [
+                            IconButton(
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pushNamed(Routes.viewPetList);
+                              },
+                              icon: Image.asset('assets/cat.png'),
+                              iconSize: 150,
+                            ),
+                            const Text('View Pet'),
+                          ])
+                    
+                    : Text('Item $index')
+                    );
+          }
+          )
+          ),
     ));
   }
 }

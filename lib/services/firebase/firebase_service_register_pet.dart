@@ -35,9 +35,9 @@ class FirebaseServiceRegisterPet {
 
   Future <void> registerPet(Pet pet) async {
     try {
-      var petCollection = await _firebaseFirestore.collection('Pet').doc();
-
-      petCollection.set(pet.toJson());
+      var petCollection =  _firebaseFirestore.collection('Pet').doc();
+      await petCollection.set({'petID' : petCollection.id});
+       _firebaseFirestore.collection('Pet').doc(petCollection.id).update(pet.toJson());
     } on Failure catch (e) {
       throw Failure(
         400,

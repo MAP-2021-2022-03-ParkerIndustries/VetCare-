@@ -19,9 +19,9 @@ class VetBookingListVM extends Viewmodel {
 
   Users _users = Users();
   List<Booking> listBooking = [];
-  List<Booking> _listBooking =[];
-  Pet pet=Pet();
-  Users owner=Users();
+  List<Booking> _listBooking = [];
+  List<Pet> petList = [];
+  Users owner = Users();
   Users get users => _users;
   @override
   void init() async {
@@ -49,8 +49,8 @@ class VetBookingListVM extends Viewmodel {
             // for (var i = 0; i < listBooking.length; i++) {
             //   var petID=listBooking[i].petID;
             //   listPet[i]=_vetBookingService.readPetInfo(petID) as Pet;
-            _listBooking=listBooking;
-          // readPetInfo();
+            _listBooking = listBooking;
+            // readPetInfo();
             // }
           },
         );
@@ -65,28 +65,29 @@ class VetBookingListVM extends Viewmodel {
   }
 
   Future<Pet> readPetInfo(dynamic index) async {
-    
-        pet=await _vetBookingService.readPetInfo(_listBooking[index].petID);
-    
+    try {
+      petList
+          .add(await _vetBookingService.readPetInfo(_listBooking[index].petID));
 
-    // for (var i = 0; i < pet.length; i++) {
-    //   print(pet[i].petName);
-    // }
-    return pet;
-               
+      // for (var i = 0; i < pet.length; i++) {
+      //   print(pet[i].petName);
+      // }
+      return petList.elementAt(index);
+    } on Failure {
+      print(Failure);
+      rethrow;
+    }
   }
+
   Future<Users> readOwnerInfo(dynamic index) async {
-    
-        owner=await _vetBookingService.readOwnerInfo(_listBooking[index].customerID);
-    
+    owner =
+        await _vetBookingService.readOwnerInfo(_listBooking[index].customerID);
 
     // for (var i = 0; i < pet.length; i++) {
     //   print(pet[i].petName);
     // }
     return owner;
-               
   }
-  
 
   @override
   void dispose() {

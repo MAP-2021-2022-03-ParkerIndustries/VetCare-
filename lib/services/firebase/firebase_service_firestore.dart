@@ -103,7 +103,8 @@ class FirebaseServiceFirestore extends FirebaseService {
         'name': name,
         'email': _user.user!.email,
         'role': 'customer',
-        'profileImg':'https://firebasestorage.googleapis.com/v0/b/vetcare-4e23b.appspot.com/o/profilePic.png?alt=media&token=f245930b-0adf-4797-8640-e3d05254c03d'
+        'profileImg':'https://firebasestorage.googleapis.com/v0/b/vetcare-4e23b.appspot.com/o/profilePic.png?alt=media&token=f245930b-0adf-4797-8640-e3d05254c03d',
+        'userID' : _user.user!.uid,
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {

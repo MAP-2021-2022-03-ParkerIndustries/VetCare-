@@ -25,15 +25,19 @@ class _VetBookingListBodyState extends State<VetBookingListBody> {
         itemCount: viewModel.listBooking.length,
         itemBuilder: (context, index) {
           //parse timestamp firebase into formatted string
-          DateTime dateTime = DateTime.parse(
-              viewModel.listBooking[index].dateBooking.toDate().toString());
+          DateTime dateTime = DateTime.fromMillisecondsSinceEpoch( viewModel.listBooking[index].dateBooking);
           String formattedDateTime = DateFormat('dd-MM-yyyy').format(dateTime);
           //get petinfo
           // viewModel.readPetInfo();
           //searching
-
+            
           return GestureDetector(
-            onTap: () =>             Navigator.of(context).push(MaterialPageRoute(builder: (context)=>UpdateBookingDetailView(booking: viewModel.listBooking[index],pet: viewModel.pet,owner:viewModel.owner ,))),
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => UpdateBookingDetailView(
+                      booking: viewModel.listBooking[index],
+                      pet: viewModel.petList[index],
+                      owner: viewModel.owner,
+                    ))),
             child: Card(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
@@ -49,7 +53,7 @@ class _VetBookingListBodyState extends State<VetBookingListBody> {
                           height: 170,
                           child: Row(children: [
                             Image.network(
-                              viewModel.pet.petImageURL,
+                              viewModel.petList[index].petImageURL,
                               width: 100,
                             ),
                             Expanded(
@@ -65,7 +69,8 @@ class _VetBookingListBodyState extends State<VetBookingListBody> {
                                 child: Row(
                                   children: [
                                     Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: const [
@@ -89,19 +94,19 @@ class _VetBookingListBodyState extends State<VetBookingListBody> {
                                           child: Text("Payment Type"),
                                         ),
                                         SizedBox(height: 15),
-                                       
                                       ],
                                     ),
                                     Column(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
                                         Padding(
                                           padding:
                                               const EdgeInsets.only(left: 10),
-                                          child:
-                                              Text(": ${viewModel.pet.petName}"),
+                                          child: Text(
+                                              ": ${viewModel.petList[index].petName}"),
                                         ),
                                         const SizedBox(height: 15),
                                         Padding(
@@ -117,8 +122,9 @@ class _VetBookingListBodyState extends State<VetBookingListBody> {
                                                 AsyncSnapshot<Users> snapshot) {
                                               if (snapshot.hasData) {
                                                 return Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      left: 10),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 10),
                                                   child: Text(
                                                       ": ${viewModel.owner.name}"),
                                                 );
@@ -130,9 +136,7 @@ class _VetBookingListBodyState extends State<VetBookingListBody> {
                                                       CircularProgressIndicator(),
                                                 );
                                               }
-                                            }
-                                           
-                                            ),
+                                            }),
                                         const SizedBox(height: 15),
                                         Padding(
                                           padding:

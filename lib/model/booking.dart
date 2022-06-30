@@ -15,7 +15,6 @@ class Booking {
     this.customerID,
     this.dateBooking,
     this.PaymentValue_Admin,
-    this.DoctorName,
     this.PaymentValue_Doctor,
     this.paymentType,
     this.petID,
@@ -25,10 +24,10 @@ class Booking {
   });
 
   Booking.fromJson(Map<String, dynamic> json)
-      : this(DoctorID: json['DoctorID'], customerID: json['customerID'], dateBooking: json['dateBooking'],PaymentValue_Doctor: json['PaymentValue_Doctor'],paymentType: json['paymentType'],PaymentValue_Admin: json['PaymentValue_Admin'], DoctorName: json["DoctorName"], petID: json["petID"],appointmentStatus: json['appointmentStatus'],bookingID:json['bookingID']);
+      : this(DoctorID: json['DoctorID'], customerID: json['customerID'], dateBooking: json['dateBooking'],PaymentValue_Doctor: json['PaymentValue_Doctor'],paymentType: json['paymentType'],PaymentValue_Admin: json['PaymentValue_Admin'], petID: json["petID"],appointmentStatus: json['appointmentStatus'],bookingID:json['bookingID']);
   
   Map<String, dynamic> toJson() =>
-      {'DoctorID':DoctorID , 'customerID': customerID, 'dataBooking': dateBooking,'Payment_value_Admin':PaymentValue_Admin,'Payment_value_Doctor':PaymentValue_Doctor,'paymentType':paymentType, 'appointmentStatus':appointmentStatus,'bookingID':bookingID};
+      {'DoctorID':DoctorID , 'customerID': customerID, 'dateBooking': dateBooking,'Payment_value_Admin':PaymentValue_Admin,'Payment_value_Doctor':PaymentValue_Doctor,'paymentType':paymentType, 'appointmentStatus':appointmentStatus,};
 
 
 
@@ -44,7 +43,6 @@ class Booking {
   }) {
     return Booking(
       DoctorID: DoctorID ?? DoctorID,
-      DoctorName: DoctorName ?? DoctorName,
       customerID: customerID ?? this.customerID,
       dateBooking: dateBooking ?? this.dateBooking,
       PaymentValue_Admin: PaymentValue_Admin ?? this.PaymentValue_Admin,

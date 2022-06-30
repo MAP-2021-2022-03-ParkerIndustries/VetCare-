@@ -2,14 +2,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:map_mvvm/failure.dart';
+import 'package:map_mvvm/service_stream.dart';
 
 import '../../model/booking.dart';
 
-class FirebaseServiceBooking {
+class FirebaseServiceBooking with ServiceStream  {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   //firebase cloud function for booking and users relation
+  @override
+  Stream? get stream => FirebaseFirestore.instance
+      .collection('Users')
+      .where("role", isEqualTo: "vet")
+      .snapshots();
+
+
   //Booking CRUD
   @override
   Future<void> MakeBooking(Booking booking) async {
@@ -20,10 +28,10 @@ class FirebaseServiceBooking {
 
       var book= _firebaseFirestore.collection("Booking").doc();
       await book.set(
-       { 'bookID': book.id}
+       { 'bookingID': book.id}
 
       );
-      _firebaseFirestore.collection("Booking").doc(book.id).update(booking.toJson());
+       _firebaseFirestore.collection("Booking").doc(book.id).update(booking.toJson());
 
     } on Failure catch (e) {
       throw Failure(

@@ -5,15 +5,18 @@ class Users {
   final dynamic email;
   final dynamic role;
   final dynamic profileImg;
+  final dynamic userID;
 
-  Users({this.name, this.email, this.role, this.profileImg});
+  Users({this.name, this.email, this.role, this.profileImg,this.userID});
   
   Users.copy(Users from)
       : this(
             role: from.role,
             email: from.email,
             name: from.name,
-            profileImg: from.profileImg);
+            profileImg: from.profileImg,
+            userID:from.userID
+            );
 
   Users copyWith(
           {dynamic name, dynamic email, dynamic role, dynamic profileImg}) =>
@@ -24,7 +27,7 @@ class Users {
           profileImg: profileImg ?? this.profileImg);
 
   Users.fromJson(Map<String, dynamic> json)
-      : this(role: json['role'], email: json['email'], name: json['name'],profileImg:json['profileImg']);
+      : this(role: json['role'], email: json['email'], name: json['name'],profileImg:json['profileImg'],userID: json['userID']);
 
   Map<String, dynamic> toJson() => {'role': role, 'email': email, 'name': name, 'profileImg':profileImg};
 }

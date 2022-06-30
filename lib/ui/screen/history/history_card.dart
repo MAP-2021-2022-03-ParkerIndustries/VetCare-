@@ -16,6 +16,7 @@ class _HistoryCardState extends State<HistoryCard> {
   @override
   String _search = "";
   
+  @override
   Widget build(BuildContext context) {
     return View<HistoryViewModel>(
       showProgressIndicator: true,

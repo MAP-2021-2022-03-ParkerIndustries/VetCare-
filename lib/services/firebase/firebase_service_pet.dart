@@ -4,9 +4,16 @@ import 'package:map_mvvm/map_mvvm.dart';
 
 class FirebaseServicePet with ServiceStream {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   @override
   Stream? get stream => FirebaseFirestore.instance
-      .doc('Pet')
+      .collection('Pet')
+      .where("petOwner", isEqualTo: _firebaseAuth.currentUser?.uid)
       .snapshots();
+
+
+  Future deletePet(dynamic petID)async{
+    _firebaseFirestore.collection('Pet').doc(petID).delete();
+  }
 }
