@@ -1,5 +1,6 @@
 import 'package:map_mvvm/service_locator.dart';
 import 'package:vetclinic/services/firebase/firebase_service.dart';
+import 'package:vetclinic/services/firebase/firebase_service_booking_history.dart';
 import 'package:vetclinic/services/firebase/firebase_service_firestore.dart';
 import 'package:vetclinic/services/firebase/firebase_service_pet.dart';
 import 'package:vetclinic/services/firebase/firebase_service_vet_booking_list.dart';
@@ -42,6 +43,7 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<FirebaseServiceBooking>(() =>FirebaseServiceBooking());
   locator.registerLazySingleton<FirebaseServiceVetBooking>(() =>FirebaseServiceVetBooking());
   locator.registerLazySingleton<FirebaseServicePet>(() =>FirebaseServicePet());
+  locator.registerLazySingleton<FirebaseServiceBookingHistory>(() =>FirebaseServiceBookingHistory());
 
   //Register Models
  
