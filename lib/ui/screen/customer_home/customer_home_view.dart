@@ -74,18 +74,18 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
                       ])
 
                     //Make a booking grid
-                    : index == 1
-                        ? Column(children: [
-                            IconButton(
-                              onPressed: () {
-                                Navigator.of(context)
-                                    .pushNamed(Routes.bookingPetRoute);
-                              },
-                              icon: Image.asset('assets/cat.png'),
-                              iconSize: 150,
-                            ),
-                            const Text('Make a booking'),
-                          ])
+                    // : index == 1
+                    //     ? Column(children: [
+                    //         IconButton(
+                    //           onPressed: () {
+                    //             Navigator.of(context)
+                    //                 .pushNamed(Routes.bookingPetRoute);
+                    //           },
+                    //           icon: Image.asset('assets/cat.png'),
+                    //           iconSize: 150,
+                    //         ),
+                    //         const Text('Make a booking'),
+                    //       ])
                     : index == 2
                         ? Column(children: [
                             IconButton(
