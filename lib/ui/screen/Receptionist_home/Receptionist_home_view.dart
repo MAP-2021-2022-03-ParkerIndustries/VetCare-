@@ -74,8 +74,8 @@ class _ReceptionistHomeViewState extends State<ReceptionistHomeView> {
                       ? Column(children: [
                           IconButton(
                             onPressed: () {
-                              Navigator.of(context)
-                                  .pushNamed(Routes.bookingPetRoute);
+                              // Navigator.of(context)
+                              //     .pushNamed(Routes.bookingPetRoute);
                             },
                             icon: Image.asset('assets/cat.png'),
                             iconSize: 150,
