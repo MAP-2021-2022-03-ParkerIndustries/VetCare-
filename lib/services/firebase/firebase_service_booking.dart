@@ -28,7 +28,8 @@ class FirebaseServiceBooking with ServiceStream  {
 
       var book= _firebaseFirestore.collection("Booking").doc();
       await book.set(
-       { 'bookingID': book.id}
+       { 'bookingID': book.id ,
+       }
 
       );
        _firebaseFirestore.collection("Booking").doc(book.id).update(booking.toJson());

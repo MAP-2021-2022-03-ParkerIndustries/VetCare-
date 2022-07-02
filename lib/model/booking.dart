@@ -9,6 +9,7 @@ class Booking {
   dynamic petID; 
   dynamic appointmentStatus; 
   dynamic bookingID; 
+  dynamic notes; 
 
   Booking({
     this.DoctorID,
@@ -20,14 +21,14 @@ class Booking {
     this.petID,
     this.appointmentStatus,
     this.bookingID,
-
+    this.notes,
   });
 
   Booking.fromJson(Map<String, dynamic> json)
-      : this(DoctorID: json['DoctorID'], customerID: json['customerID'], dateBooking: json['dateBooking'],PaymentValue_Doctor: json['PaymentValue_Doctor'],paymentType: json['paymentType'],PaymentValue_Admin: json['PaymentValue_Admin'], petID: json["petID"],appointmentStatus: json['appointmentStatus'],bookingID:json['bookingID']);
+      : this(DoctorID: json['DoctorID'], customerID: json['customerID'], dateBooking: json['dateBooking'],PaymentValue_Doctor: json['PaymentValue_Doctor'],paymentType: json['paymentType'],PaymentValue_Admin: json['PaymentValue_Admin'], petID: json["petID"],appointmentStatus: json['appointmentStatus'],bookingID:json['bookingID'],notes:json['notes']);
   
   Map<String, dynamic> toJson() =>
-      {'DoctorID':DoctorID , 'customerID': customerID, 'dateBooking': dateBooking,'Payment_value_Admin':PaymentValue_Admin,'Payment_value_Doctor':PaymentValue_Doctor,'paymentType':paymentType, 'appointmentStatus':appointmentStatus,'petID': petID};
+      {'DoctorID':DoctorID , 'customerID': customerID, 'dateBooking': dateBooking,'Payment_value_Admin':PaymentValue_Admin,'Payment_value_Doctor':PaymentValue_Doctor,'paymentType':paymentType, 'appointmentStatus':appointmentStatus,'petID': petID,'notes':notes};
 
 
 
@@ -39,7 +40,8 @@ class Booking {
     dynamic paymentType,
     dynamic petID,
     dynamic appointmentStatus,
-    dynamic bookingID
+    dynamic bookingID,
+    dynamic notes
   }) {
     return Booking(
       DoctorID: DoctorID ?? DoctorID,
@@ -51,6 +53,7 @@ class Booking {
       petID: petID ?? this.petID,
       appointmentStatus: appointmentStatus ?? this.appointmentStatus,
       bookingID: bookingID ?? this.bookingID,
+      notes: notes ?? this.notes,
     );
   }
 }

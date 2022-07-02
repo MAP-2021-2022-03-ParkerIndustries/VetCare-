@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:map_mvvm/map_mvvm.dart';
 import 'package:vetclinic/ui/components/search_bar.dart';
 
+import '../../../model/pet.dart';
 import 'history_viewmodel.dart';
 
 class HistoryCard extends StatefulWidget {
@@ -15,7 +16,7 @@ class HistoryCard extends StatefulWidget {
 class _HistoryCardState extends State<HistoryCard> {
   @override
   String _search = "";
-  
+  List<Pet> listpet=[];
   @override
   Widget build(BuildContext context) {
     return View<HistoryViewModel>(
@@ -31,6 +32,7 @@ class _HistoryCardState extends State<HistoryCard> {
             String formattedDateTime =
                 DateFormat('dd-MM-yyyy').format(dateTime);
 
+            
             //searching
             bool check1 = "${viewModel.listHistory[index].animal}"
                 .toLowerCase()

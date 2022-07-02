@@ -52,6 +52,10 @@ dependencies:
   open_file: ^3.2.1
   path_provider: ^2.0.11
   date_picker_timeline: ^1.2.3
+  flutter_local_notifications: ^9.6.1
+  rxdart: ^0.27.4
+  timezone: ^0.8.0
+  flutter_native_timezone: ^2.0.0
 
 dev_dependencies:
   flutter_test:

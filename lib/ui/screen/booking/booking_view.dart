@@ -11,6 +11,7 @@ import '../../../app/routes.dart';
 import '../../../model/Users.dart';
 import '../../../model/pet.dart';
 import '../../../utils/app_theme.dart';
+import 'notification_api.dart';
 
 class BookingView extends StatefulWidget {
   Pet choosenPet;
@@ -227,11 +228,22 @@ class _BookingViewState extends State<BookingView> {
             ),
           ),
           onPressed: () async {
+            NotificationApi.showScheduledNotification(
+                  title:'Pet Booking ',
+                  body: 'You have booking scheduled today',
+                  payload: 'A',
+                  scheduledDate: DateTime.now().add(Duration(days: selectedDate.difference(DateTime.now()).inDays))
+                  //scheduledDate: DateTime.now().add(Duration(seconds: 5))
+                );
             if (_formkey.currentState!.validate()) {
               try {
              
                 await viewmodel.create(selectedVet,widget.choosenPet,selectedDate,paymentType);
-                Navigator.of(context).pushNamed(Routes.customerHomeRoute);
+                
+                
+
+                Navigator.of(context).pushNamed(Routes.customerNavRoute);
+             
               } on Failure catch (e) {
                 final snackbar = SnackBar(
                   content: Text(e.message ?? 'Error'),

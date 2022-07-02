@@ -54,11 +54,12 @@ class FirebaseServiceVetBooking with ServiceStream {
     }
   }
 
-  Future<void> updateBookingStatus(dynamic bookingID, dynamic status)async{
+  Future<void> updateBookingStatus(dynamic bookingID, dynamic status,dynamic notes)async{
     try {
       final doc=FirebaseFirestore.instance.doc('Booking/$bookingID');
       doc.update({
-        'appointmentStatus': status
+        'appointmentStatus': status,
+        'notes': notes
       });
     } catch (e) {
       throw Failure(101,

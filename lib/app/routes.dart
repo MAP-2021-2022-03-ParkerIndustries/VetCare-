@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vetclinic/ui/screen/Receptionist_home/Receptionist_home_viewmodel.dart';
 import 'package:vetclinic/ui/screen/booking/booking_view.dart';
-import 'package:vetclinic/ui/screen/booking/booking_view_v2.dart';
 import 'package:vetclinic/ui/screen/customer_home/customer_home_view.dart';
 import 'package:vetclinic/ui/screen/customer_home/customer_nav_view.dart';
 import 'package:vetclinic/ui/screen/forgot_password/forgot_password_view.dart';
@@ -86,8 +85,7 @@ class Routes {
       case viewPetList:
       return PetListView.route();
       
-      case makeBookV2:
-      return MakeBookingView.route();
+     
       
     }
     return null;
