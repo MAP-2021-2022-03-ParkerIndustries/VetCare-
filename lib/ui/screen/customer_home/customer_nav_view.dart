@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vetclinic/ui/screen/customer_home/customer_home_view.dart';
 import 'package:vetclinic/ui/screen/history/history_view.dart';
+import 'package:vetclinic/ui/screen/view_pet/petlist_view.dart';
 import 'package:vetclinic/utils/app_theme.dart';
 
 class CustomerNavView extends StatefulWidget {
@@ -16,6 +17,7 @@ class _CustomerNavViewState extends State<CustomerNavView> {
   int _selectedIndex = 0;
   final List<Widget> _widgetOptions = <Widget>[
     const CustomerHomeView(),
+    const PetListView(),
     const HistoryView(),
   ];
 
@@ -64,12 +66,18 @@ class _CustomerNavViewState extends State<CustomerNavView> {
             ),
             BottomNavigationBarItem(
               icon: Icon(
+                Icons.pets,
+              ),
+              label: "View Pet",
+              backgroundColor: AppTheme.primary,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
                 Icons.history,
               ),
               label: "History",
               backgroundColor: AppTheme.primary,
             ),
-            
           ],
           currentIndex: _selectedIndex,
           onTap: _onItemTap,

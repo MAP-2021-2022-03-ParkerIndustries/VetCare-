@@ -73,20 +73,7 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
                         const Text('Register Pet'),
                       ])
 
-                    //Make a booking grid
-                    // : index == 1
-                    //     ? Column(children: [
-                    //         IconButton(
-                    //           onPressed: () {
-                    //             Navigator.of(context)
-                    //                 .pushNamed(Routes.bookingPetRoute);
-                    //           },
-                    //           icon: Image.asset('assets/cat.png'),
-                    //           iconSize: 150,
-                    //         ),
-                    //         const Text('Make a booking'),
-                    //       ])
-                    : index == 2
+                    : index == 1
                         ? Column(children: [
                             IconButton(
                               onPressed: () {
@@ -98,8 +85,19 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
                             ),
                             const Text('View Pet'),
                           ])
-                    
-                    : Text('Item $index')
+                    :index == 2
+                        ? Column(children: [
+                            IconButton(
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pushNamed(Routes.historyRoute);
+                              },
+                              icon: Image.asset('assets/cat.png'),
+                              iconSize: 150,
+                            ),
+                            const Text('History'),
+                          ])
+                    : const SizedBox.shrink()
                     );
           }
           )

@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: 'Muli',
       ),
       initialRoute: Routes.loginRoute,
       onGenerateRoute: Routes.createRoute,
