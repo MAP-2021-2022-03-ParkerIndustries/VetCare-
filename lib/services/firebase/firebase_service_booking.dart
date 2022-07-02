@@ -45,7 +45,19 @@ class FirebaseServiceBooking with ServiceStream  {
   @override
   Future<void> cancelBooking(Booking booking) async {
     try {
-      var cbook = await _firebaseFirestore.collection("Booking").doc().delete();
+      var cbook = await _firebaseFirestore.collection("Booking").doc();
+    } on Failure catch (e) {
+      throw Failure(
+        400,
+        message: e.toString(),
+      );
+    }
+  }
+  Future<void> getBooking(Booking booking) async{
+    try {
+     CollectionReference _collectionRef= FirebaseFirestore.instance.collection('Booking');
+     QuerySnapshot querySnapshot = await _collectionRef.get();
+     
     } on Failure catch (e) {
       throw Failure(
         400,
