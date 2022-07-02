@@ -23,7 +23,6 @@ import '../services/firebase/firebase_service_profile.dart';
 import '../services/firebase/firebase_service_register_pet.dart';
 import '../services/initializer/service_initializer.dart';
 import '../services/initializer/service_initializer_firebase.dart';
-import '../ui/screen/Rep/Reception_edit_viewmodel.dart';
 import '../ui/screen/booking/booking_viewmodel.dart';
 import '../ui/screen/customer_home/customer_home_viewmodel.dart';
 import '../ui/screen/vet_update_booking/update_booking_detail_viewmodel.dart';
@@ -59,7 +58,7 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<VetBookingListVM>(() => VetBookingListVM());
   locator.registerLazySingleton<BookingViewModel>(() => BookingViewModel());
   locator.registerLazySingleton<ReceptionistHomeViewModel>(() => ReceptionistHomeViewModel());
-  locator.registerLazySingleton<EditBookingViewModel>(() => EditBookingViewModel());
+  locator.registerLazySingleton<ReceptionistEditBookingView>(() => ReceptionistEditBookingView());
   locator.registerLazySingleton<UpdateBookingDetailVM>(() => UpdateBookingDetailVM());
   locator.registerLazySingleton<PetListVM>(() => PetListVM());
   locator.registerLazySingleton<PetMedicalRecordVM>(() => PetMedicalRecordVM());
