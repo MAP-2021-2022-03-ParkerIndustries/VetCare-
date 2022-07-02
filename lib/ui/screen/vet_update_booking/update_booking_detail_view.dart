@@ -25,8 +25,6 @@ class UpdateBookingDetailView extends StatefulWidget {
 }
 
 class _UpdateBookingDetailViewState extends State<UpdateBookingDetailView> {
-  late TextEditingController noteController=TextEditingController();
-  String notes='';
   @override
   Widget build(BuildContext context) {
     return View<UpdateBookingDetailVM>(builder: (context, viewModel) {
@@ -36,7 +34,7 @@ class _UpdateBookingDetailViewState extends State<UpdateBookingDetailView> {
             children: [
               const SizedBox(
                 width: 30,
-                height: 20,
+                height: 100,
               ),
               Row(children: [
                 Padding(
@@ -47,7 +45,7 @@ class _UpdateBookingDetailViewState extends State<UpdateBookingDetailView> {
                   ),
                 ),
               ]),
-              const SizedBox(height: 20),
+              const SizedBox(height: 100),
               Row(
                 children: [
                   const SizedBox(
@@ -119,77 +117,21 @@ class _UpdateBookingDetailViewState extends State<UpdateBookingDetailView> {
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  const SizedBox(
-                    width: 30,
+              TextButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.black,
+                    textStyle: AppTheme.button,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                    ),
                   ),
-                  const Text('Notes', style: AppTheme.headline3),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 75),
-                    child: Text(widget.booking.notes, style: AppTheme.headline4),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                    height: 30,
-                  ),
-              Row(
-                children: [
-                  const SizedBox(
-                    width: 30,
-                  ),
-                  TextButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.black,
-                        textStyle: AppTheme.button,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        ),
-                      ),
-                      onPressed: () async {
-                        await viewModel.updateData(widget.booking.bookingID,
-                            widget.booking.appointmentStatus, widget.booking.notes);
-                      },
-                      child: const Text("Update Status")),
-                      const SizedBox(
-                    width: 30,
-                  ),
-                  TextButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.black,
-                        textStyle: AppTheme.button,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        ),
-                      ),
-                      onPressed: () async {
-                        final notes=(await openNotes());
-                        if(notes==null||notes.isEmpty)return;
-                        setState(() {
-                          widget.booking.notes=notes;
-                        });
-                      },
-                      child:  Text("Notes")),
-                ],
-              ),
-
-              
+                  onPressed: () async {
+                    await viewModel.updateData(widget.booking.bookingID,
+                        widget.booking.appointmentStatus);
+                  },
+                  child: const Text("Update Status"))
             ],
           ));
     });
   }
-
-  Future<String?> openNotes()=>showDialog<String>(context: context, 
-  builder: (context)=>AlertDialog(
-      title: Text('Treatment Notes'),
-      content: TextField(
-        autofocus: true,
-        controller: noteController,
-         //put controller later
-      ),
-      actions: [
-        TextButton(onPressed: (){Navigator.of(context).pop(noteController.text);}, child: Text('Save'))
-      ],
-  ));
 }

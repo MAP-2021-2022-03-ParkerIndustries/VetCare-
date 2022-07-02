@@ -12,7 +12,6 @@ import 'package:vetclinic/model/booking.dart';
 import 'package:vetclinic/services/firebase/firebase_service_booking.dart';
 
 import '../../../model/Users.dart';
-import 'notification_api.dart';
 
 class BookingViewModel extends Viewmodel {
   FirebaseService get _service => locator<FirebaseService>();
@@ -26,12 +25,9 @@ class BookingViewModel extends Viewmodel {
   @override
   void init() async {
     super.init();
-    NotificationApi.init(initScheduled: true);
-
     await update(
       () async {
         try {
-
           _users = await _service.readUsers();
         } on Failure {
           rethrow;
@@ -77,7 +73,6 @@ class BookingViewModel extends Viewmodel {
         _booking.customerID = await _service.getUserId();
         _booking.appointmentStatus='Booked';
         _booking.paymentType=paymentType;
-        _booking.notes='-';
         await _serviceBooking.MakeBooking(_booking);
       });
     } on Failure {

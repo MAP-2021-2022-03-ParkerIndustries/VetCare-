@@ -135,7 +135,7 @@ class PetListVM extends Viewmodel {
         layoutType: PdfLayoutType.paginate,
         breakType: PdfLayoutBreakType.fitPage);
 //---
-    String ownerText = "Owner: ";
+    String ownerText = "Owner: " + users.name;
     PdfTextElement textElement = PdfTextElement(
         text: ownerText,
         font: PdfStandardFont(PdfFontFamily.timesRoman, 30,
@@ -147,21 +147,8 @@ class PetListVM extends Viewmodel {
             0, 0, page.getClientSize().width, page.getClientSize().height),
         format: layoutFormat)!;
 
-    String ownerNameText = users.name;
-    textElement = PdfTextElement(
-        text: ownerNameText,
-        font: PdfStandardFont(
-          PdfFontFamily.timesRoman,
-          30,
-        ));
-    result = textElement.draw(
-        page: page,
-        bounds: Rect.fromLTWH(
-            0, result.bounds.bottom, page.getClientSize().width, 0),
-        format: layoutFormat)!;
-
 //---
-    String petName = "Petname: ";
+    String petName = "Petname: " + listPet[index].petName;
     textElement = PdfTextElement(
         text: petName,
         font: PdfStandardFont(PdfFontFamily.timesRoman, 30,
@@ -172,22 +159,9 @@ class PetListVM extends Viewmodel {
             page.getClientSize().width, page.getClientSize().height),
         format: layoutFormat)!;
 
-    String petNameText = listPet[index].petName;
-    textElement = PdfTextElement(
-        text: petNameText,
-        font: PdfStandardFont(
-          PdfFontFamily.timesRoman,
-          30,
-        ));
-    result = textElement.draw(
-        page: page,
-        bounds: Rect.fromLTWH(
-            0, result.bounds.bottom, page.getClientSize().width, 0),
-        format: layoutFormat)!;
-
 //-----
 //---
-    String petType = "Pet Type: ";
+    String petType = "Pet Type: " + listPet[index].petType;
     textElement = PdfTextElement(
         text: petType,
         font: PdfStandardFont(PdfFontFamily.timesRoman, 30,
@@ -196,18 +170,6 @@ class PetListVM extends Viewmodel {
         page: page,
         bounds: Rect.fromLTWH(0, result.bounds.bottom + 20,
             page.getClientSize().width, page.getClientSize().height),
-        format: layoutFormat)!;
-    String petTypeText = listPet[index].petType;
-    textElement = PdfTextElement(
-        text: petTypeText,
-        font: PdfStandardFont(
-          PdfFontFamily.timesRoman,
-          30,
-        ));
-    result = textElement.draw(
-        page: page,
-        bounds: Rect.fromLTWH(
-            0, result.bounds.bottom, page.getClientSize().width, 0),
         format: layoutFormat)!;
 //-----
 //---
@@ -222,61 +184,63 @@ class PetListVM extends Viewmodel {
             page.getClientSize().width, page.getClientSize().height),
         format: layoutFormat)!;
 //-----
-
-    //Create a PdfGrid
-    PdfGrid grid = PdfGrid();
-
-    //Add columns to grid
-    grid.columns.add(count: 3);
-
-    //Add headers to grid
-    grid.headers.add(1);
-    PdfGridRow header = grid.headers[0];
-    header.cells[0].value = 'Date';
-    header.cells[1].value = 'Veterinarian Name';
-    header.cells[2].value = 'Notes';
-
-    PdfGridStyle gridStyle = PdfGridStyle(
-      cellSpacing: 2,
-      cellPadding: PdfPaddings(left: 2, right: 3, top: 4, bottom: 5),
-      borderOverlapStyle: PdfBorderOverlapStyle.overlap,
-      // backgroundBrush: PdfBrushes.lightGray,
-      // textPen: PdfPens.black,
-      // textBrush: PdfBrushes.white,
-      font: PdfStandardFont(PdfFontFamily.timesRoman, 24),
-    );
-
     final DateFormat formatter = DateFormat('dd-MM-yyyy');
-    PdfGridRow row;
+    String bookDate = '';
+    String picVet = '';
+    String notes='';
     for (var i = 0; i < bookingList.length; i++) {
-      if (bookingList[i].petID == listPet[index].petID && bookingList[i].notes!='-') {
+      if (bookingList[i].petID == listPet[index].petID) {
 //---
-        row = grid.rows.add();
-        row.cells[0].value = formatter.format(
-            DateTime.fromMillisecondsSinceEpoch(bookingList[i].dateBooking));
+        bookDate = "Booking Date : " +
+            formatter.format(DateTime.fromMillisecondsSinceEpoch(
+                bookingList[i].dateBooking));
+        textElement = PdfTextElement(
+            text: bookDate,
+            font: PdfStandardFont(PdfFontFamily.timesRoman, 25,
+                style: PdfFontStyle.bold));
+        result = textElement.draw(
+            page: page,
+            bounds: Rect.fromLTWH(0, result.bounds.bottom + 25,
+                page.getClientSize().width, page.getClientSize().height),
+            format: layoutFormat)!;
 
 //-----
 //---
 
         for (var v = 0; v < listVet.length; v++) {
           if (bookingList[i].DoctorID == listVet[v].userID) {
-            row.cells[1].value = listVet[v].name;
+            picVet = 'Veterinian in charge: ' + listVet[v].name;
+            textElement = PdfTextElement(
+                text: picVet,
+                font: PdfStandardFont(
+                  PdfFontFamily.timesRoman,
+                  25,
+                ));
+            result = textElement.draw(
+                page: page,
+                bounds: Rect.fromLTWH(0, result.bounds.bottom + 20,
+                    page.getClientSize().width, page.getClientSize().height),
+                format: layoutFormat)!;
           }
         }
-        row.cells[2].value = bookingList[i].notes;
-        
+        //---
+        notes = "Notes : "  ;//+ bookingList[i];
+        textElement = PdfTextElement(
+            text: notes,
+            font: PdfStandardFont(PdfFontFamily.timesRoman, 25,
+               ));
+        result = textElement.draw(
+            page: page,
+            bounds: Rect.fromLTWH(0, result.bounds.bottom + 20,
+                page.getClientSize().width, page.getClientSize().height),
+            format: layoutFormat)!;
+
 //-----
+
 //-----
+
       }
     }
-    grid.rows.applyStyle(gridStyle);
-    header.style.backgroundBrush = PdfSolidBrush(PdfColor(255, 154, 167, 1));
-
-    result = grid.draw(
-        page: page,
-        bounds: Rect.fromLTWH(0, result.bounds.bottom + 20,
-            page.getClientSize().width, page.getClientSize().height),
-        format: layoutFormat)!;
 
     List<int> bytes = document.save();
     document.dispose();
