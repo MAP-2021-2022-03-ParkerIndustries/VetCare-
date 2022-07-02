@@ -128,8 +128,11 @@ class _LoginViewState extends State<LoginView> {
                     if (viewModel.users.role == 'vet') {
                       Navigator.of(context).pushNamed(Routes.vetHomeRoute);
                     }
-                    else{
+                    else if (viewModel.users.role == 'customer'){
                       Navigator.of(context).pushNamed(Routes.customerNavRoute);
+                    }
+                    else{
+                      Navigator.of(context).pushNamed(Routes.receptionistHomeRoute);
                     }
                   } on Failure catch (e) {
                     final snackbar = SnackBar(

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:map_mvvm/map_mvvm.dart';
+import 'package:vetclinic/model/receptionist.dart';
 import 'package:vetclinic/model/vet.dart';
 
 import '../../model/Users.dart';
@@ -102,7 +103,8 @@ class FirebaseServiceFirestore extends FirebaseService {
         'name': name,
         'email': _user.user!.email,
         'role': 'customer',
-        'profileImg':'https://firebasestorage.googleapis.com/v0/b/vetcare-4e23b.appspot.com/o/profilePic.png?alt=media&token=f245930b-0adf-4797-8640-e3d05254c03d'
+        'profileImg':'https://firebasestorage.googleapis.com/v0/b/vetcare-4e23b.appspot.com/o/profilePic.png?alt=media&token=f245930b-0adf-4797-8640-e3d05254c03d',
+        'userID' : _user.user!.uid,
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -156,13 +158,21 @@ class FirebaseServiceFirestore extends FirebaseService {
   @override
   Future<void> registerVet(Vet doctor) async {
     try {
-      var vet =
           await _firebaseFirestore.collection("Vet").doc().set(doctor.toJson());
     } on Failure catch (e) {
       throw Failure(400, message: e.toString());
     }
   }
 
+@override
+Future<void> registerReception(Receptionist recep)async{
+  try {
+          await _firebaseFirestore.collection("Receptionist").doc().set(recep.toJson());
+    } on Failure catch (e) {
+      throw Failure(400, message: e.toString());
+    }
+
+}
 
 
 

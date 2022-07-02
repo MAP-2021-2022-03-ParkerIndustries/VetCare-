@@ -13,13 +13,14 @@ import 'package:vetclinic/services/firebase/firebase_service_register_pet.dart';
 
 class RegisterPetVM extends Viewmodel {
   FirebaseService get _service => locator<FirebaseService>();
-  FirebaseServiceRegisterPet get _petservice => locator<FirebaseServiceRegisterPet>();
+  FirebaseServiceRegisterPet get _petservice =>
+      locator<FirebaseServiceRegisterPet>();
   String petType = '';
-  String? petOwner;
+  String petOwner='';
   String petName = '';
-final picker = ImagePicker();
+  final picker = ImagePicker();
   final Pet _pet = Pet();
-  String petImageURL='';
+  String petImageURL = '';
   @override
   void init() async {
     super.init();
@@ -36,8 +37,13 @@ final picker = ImagePicker();
       //   );
       //   _pet.petName=petType;
 
-      _pet.setPet(petType, petOwner, petName,petImageURL);
       await update(() async {
+        if (petImageURL == "") {
+          petImageURL =
+              'https://firebasestorage.googleapis.com/v0/b/vetcare-4e23b.appspot.com/o/profilePic.png?alt=media&token=f245930b-0adf-4797-8640-e3d05254c03d';
+        }
+        _pet.setPet(petType, petOwner, petName, petImageURL);
+
         await _petservice.registerPet(_pet);
       });
     } on Failure {
@@ -45,8 +51,8 @@ final picker = ImagePicker();
     }
   }
 
-  Future<void>uploadPetImage(String filePath, String fileName) async {
-    petImageURL=await _petservice.uploadPetImage(filePath, fileName);
+  Future<void> uploadPetImage(String filePath, String fileName) async {
+    petImageURL = await _petservice.uploadPetImage(filePath, fileName);
   }
   // Future<void> selectFile() async {
   //   final ImagePicker picker = ImagePicker();
@@ -77,5 +83,4 @@ final picker = ImagePicker();
   //   }
   // }
 
-    
 }

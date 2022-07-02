@@ -18,21 +18,21 @@ class _ProfileAppBarState extends State<ProfileAppBar> {
               IconButton(
                 onPressed: () {
                   setState(() {
-                    model.updateOnLoad();
+                    // model.updateOnLoad();
                   });
                 },
                 icon: const Icon(Icons.replay_outlined),
               ),
-              IconButton(
-                onPressed: () async {
-                  signedOut = await model.signout();
-                  if (signedOut) {
-                    Navigator.pushReplacementNamed(context, Routes.loginRoute);
-                  }
-                },
-                icon: const Icon(Icons.exit_to_app),
-              ),
+              // IconButton(
+              //   onPressed: () async {
+              //     signedOut = await model.signout();
+              //     if (signedOut) {
+              //       Navigator.pushReplacementNamed(context, Routes.loginRoute);
+              //     }
+              //   },
+              //   icon: const Icon(Icons.exit_to_app),
+              // ),
             ],
-          )
+          );
   }
 }

@@ -1,55 +1,29 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter/src/foundation/key.dart';
-// import 'package:flutter/src/widgets/framework.dart';
-// import 'package:vetclinic/app/routes.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:map_mvvm/view.dart';
+import 'package:vetclinic/ui/screen/view_pet/petList_view_Model.dart';
+import 'package:vetclinic/ui/screen/view_pet/petlist_appBar.dart';
+import 'package:vetclinic/ui/screen/view_pet/petlist_body.dart';
 
-// import '../../../utils/app_theme.dart';
+class PetListView extends StatefulWidget {
+  const PetListView({Key? key}) : super(key: key);
 
-// class PetList extends StatefulWidget {
-//   const PetList({Key? key}) : super(key: key);
+static Route route() =>
+      MaterialPageRoute(builder: (_) => const PetListView());
+  @override
+  State<PetListView> createState() => _PetListViewState();
+}
 
-//   @override
-//   State<PetList> createState() => PetListState();
-// }
 
-// class PetListState extends State<PetList> {
-//   @override
-//   Widget build(BuildContext context) {
-//     Scaffold(
-//        appBar: AppBar(
-//           backgroundColor: AppTheme.primary,
-//           title: SizedBox(
-//             height: 35,
-//             child: Row(
-//               children: [
-//                 Image.asset("assets/veterinarian.png", fit: BoxFit.cover),
-//                 const SizedBox(width: 10),
-//                 const Text(
-//                   "Register Pet",
-//                   style: AppTheme.headline3,
-//                 ),
-//                 const SizedBox(width: 10),
-//               ],
-//             ),
-//           ),
-//           automaticallyImplyLeading: true,
-//           actions: [
-//             IconButton(
-//               onPressed: () {
-//                 // Navigator.of(context).pushNamed(Routes.profileRoute);
-//               },
-//               icon: const Icon(Icons.notifications),
-//             ),
-//             IconButton(
-//               onPressed: () {
-//                 Navigator.of(context).pushNamed(Routes.profileRoute);
-//               },
-//               icon: const Icon(Icons.person),
-//             ),
-//           ],
-//         ),
-//       body: Center(child: ),
-
-//     );
-//   }
-// }
+class _PetListViewState extends State<PetListView> {
+  @override
+  Widget build(BuildContext context) {
+    return View<PetListVM>(builder: (context, viewModel) {
+     return   const Scaffold(
+      appBar: PetListAppBar(),
+      body: PetListBody(),
+     );
+  });
+  }
+}

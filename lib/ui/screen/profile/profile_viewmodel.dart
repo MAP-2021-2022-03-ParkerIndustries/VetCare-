@@ -59,7 +59,7 @@ class ProfileViewModel extends Viewmodel {
   }
 
   Users get users => _users;
-  get name => _name;
+  get name => _users.name;
   get email => _email;
   get roles => _roles;
   get profileImg => _profileImg;

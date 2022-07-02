@@ -88,8 +88,7 @@ class _RegisterPetState extends State<RegisterPetView> {
                       const SizedBox(width: 20),
                       _buildPetTypeField(),
                     ]),
-                    const SizedBox(width: 20),
-                    _buildPetRegisterButton(viewModel),
+                    
                     ElevatedButton(
                         onPressed: () async {
                           final results = await FilePicker.platform.pickFiles(
@@ -109,9 +108,14 @@ class _RegisterPetState extends State<RegisterPetView> {
                         final fileName=results.files.single.name;
                         viewModel.uploadPetImage(path,fileName);
                         },
-                        child: Text('Upload Pet Image'))
+                        child: Text('Upload Pet Image')),
+                        const SizedBox(width: 20),
+                    _buildPetRegisterButton(viewModel),
                   ],
-                )))),
+                )
+                )
+                )
+                ),
       );
     });
   }
