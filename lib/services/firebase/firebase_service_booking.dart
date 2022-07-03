@@ -61,11 +61,7 @@ class FirebaseServiceBooking with ServiceStream  {
      
   
   final url = Uri.parse('https://api.emailjs.com/api/v1.0/email/send');
-  // print(book.id);
-  // print(booking.customerID);
-  // print(booking.dateBooking);
-  // print(booking.petID);
-  // print(DateFormat('yyyy-MM-dd').format(booking.dateBooking));
+  
  
   final response = await http.post(
     url,
@@ -85,11 +81,12 @@ class FirebaseServiceBooking with ServiceStream  {
         'booking_id':book.id.toString(),
         'date':formatter.format(DateTime.fromMillisecondsSinceEpoch(booking.dateBooking)).toString(),
         'Pet_ID':pet.petName.toString(),
+        'Pet_type':pet.petType.toString(),
       }
     }),
 
   );
- print(response.body);
+ 
 
     } on Failure catch (e) {
       throw Failure(
