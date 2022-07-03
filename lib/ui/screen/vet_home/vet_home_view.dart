@@ -14,39 +14,30 @@ class VetHomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppTheme.primary,
-        title: const Text(' Vet Home Page'),
-        automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed(Routes.vetBookingListRoute);
-            },
-            icon: const Icon(Icons.person),
-          ),
-        ],
-      ),
-      body: Center(
-        child: Column(
-          children: const [Text("Home")],
+      appBar: PreferredSize(
+        preferredSize:Size.fromHeight(200),
+        child: AppBar(
+         shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30),bottomRight: Radius.circular(30),),
+         ),
+          backgroundColor: AppTheme.primary,
+          title: const Text(' Vet Home Page'),
+          automaticallyImplyLeading: false,
+          actions: [
+            IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(Routes.vetBookingListRoute);
+              },
+              icon: const Icon(Icons.person),
+            ),
+          ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: AppTheme.primary,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: AppTheme.second,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.star),
-            label: 'Favorites',
-
-          ),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          children: const [Text("Welcome",style: AppTheme.headline1,)],
+        ),
       ),
     );
   }

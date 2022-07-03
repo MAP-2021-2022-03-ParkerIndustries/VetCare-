@@ -1,0 +1,86 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:vetclinic/ui/screen/vet_booking_list/booking_list_view.dart';
+import 'package:vetclinic/ui/screen/vet_home/vet_home_view.dart';
+
+import '../../../utils/app_theme.dart';
+
+class VetNavView extends StatefulWidget {
+  static Route route() =>
+      MaterialPageRoute(builder: (_) => const VetNavView());
+  const VetNavView({Key? key}) : super(key: key);
+
+  @override
+  State<VetNavView> createState() => _VetNavViewState();
+}
+
+class _VetNavViewState extends State<VetNavView> {
+  int _selectedIndex = 0;
+  final List<Widget> _widgetOptions = <Widget>[
+    const VetHomeView(),
+    const VetBookingListView(),
+  ];
+
+  void _onItemTap(index) {
+    setState(
+      () {
+        _selectedIndex = index;
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      extendBody: true,
+      body: Center(
+        child: _widgetOptions.elementAt(_selectedIndex),
+      ),
+      bottomNavigationBar: bottomNav,
+    );
+  }
+
+  Widget get bottomNav {
+    return Container(
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(30), topLeft: Radius.circular(30)),
+        boxShadow: [
+          BoxShadow(color: Colors.black38, spreadRadius: 0, blurRadius: 10),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(30.0),
+          topRight: Radius.circular(30.0),
+        ),
+        child: BottomNavigationBar(
+          backgroundColor: AppTheme.primary,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.black,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home,
+              ),
+              label: "Home",
+              backgroundColor: AppTheme.primary,
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.list,
+              ),
+              label: "Booking List",
+              backgroundColor: AppTheme.primary,
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          onTap: _onItemTap,
+          selectedFontSize: 13.0,
+          unselectedFontSize: 13.0,
+        ),
+      ),
+    );
+  }
+}

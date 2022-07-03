@@ -126,7 +126,7 @@ class _LoginViewState extends State<LoginView> {
                     // print(viewModel.users.role);
         
                     if (viewModel.users.role == 'vet') {
-                      Navigator.of(context).pushNamed(Routes.vetHomeRoute);
+                      Navigator.of(context).pushNamed(Routes.vetNavRoute);
                     }
                     else if (viewModel.users.role == 'customer'){
                       Navigator.of(context).pushNamed(Routes.customerNavRoute);
