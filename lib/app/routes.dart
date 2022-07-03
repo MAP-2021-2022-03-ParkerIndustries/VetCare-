@@ -15,6 +15,7 @@ import 'package:vetclinic/ui/screen/vet_update_booking/update_booking_detail_app
 import 'package:vetclinic/ui/screen/view_pet/petlist_view.dart';
 
 import '../ui/screen/Rep/Receptionist_edit_view.dart';
+import '../ui/screen/vet_home/vet_nav_view.dart';
 import '../ui/screen/vet_update_booking/update_booking_detail_view.dart';
 
 import '../ui/screen/Receptionist_home/Receptionist_home_view.dart';
@@ -24,6 +25,7 @@ class Routes {
   static const String customerHomeRoute = '/customerHome';
   static const String customerNavRoute = '/customerNav';
   static const String vetHomeRoute = '/vetHome';
+  static const String vetNavRoute = '/vetNav';
   static const String loginRoute = '/login';
   static const String registerRoute = '/register';
   static const String forgotPassRoute = '/forgotPass';
@@ -49,6 +51,9 @@ class Routes {
       case vetHomeRoute:
         return VetHomeView.route();
 
+      case vetNavRoute:
+        return VetNavView.route();
+      
       case registerRoute:
         return RegisterView.route();
 

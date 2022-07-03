@@ -3,22 +3,30 @@ import 'dart:async';
 import 'package:map_mvvm/map_mvvm.dart';
 import 'package:vetclinic/app/service_locator.dart';
 import 'package:vetclinic/model/Users.dart';
-import 'package:vetclinic/model/history.dart';
+import 'package:vetclinic/model/booking.dart';
 import 'package:vetclinic/services/firebase/firebase_service.dart';
+import 'package:vetclinic/services/firebase/firebase_service_booking_history.dart';
 
-import '../../../services/firebase/firebase_service_history.dart';
+import '../../../model/pet.dart';
+import '../../../services/firebase/firebase_service_pet.dart';
 
 class HistoryViewModel extends Viewmodel {
   FirebaseService get _service => locator<FirebaseService>();
-  FirebaseServiceHistory get _serviceHistory => locator<FirebaseServiceHistory>();
-  
+  FirebaseServiceBookingHistory get _serviceHistory =>
+      locator<FirebaseServiceBookingHistory>();
+  FirebaseServicePet get _servicePet => locator<FirebaseServicePet>();
+
   Users _users = Users();
 
+  StreamSubscription? _petServiceStreamListener;
   StreamSubscription? _historyServiceStreamListener;
-  bool get isListeningToHistoryServiceStream =>  _historyServiceStreamListener != null;
+  bool get isListeningToHistoryServiceStream =>
+      _historyServiceStreamListener != null;
+  bool get isListeningToPetServiceStream => _petServiceStreamListener != null;
 
   Users get users => _users;
-  List<History> listHistory = [];
+  List<Booking> listHistory = [];
+  List<Pet> listPet = [];
 
   @override
   void init() async {
@@ -34,18 +42,18 @@ class HistoryViewModel extends Viewmodel {
     );
     _historyServiceStreamListener = _serviceHistory.listen(
       onDone: dispose,
-      onData: ( _data) async {
+      onData: (_data) async {
         await update(
-        () async {
-         //reset listhistory
-          listHistory = [];
-           //transform querysnapshot => List<History>
-          for (var element in _data.docs) {
-            listHistory
-                .add(History.fromJson(element.data() as Map<String, dynamic>));
-          }
-        },
-      );
+          () async {
+            //reset listhistory
+            listHistory = [];
+            //transform querysnapshot => List<History>
+            for (var element in _data.docs) {
+              listHistory.add(
+                  Booking.fromJson(element.data() as Map<String, dynamic>));
+            }
+          },
+        );
       },
       onError: (e) {
         catchError(Failure(401,
@@ -55,6 +63,15 @@ class HistoryViewModel extends Viewmodel {
       },
     );
   }
+
+  Future<void> updateRate(dynamic bookingID, dynamic rating) async {
+    try {
+      await _serviceHistory.updateRating(bookingID, rating);
+    } on Failure {
+      rethrow;
+    }
+  }
+
 
   @override
   void dispose() {

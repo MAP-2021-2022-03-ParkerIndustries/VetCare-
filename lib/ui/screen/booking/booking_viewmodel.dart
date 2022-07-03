@@ -78,6 +78,7 @@ class BookingViewModel extends Viewmodel {
         _booking.appointmentStatus='Booked';
         _booking.paymentType=paymentType;
         _booking.notes='-';
+        _booking.rating=0.0;
         await _serviceBooking.MakeBooking(_booking);
       });
     } on Failure {

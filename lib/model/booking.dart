@@ -9,7 +9,8 @@ class Booking {
   dynamic petID; 
   dynamic appointmentStatus; 
   dynamic bookingID; 
-  dynamic notes; 
+  dynamic notes;
+  dynamic rating;
 
   Booking({
     this.DoctorID,
@@ -22,13 +23,14 @@ class Booking {
     this.appointmentStatus,
     this.bookingID,
     this.notes,
+    this.rating,
   });
 
   Booking.fromJson(Map<String, dynamic> json)
-      : this(DoctorID: json['DoctorID'], customerID: json['customerID'], dateBooking: json['dateBooking'],PaymentValue_Doctor: json['PaymentValue_Doctor'],paymentType: json['paymentType'],PaymentValue_Admin: json['PaymentValue_Admin'], petID: json["petID"],appointmentStatus: json['appointmentStatus'],bookingID:json['bookingID'],notes:json['notes']);
+      : this(DoctorID: json['DoctorID'], customerID: json['customerID'], dateBooking: json['dateBooking'],PaymentValue_Doctor: json['PaymentValue_Doctor'],paymentType: json['paymentType'],PaymentValue_Admin: json['PaymentValue_Admin'], petID: json["petID"],appointmentStatus: json['appointmentStatus'],bookingID:json['bookingID'],notes:json['notes'],rating: json['rating']);
   
   Map<String, dynamic> toJson() =>
-      {'DoctorID':DoctorID , 'customerID': customerID, 'dateBooking': dateBooking,'Payment_value_Admin':PaymentValue_Admin,'Payment_value_Doctor':PaymentValue_Doctor,'paymentType':paymentType, 'appointmentStatus':appointmentStatus,'petID': petID,'notes':notes};
+      {'DoctorID':DoctorID , 'customerID': customerID, 'dateBooking': dateBooking,'Payment_value_Admin':PaymentValue_Admin,'Payment_value_Doctor':PaymentValue_Doctor,'paymentType':paymentType, 'appointmentStatus':appointmentStatus,'petID': petID,'notes':notes,'rating':rating};
 
 
 
@@ -41,7 +43,8 @@ class Booking {
     dynamic petID,
     dynamic appointmentStatus,
     dynamic bookingID,
-    dynamic notes
+    dynamic notes,
+    dynamic rating,
   }) {
     return Booking(
       DoctorID: DoctorID ?? DoctorID,
@@ -54,6 +57,7 @@ class Booking {
       appointmentStatus: appointmentStatus ?? this.appointmentStatus,
       bookingID: bookingID ?? this.bookingID,
       notes: notes ?? this.notes,
+      rating: rating ?? this.rating
     );
   }
 }
