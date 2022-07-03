@@ -7,7 +7,7 @@ import '../../model/booking.dart';
 class FirebaseServiceBookingHistory with ServiceStream{
     final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
-
+   
   
    @override
   Stream? get stream => FirebaseFirestore.instance
