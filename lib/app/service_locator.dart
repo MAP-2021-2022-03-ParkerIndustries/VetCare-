@@ -3,6 +3,7 @@ import 'package:vetclinic/services/firebase/firebase_service.dart';
 import 'package:vetclinic/services/firebase/firebase_service_booking_history.dart';
 import 'package:vetclinic/services/firebase/firebase_service_firestore.dart';
 import 'package:vetclinic/services/firebase/firebase_service_pet.dart';
+import 'package:vetclinic/services/firebase/firebase_service_rating.dart';
 import 'package:vetclinic/services/firebase/firebase_service_vet_booking_list.dart';
 import 'package:vetclinic/ui/screen/Receptionist_home/Receptionist_home_viewmodel.dart';
 import 'package:vetclinic/ui/screen/Rep/Receptionist_edit_view.dart';
@@ -44,6 +45,7 @@ Future<void> initializeServiceLocator() async {
   locator.registerLazySingleton<FirebaseServiceVetBooking>(() =>FirebaseServiceVetBooking());
   locator.registerLazySingleton<FirebaseServicePet>(() =>FirebaseServicePet());
   locator.registerLazySingleton<FirebaseServiceBookingHistory>(() =>FirebaseServiceBookingHistory());
+  locator.registerLazySingleton<FirebaseServiceRating>(() => FirebaseServiceRating());
 
   //Register Models
  

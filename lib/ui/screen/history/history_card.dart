@@ -136,8 +136,7 @@ class _HistoryCardState extends State<HistoryCard> {
                                     onRatingUpdate: (value) {
                                       setState(
                                         () {
-                                          viewModel.listHistory[index].rating =
-                                              value;
+                                          viewModel.listHistory[index].rating = value;
                                         },
                                       );
                                     },
@@ -148,14 +147,13 @@ class _HistoryCardState extends State<HistoryCard> {
                                 height: 30,
                                 child: TextButton(
                                   style: TextButton.styleFrom(
-                                      primary: Colors.blueAccent,
+                                      primary: Colors.white,
                                       backgroundColor: Colors.black,
                                       textStyle: const TextStyle(fontSize: 13)),
                                   // onPressed:viewModel.updateRate(viewModel.listHistory[index].bookingID, viewModel.listHistory[index].rating),
                                   onPressed: () async =>
                                       await viewModel.updateRate(
-                                          viewModel
-                                              .listHistory[index].bookingID,
+                                          viewModel.listHistory[index].bookingID,
                                           viewModel.listHistory[index].rating),
                                   child: const Text("Rate"),
                                 ),
