@@ -94,7 +94,7 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
                                 Navigator.of(context)
                                     .pushNamed(Routes.historyRoute);
                               },
-                              icon: Image.asset('assets/cat.png'),
+                              icon: Image.asset('assets/EditBooking.jpg'),
                               iconSize: 150,
                             ),
                             const Text('History'),
