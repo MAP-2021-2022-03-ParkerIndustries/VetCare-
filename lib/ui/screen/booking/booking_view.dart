@@ -78,7 +78,7 @@ class _BookingViewState extends State<BookingView> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Container(
-                            width: 290,
+                            width: 270,
                             height: 100,
                             child: DatePicker(
                               DateTime.now(),
