@@ -127,7 +127,7 @@ class PetListVM extends Viewmodel {
         PdfStandardFont(PdfFontFamily.timesRoman, 50));
     var petImage = await get(Uri.parse(listPet[index].petImageURL));
     page.graphics.drawImage(
-        PdfBitmap(petImage.bodyBytes), Rect.fromLTWH(00, 500, 300, 300));
+        PdfBitmap(petImage.bodyBytes), Rect.fromLTWH(200, 500, 300, 300));
     page = document.pages.add();
 
     //Layout Format

@@ -22,7 +22,7 @@ class BookingViewModel extends Viewmodel {
       locator<FirebaseServiceBooking>();
   List<Users> listVet = [];
   StreamSubscription? _bookingServiceStreamListener;
-  Users selectedVet = Users();
+  Users selectedVet = Users();  
   @override
   void init() async {
     super.init();

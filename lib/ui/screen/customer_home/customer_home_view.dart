@@ -29,9 +29,11 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
             children: [
               Image.asset("assets/veterinarian.png", fit: BoxFit.cover),
               const SizedBox(width: 10),
-              const Text(
-                "Customer Home Page",
-                style: AppTheme.headline3,
+              Flexible(
+                child: const Text(
+                  "Customer Home",
+                  style: AppTheme.headline3,
+                ),
               ),
               const SizedBox(width: 10),
             ],
